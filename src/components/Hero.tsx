@@ -20,41 +20,53 @@ export function Hero() {
 
   return (
     <section className="hero" id="top">
-      <div className="hero-ambient hero-ambient-one" aria-hidden="true" />
-      <div className="hero-ambient hero-ambient-two" aria-hidden="true" />
-
       <div className="page-shell hero-shell">
-        <div className="hero-copy">
-          <motion.p className="eyebrow hero-eyebrow" {...enter(0.06)}>
-            <Sparkle aria-hidden="true" weight="fill" />
-            AI systems, delivered for your business
-          </motion.p>
+        <motion.div
+          className="hero-media"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 24, scale: 0.99 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.82, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <img
+            className="hero-media-image"
+            src="/lumicoria-hero-v2.jpg"
+            alt=""
+            fetchPriority="high"
+          />
+          <div className="hero-media-overlay" aria-hidden="true" />
 
-          <motion.h1 {...enter(0.14)}>
-            Your business should run <span>better with AI.</span>
-          </motion.h1>
+          <div className="hero-copy">
+            <motion.p className="eyebrow hero-eyebrow" {...enter(0.06)}>
+              <Sparkle aria-hidden="true" weight="fill" />
+              AI delivery for growing companies
+            </motion.p>
 
-          <motion.p className="hero-lede" {...enter(0.22)}>
-            We design, build, and operate AI agents that take repetitive work off your team across sales, customer experience, finance, and operations.
-          </motion.p>
+            <motion.h1 {...enter(0.14)}>
+              Give your team back the hours <span>AI can handle.</span>
+            </motion.h1>
 
-          <motion.div className="hero-actions" {...enter(0.3)}>
-            <a className="button button-primary" href={contactHref}>
-              Talk to our team
-              <ArrowUpRight aria-hidden="true" weight="bold" />
-            </a>
-            <a className="button button-quiet" href="#solutions">
-              See what we build
-              <ArrowDown aria-hidden="true" weight="bold" />
-            </a>
-          </motion.div>
+            <motion.p className="hero-lede" {...enter(0.22)}>
+              Lumicoria turns repeatable work across sales, customer experience, finance, and operations into reliable AI systems, so your people can focus on customers, decisions, and growth.
+            </motion.p>
 
-          <motion.div className="hero-reassurance" {...enter(0.38)}>
-            <span><Check aria-hidden="true" weight="bold" /> Start with one workflow</span>
-            <span><Check aria-hidden="true" weight="bold" /> See value in weeks</span>
-            <span><Check aria-hidden="true" weight="bold" /> Keep human control</span>
-          </motion.div>
-        </div>
+            <motion.div className="hero-actions" {...enter(0.3)}>
+              <a className="button button-white" href={contactHref}>
+                Talk to our team
+                <ArrowUpRight aria-hidden="true" weight="bold" />
+              </a>
+              <a className="button hero-secondary-button" href="#solutions">
+                See what we build
+                <ArrowDown aria-hidden="true" weight="bold" />
+              </a>
+            </motion.div>
+
+            <motion.div className="hero-reassurance" {...enter(0.38)}>
+              <span><Check aria-hidden="true" weight="bold" /> Start with one workflow</span>
+              <span><Check aria-hidden="true" weight="bold" /> See value in weeks</span>
+              <span><Check aria-hidden="true" weight="bold" /> Keep human control</span>
+            </motion.div>
+          </div>
+        </motion.div>
 
         <motion.div
           className="hero-stage"
