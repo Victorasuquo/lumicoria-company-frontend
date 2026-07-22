@@ -1,16 +1,37 @@
 import {
   ArrowDown,
   ArrowUpRight,
-  Check,
   CheckCircle,
   Lightning,
   Sparkle,
 } from '@phosphor-icons/react'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
+import { useRef } from 'react'
 import { contactHref, heroActivity, heroOutcomes, proofPoints } from '../data/site'
 
 export function Hero() {
+  const heroRef = useRef<HTMLElement>(null)
   const prefersReducedMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
+  const imageY = useSpring(useTransform(scrollYProgress, [0, 1], [0, 72]), {
+    stiffness: 110,
+    damping: 28,
+    mass: 0.35,
+  })
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1.06, 1.13])
+  const copyY = useSpring(useTransform(scrollYProgress, [0, 1], [0, -28]), {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.3,
+  })
+  const stageY = useSpring(useTransform(scrollYProgress, [0.1, 1], [18, -34]), {
+    stiffness: 100,
+    damping: 30,
+    mass: 0.35,
+  })
 
   const enter = (delay: number) => ({
     initial: prefersReducedMotion ? false : { opacity: 0, y: 24 },
@@ -19,7 +40,7 @@ export function Hero() {
   })
 
   return (
-    <section className="hero" id="top">
+    <section className="hero" id="top" ref={heroRef}>
       <div className="page-shell hero-shell">
         <motion.div
           className="hero-media"
@@ -27,26 +48,30 @@ export function Hero() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.82, ease: [0.16, 1, 0.3, 1] }}
         >
-          <img
+          <motion.img
             className="hero-media-image"
-            src="/lumicoria-hero-v2.jpg"
-            alt=""
+            src="/lumicoria-company-hero.jpg"
+            alt="A customer support professional working at a laptop with a headset"
             fetchPriority="high"
+            style={prefersReducedMotion ? undefined : { y: imageY, scale: imageScale }}
           />
           <div className="hero-media-overlay" aria-hidden="true" />
 
-          <div className="hero-copy">
+          <motion.div
+            className="hero-copy"
+            style={prefersReducedMotion ? undefined : { y: copyY }}
+          >
             <motion.p className="eyebrow hero-eyebrow" {...enter(0.06)}>
               <Sparkle aria-hidden="true" weight="fill" />
-              AI delivery for growing companies
+              AI systems for everyday work
             </motion.p>
 
             <motion.h1 {...enter(0.14)}>
-              Give your team back the hours <span>AI can handle.</span>
+              Your team has <span>better work to do.</span>
             </motion.h1>
 
             <motion.p className="hero-lede" {...enter(0.22)}>
-              Lumicoria turns repeatable work across sales, customer experience, finance, and operations into reliable AI systems, so your people can focus on customers, decisions, and growth.
+              We build and run AI agents for the repetitive work slowing your business down.
             </motion.p>
 
             <motion.div className="hero-actions" {...enter(0.3)}>
@@ -59,22 +84,17 @@ export function Hero() {
                 <ArrowDown aria-hidden="true" weight="bold" />
               </a>
             </motion.div>
-
-            <motion.div className="hero-reassurance" {...enter(0.38)}>
-              <span><Check aria-hidden="true" weight="bold" /> Start with one workflow</span>
-              <span><Check aria-hidden="true" weight="bold" /> See value in weeks</span>
-              <span><Check aria-hidden="true" weight="bold" /> Keep human control</span>
-            </motion.div>
-          </div>
+          </motion.div>
         </motion.div>
 
-        <motion.div
-          className="hero-stage"
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 34, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
-          aria-label="An example day of work coordinated by Lumicoria"
-        >
+        <motion.div className="hero-stage-depth" style={prefersReducedMotion ? undefined : { y: stageY }}>
+          <motion.div
+            className="hero-stage"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 34, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+            aria-label="An example day of work coordinated by Lumicoria"
+          >
           <div className="stage-shine" aria-hidden="true" />
           <div className="stage-topline">
             <span>Today with Lumicoria</span>
@@ -138,11 +158,12 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="stage-footer">
-            <span>Built around your rules</span>
-            <span>Connected to your tools</span>
-            <span>Measured against a business result</span>
-          </div>
+            <div className="stage-footer">
+              <span>Built around your rules</span>
+              <span>Connected to your tools</span>
+              <span>Measured against a business result</span>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
 
