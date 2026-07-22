@@ -1,109 +1,147 @@
-import { ArrowDown, ArrowUpRight, Check, Pulse } from '@phosphor-icons/react'
+import {
+  ArrowDown,
+  ArrowUpRight,
+  Check,
+  CheckCircle,
+  Lightning,
+  Sparkle,
+} from '@phosphor-icons/react'
 import { motion, useReducedMotion } from 'motion/react'
-import { contactHref, deliverySteps } from '../data/site'
+import { contactHref, heroActivity, heroOutcomes, proofPoints } from '../data/site'
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
 
   const enter = (delay: number) => ({
-    initial: prefersReducedMotion ? false : { opacity: 0, y: 26 },
+    initial: prefersReducedMotion ? false : { opacity: 0, y: 24 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.72, delay, ease: [0.16, 1, 0.3, 1] as const },
   })
 
   return (
     <section className="hero" id="top">
-      <div className="hero-grid page-shell">
+      <div className="hero-ambient hero-ambient-one" aria-hidden="true" />
+      <div className="hero-ambient hero-ambient-two" aria-hidden="true" />
+
+      <div className="page-shell hero-shell">
         <div className="hero-copy">
-          <motion.p className="hero-kicker" {...enter(0.08)}>
-            Lumicoria.com <span>AI delivery and applied research</span>
+          <motion.p className="eyebrow hero-eyebrow" {...enter(0.06)}>
+            <Sparkle aria-hidden="true" weight="fill" />
+            AI systems, delivered for your business
           </motion.p>
-          <motion.h1 {...enter(0.16)}>
-            Production AI agents. <span>Delivered in weeks.</span>
+
+          <motion.h1 {...enter(0.14)}>
+            Your business should run <span>better with AI.</span>
           </motion.h1>
-          <motion.p className="hero-lede" {...enter(0.24)}>
-            We design, deploy, and operate agents for sales, operations, and customer workflows. Every build is measured against a business result and runs on Lumicoria.ai.
+
+          <motion.p className="hero-lede" {...enter(0.22)}>
+            We design, build, and operate AI agents that take repetitive work off your team across sales, customer experience, finance, and operations.
           </motion.p>
-          <motion.div className="hero-actions" {...enter(0.32)}>
+
+          <motion.div className="hero-actions" {...enter(0.3)}>
             <a className="button button-primary" href={contactHref}>
-              Book a discovery call
+              Talk to our team
               <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
-            <a className="button button-secondary" href="#delivery">
-              See the delivery system
+            <a className="button button-quiet" href="#solutions">
+              See what we build
               <ArrowDown aria-hidden="true" weight="bold" />
             </a>
           </motion.div>
-          <motion.p className="hero-note" {...enter(0.4)}>
-            Fixed scope. Explicit success criteria. Human approval where the decision matters.
-          </motion.p>
+
+          <motion.div className="hero-reassurance" {...enter(0.38)}>
+            <span><Check aria-hidden="true" weight="bold" /> Start with one workflow</span>
+            <span><Check aria-hidden="true" weight="bold" /> See value in weeks</span>
+            <span><Check aria-hidden="true" weight="bold" /> Keep human control</span>
+          </motion.div>
         </div>
 
         <motion.div
-          className="delivery-blueprint"
-          initial={prefersReducedMotion ? false : { opacity: 0, x: 34, rotate: 1.5 }}
-          animate={{ opacity: 1, x: 0, rotate: 0 }}
-          transition={{ duration: 0.9, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
+          className="hero-stage"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 34, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+          aria-label="An example day of work coordinated by Lumicoria"
         >
-          <div className="blueprint-head">
-            <div>
-              <span className="system-label">Production path</span>
-              <strong>One agent, live in six weeks</strong>
+          <div className="stage-shine" aria-hidden="true" />
+          <div className="stage-topline">
+            <span>Today with Lumicoria</span>
+            <span className="stage-live"><i /> Working across your business</span>
+          </div>
+
+          <div className="stage-grid">
+            <div className="activity-panel glass-panel">
+              <span className="stage-label">Work handled</span>
+              <div className="activity-list">
+                {heroActivity.map((item, index) => (
+                  <motion.div
+                    className="activity-item"
+                    key={item.label}
+                    initial={prefersReducedMotion ? false : { opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.55, delay: 0.5 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <span className={`activity-dot ${item.tone}`}><CheckCircle aria-hidden="true" weight="fill" /></span>
+                    <div>
+                      <strong>{item.label}</strong>
+                      <span>{item.time}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-            <div className="live-signal">
-              <Pulse aria-hidden="true" weight="fill" />
-              Governed build
+
+            <div className="stage-core" aria-hidden="true">
+              <motion.div
+                className="core-orbit core-orbit-outer"
+                animate={prefersReducedMotion ? undefined : { rotate: 360 }}
+                transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+              />
+              <motion.div
+                className="core-orbit core-orbit-inner"
+                animate={prefersReducedMotion ? undefined : { rotate: -360 }}
+                transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+              />
+              <div className="core-mark">
+                <img src="/brand-mark.png" alt="" />
+              </div>
+              <span className="core-caption">Lumicoria coordinates the work</span>
+            </div>
+
+            <div className="outcome-panel glass-panel">
+              <span className="stage-label">Your team gets back</span>
+              <div className="outcome-list">
+                {heroOutcomes.map((outcome, index) => (
+                  <motion.div
+                    key={outcome}
+                    initial={prefersReducedMotion ? false : { opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.55, delay: 0.56 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <Lightning aria-hidden="true" weight="fill" />
+                    <span>{outcome}</span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="blueprint-body">
-            <div className="blueprint-steps" role="list" aria-label="Six-week delivery sequence">
-              {deliverySteps.map((step, index) => (
-                <motion.div
-                  className="blueprint-step"
-                  key={step.title}
-                  role="listitem"
-                  initial={prefersReducedMotion ? false : { opacity: 0, x: 14 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.48 + index * 0.07, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <span>{step.week.replace('Week ', 'W')}</span>
-                  <b>{step.title}</b>
-                  <Check aria-hidden="true" weight="bold" />
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="blueprint-control">
-              <span className="system-label">Release control</span>
-              <div className="control-line">
-                <span>Shadow mode</span>
-                <b>Required</b>
-              </div>
-              <div className="control-line">
-                <span>Human approval</span>
-                <b>Risk-based</b>
-              </div>
-              <div className="control-line">
-                <span>Rollback path</span>
-                <b>Documented</b>
-              </div>
-            </div>
-          </div>
-
-          <div className="blueprint-foot">
-            <span>Built on Lumicoria.ai</span>
-            <span>Observable from day one</span>
+          <div className="stage-footer">
+            <span>Built around your rules</span>
+            <span>Connected to your tools</span>
+            <span>Measured against a business result</span>
           </div>
         </motion.div>
       </div>
 
-      <div className="proof-rail" aria-label="Lumicoria platform facts">
-        <div className="page-shell proof-rail-inner">
-          <div><strong>21</strong><span>production agents in the platform library</span></div>
-          <div><strong>6</strong><span>model providers with routing and fallback</span></div>
-          <div><strong>3</strong><span>supported vector-store backends</span></div>
-          <div><strong>45 days</strong><span>target from signature to production</span></div>
+      <div className="proof-strip">
+        <div className="page-shell proof-grid">
+          {proofPoints.map((point) => (
+            <div className="proof-point" key={point.label}>
+              <strong>{point.value}</strong>
+              <span>{point.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

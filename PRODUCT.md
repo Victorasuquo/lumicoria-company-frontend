@@ -17,7 +17,7 @@ Lumicoria.com is the enterprise delivery, consulting, and applied research arm o
 
 ## Primary conversion
 
-Book a discovery call by email. The initial conversation maps one workflow, its current cost, the systems involved, and the success metric.
+Start a conversation by email. The first call maps one workflow, its current cost, the systems involved, the human decisions inside it, and the success metric.
 
 ## Core offers
 
@@ -28,7 +28,15 @@ Book a discovery call by email. The initial conversation maps one workflow, its 
 
 ## Voice
 
-Engineered, direct, and alive. Outcome-first language. No hype, fake case studies, vague AI claims, em dashes, or gradient text.
+Clear, human, confident, and outcome-first. Explain recognizable business work before platform architecture. No hype, fake case studies, vague AI claims, or invented proof.
+
+## Homepage narrative
+
+- Make the business promise clear before describing the technology.
+- Let buyers recognize their own work across sales, service, operations, and people workflows.
+- Explain why Lumicoria combines a delivery practice with its own platform.
+- Show a narrow, responsible path from first workflow to production.
+- Keep pricing, human controls, applied research, and common objections visible.
 
 ## Proof available today
 

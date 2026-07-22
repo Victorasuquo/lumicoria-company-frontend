@@ -1,89 +1,54 @@
-import { ArrowUpRight, Check } from '@phosphor-icons/react'
-import { contactHref, guardrails, researchAreas } from '../data/site'
+import { ArrowUpRight, Flask } from '@phosphor-icons/react'
+import { contactHref, researchAreas, trustPrinciples } from '../data/site'
 import { Reveal } from './Reveal'
 
 export function Governance() {
   return (
-    <>
-      <section className="section section-governance">
-        <div className="page-shell">
-          <Reveal className="governance-heading">
-            <p className="section-index">Production governance</p>
-            <h2>Built to survive the moment the demo ends.</h2>
-            <p>Reliability is designed into the workflow, release plan, and operating model before the first production run.</p>
-          </Reveal>
-
-          <div className="guardrail-grid">
-            {guardrails.map((guardrail, index) => {
-              const Icon = guardrail.icon
-              return (
-                <Reveal className="guardrail" key={guardrail.title} delay={index * 0.05}>
-                  <Icon aria-hidden="true" weight="duotone" />
-                  <div>
-                    <h3>{guardrail.title}</h3>
-                    <p>{guardrail.text}</p>
-                  </div>
-                </Reveal>
-              )
-            })}
+    <section className="section trust-section" id="trust">
+      <div className="page-shell">
+        <Reveal className="trust-intro">
+          <div>
+            <p className="eyebrow light">Designed for production</p>
+            <h2>Give AI the right amount of freedom. <span>Not all of it.</span></h2>
           </div>
+          <p>
+            Trust is not a promise we add at the end. It is built into how the workflow is designed, tested, released, and owned.
+          </p>
+        </Reveal>
 
-          <Reveal className="control-matrix">
-            <div className="matrix-heading">
-              <span className="system-label">Decision control</span>
-              <strong>Autonomy follows risk</strong>
-            </div>
-            <div className="matrix-row">
-              <span>Routine routing and internal notifications</span>
-              <b>95-100% autonomous</b>
-              <Check aria-hidden="true" weight="bold" />
-            </div>
-            <div className="matrix-row">
-              <span>Drafts and scheduled communications</span>
-              <b>70-95% autonomous</b>
-              <Check aria-hidden="true" weight="bold" />
-            </div>
-            <div className="matrix-row">
-              <span>Pricing, offers, and public content</span>
-              <b>Human approval required</b>
-              <Check aria-hidden="true" weight="bold" />
-            </div>
-            <div className="matrix-row">
-              <span>Credit, hiring, contracts, public statements</span>
-              <b>100% human approval</b>
-              <Check aria-hidden="true" weight="bold" />
-            </div>
-          </Reveal>
+        <div className="trust-grid">
+          {trustPrinciples.map((principle, index) => {
+            const Icon = principle.icon
+            return (
+              <Reveal className="trust-item" key={principle.title} delay={index * 0.06}>
+                <span className="trust-icon"><Icon aria-hidden="true" weight="duotone" /></span>
+                <span className="trust-number">0{index + 1}</span>
+                <h3>{principle.title}</h3>
+                <p>{principle.text}</p>
+              </Reveal>
+            )
+          })}
         </div>
-      </section>
 
-      <section className="section section-research" id="research">
-        <div className="page-shell research-layout">
-          <Reveal className="research-copy">
-            <p className="section-index">Applied research</p>
-            <h2>Hard delivery problems become reusable knowledge.</h2>
+        <Reveal className="research-panel" id="research">
+          <div className="research-copy">
+            <span className="research-icon"><Flask aria-hidden="true" weight="duotone" /></span>
+            <p className="eyebrow">Applied AI research</p>
+            <h3>Research that makes production systems better.</h3>
             <p>
-              Lumicoria.com hosts the applied research practice for Lumicoria Inc. Work from customer engagements feeds evaluation methods, coordination patterns, and the platform roadmap.
+              Our applied research practice focuses on the practical questions that appear after the demo: reliability, evaluation, coordination, oversight, and cost.
             </p>
             <a className="text-link" href={contactHref}>
-              Discuss a research engagement
-              <ArrowUpRight aria-hidden="true" weight="bold" />
+              Discuss a research engagement <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
-          </Reveal>
-
-          <div className="research-list">
-            {researchAreas.map((area, index) => {
-              const Icon = area.icon
-              return (
-                <Reveal className="research-row" key={area.label} delay={index * 0.05} amount={0.5}>
-                  <Icon aria-hidden="true" weight="duotone" />
-                  <span>{area.label}</span>
-                </Reveal>
-              )
-            })}
           </div>
-        </div>
-      </section>
-    </>
+          <div className="research-list">
+            {researchAreas.map((area, index) => (
+              <div key={area}><span>0{index + 1}</span><p>{area}</p></div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
   )
 }

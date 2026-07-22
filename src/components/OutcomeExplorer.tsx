@@ -1,91 +1,94 @@
-import { useState } from 'react'
-import { ArrowRight, CheckCircle } from '@phosphor-icons/react'
+import { ArrowRight, Check, HandPalm, Target } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { useState } from 'react'
 import { outcomes } from '../data/site'
 import { Reveal } from './Reveal'
 
 export function OutcomeExplorer() {
   const [activeId, setActiveId] = useState(outcomes[0].id)
   const prefersReducedMotion = useReducedMotion()
-  const active = outcomes.find((item) => item.id === activeId) ?? outcomes[0]
-  const Icon = active.icon
+  const active = outcomes.find((outcome) => outcome.id === activeId) ?? outcomes[0]
+  const ActiveIcon = active.icon
 
   return (
-    <section className="section section-work" id="work">
+    <section className="section solutions-section" id="solutions">
       <div className="page-shell">
-        <Reveal className="section-intro">
-          <p className="section-index">What we build</p>
-          <h2>Start with the work that is already costing you.</h2>
-          <p>We choose a workflow with a measurable baseline, then build the agent around the operating reality of your team.</p>
+        <Reveal className="section-heading solutions-heading">
+          <p className="eyebrow">What we build</p>
+          <h2>Start with the work. <span>Not the technology.</span></h2>
+          <p>
+            The best AI projects begin with a visible business problem. Choose the area where your team is losing the most time, speed, or customer attention.
+          </p>
         </Reveal>
 
-        <Reveal className="outcome-explorer" delay={0.08}>
-          <div className="outcome-tabs" role="tablist" aria-label="Agent workflow categories">
-            {outcomes.map((outcome) => {
-              const OutcomeIcon = outcome.icon
-              const isActive = outcome.id === activeId
-              return (
-                <button
-                  key={outcome.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-controls={`outcome-${outcome.id}`}
-                  className={isActive ? 'outcome-tab is-active' : 'outcome-tab'}
-                  onClick={() => setActiveId(outcome.id)}
-                >
-                  <OutcomeIcon aria-hidden="true" weight={isActive ? 'fill' : 'regular'} />
-                  <span>{outcome.label}</span>
-                  <ArrowRight aria-hidden="true" weight="bold" />
-                </button>
-              )
-            })}
-          </div>
-
-          <div className="outcome-panel-wrap">
-            <AnimatePresence mode="wait">
-              <motion.article
-                className="outcome-panel"
-                id={`outcome-${active.id}`}
-                key={active.id}
-                role="tabpanel"
-                initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+        <div className="solution-tabs" role="tablist" aria-label="Business areas">
+          {outcomes.map((outcome) => {
+            const Icon = outcome.icon
+            const isActive = outcome.id === activeId
+            return (
+              <button
+                key={outcome.id}
+                className={isActive ? 'solution-tab active' : 'solution-tab'}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`solution-${outcome.id}`}
+                onClick={() => setActiveId(outcome.id)}
               >
-                <div className="outcome-heading">
-                  <Icon aria-hidden="true" weight="duotone" />
-                  <div>
-                    <h3>{active.title}</h3>
-                    <p>{active.description}</p>
-                  </div>
-                </div>
+                <Icon aria-hidden="true" weight={isActive ? 'fill' : 'regular'} />
+                <span>{outcome.label}</span>
+              </button>
+            )
+          })}
+        </div>
 
-                <div className="outcome-detail-grid">
-                  <div>
-                    <span className="system-label">Work handled</span>
-                    {active.tasks.map((item) => (
-                      <p key={item}><CheckCircle aria-hidden="true" weight="fill" />{item}</p>
-                    ))}
-                  </div>
-                  <div>
-                    <span className="system-label">Measure</span>
-                    {active.measures.map((item) => (
-                      <p key={item}><CheckCircle aria-hidden="true" weight="fill" />{item}</p>
-                    ))}
-                  </div>
-                  <div>
-                    <span className="system-label">Connect</span>
-                    {active.systems.map((item) => (
-                      <p key={item}><CheckCircle aria-hidden="true" weight="fill" />{item}</p>
-                    ))}
-                  </div>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            className="solution-view"
+            id={`solution-${active.id}`}
+            role="tabpanel"
+            key={active.id}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={prefersReducedMotion ? undefined : { opacity: 0, y: -10 }}
+            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="solution-story">
+              <span className="solution-icon"><ActiveIcon aria-hidden="true" weight="duotone" /></span>
+              <h3>{active.title}</h3>
+              <p>{active.description}</p>
+              <a href="#approach" className="text-link">
+                See how we deliver it <ArrowRight aria-hidden="true" weight="bold" />
+              </a>
+            </div>
+
+            <div className="solution-details">
+              <div className="solution-result">
+                <span className="detail-icon"><Target aria-hidden="true" weight="duotone" /></span>
+                <div>
+                  <span className="stage-label">The business result</span>
+                  <strong>{active.result}</strong>
                 </div>
-              </motion.article>
-            </AnimatePresence>
-          </div>
-        </Reveal>
+              </div>
+
+              <div className="solution-columns">
+                <div>
+                  <span className="stage-label">The agent can handle</span>
+                  <ul>
+                    {active.handles.map((item) => (
+                      <li key={item}><Check aria-hidden="true" weight="bold" />{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <span className="stage-label">People stay responsible for</span>
+                  <p className="human-boundary"><HandPalm aria-hidden="true" weight="duotone" />{active.humans}</p>
+                  <span className="measure-line">Measured by: {active.measure}</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   )

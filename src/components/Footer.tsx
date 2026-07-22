@@ -1,49 +1,48 @@
-import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
+import { ArrowUpRight } from '@phosphor-icons/react'
 import { contactHref, navItems } from '../data/site'
-import { Reveal } from './Reveal'
 
 export function Footer() {
   return (
-    <footer className="footer">
+    <footer className="site-footer">
       <div className="page-shell">
-        <Reveal className="final-cta">
-          <div>
-            <p className="section-index">Bring one workflow</p>
-            <h2>We will help you decide if it is worth automating.</h2>
-          </div>
-          <div className="final-cta-action">
-            <p>Share the process, the people involved, and the result you want. We will map the next useful step.</p>
-            <a className="button button-primary" href={contactHref}>
-              Book a discovery call
-              <ArrowUpRight aria-hidden="true" weight="bold" />
-            </a>
-          </div>
-        </Reveal>
+        <div className="footer-cta">
+          <p className="eyebrow light">Your first useful step</p>
+          <h2>Bring us one workflow that is costing your team time.</h2>
+          <p>We will help you understand what is worth automating, what should stay human, and the fastest responsible path to production.</p>
+          <a className="button button-white" href={contactHref}>
+            Talk to Lumicoria
+            <ArrowUpRight aria-hidden="true" weight="bold" />
+          </a>
+        </div>
 
         <div className="footer-main">
-          <div className="footer-brand">
-            <a className="brand" href="#top" aria-label="Lumicoria.com home">
-              <img src="/brand-mark.png" alt="" />
-              <span>Lumicoria.com</span>
-            </a>
-            <p>The enterprise delivery and applied research arm of Lumicoria Inc.</p>
-          </div>
-          <div className="footer-links">
+          <a className="footer-brand" href="#top" aria-label="Lumicoria.com home">
+            <img src="/brand-mark.png" alt="" />
+            <span>Lumicoria</span>
+          </a>
+
+          <div className="footer-nav">
             <div>
-              <span className="system-label">Explore</span>
+              <span>Explore</span>
               {navItems.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
             </div>
             <div>
-              <span className="system-label">Lumicoria</span>
-              <a href="https://lumicoria.ai">Lumicoria.ai <ArrowRight aria-hidden="true" /></a>
-              <a href="mailto:hello@lumicoria.ai">hello@lumicoria.ai</a>
+              <span>Lumicoria</span>
+              <a href="https://lumicoria.ai" target="_blank" rel="noreferrer">Lumicoria.ai</a>
+              <a href="#research">Applied research</a>
+              <a href="#faq">FAQ</a>
+            </div>
+            <div>
+              <span>Start a conversation</span>
+              <a href={contactHref}>hello@lumicoria.ai</a>
+              <p>Tell us the workflow, team, and result you want to improve.</p>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Lumicoria Inc.</span>
-          <span>Production AI agents, delivered and operated.</span>
+          <span>AI delivery, platform, and applied research.</span>
         </div>
       </div>
     </footer>

@@ -1,37 +1,48 @@
-import { ArrowUpRight } from '@phosphor-icons/react'
+import { ArrowUpRight, Check } from '@phosphor-icons/react'
 import { contactHref, engagements } from '../data/site'
 import { Reveal } from './Reveal'
 
 export function Engagements() {
   return (
-    <section className="section section-engagements" id="engagements">
+    <section className="section engagements-section" id="engagements">
       <div className="page-shell">
-        <Reveal className="section-intro engagements-intro">
-          <p className="section-index">Ways to engage</p>
-          <h2>Start at the level of certainty you need.</h2>
-          <p>Fixed-fee engagements create a clear buying path from workflow discovery to ongoing operation.</p>
+        <Reveal className="section-heading engagement-heading">
+          <p className="eyebrow">Ways to work together</p>
+          <h2>Start at the level of commitment <span>that feels right.</span></h2>
+          <p>
+            Every engagement has a defined outcome, timeline, and handover. Begin with discovery or move directly into a production build when the workflow is already clear.
+          </p>
         </Reveal>
 
-        <div className="engagement-list">
+        <div className="engagement-grid">
           {engagements.map((engagement, index) => (
-            <Reveal className="engagement-row" key={engagement.name} delay={index * 0.04} amount={0.35}>
-              <div className="engagement-name">
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <h3>{engagement.name}</h3>
+            <Reveal
+              className={engagement.featured ? 'engagement-card featured' : 'engagement-card'}
+              key={engagement.name}
+              delay={index * 0.06}
+            >
+              <div className="engagement-card-top">
+                <span className="engagement-index">0{index + 1}</span>
+                {engagement.featured && <span className="popular-label">Most common start</span>}
               </div>
-              <p>{engagement.description}</p>
-              <div className="engagement-terms">
-                <span>{engagement.duration}</span>
-                <strong>{engagement.price}</strong>
+              <h3>{engagement.name}</h3>
+              <p className="engagement-best">{engagement.bestFor}</p>
+              <div className="engagement-meta">
+                <div><span>Timeline</span><strong>{engagement.duration}</strong></div>
+                <div><span>Investment</span><strong>{engagement.price}</strong></div>
               </div>
-              <a href={contactHref} aria-label={`${engagement.cta}: ${engagement.name}`}>
-                <span>{engagement.cta}</span>
+              <ul>
+                {engagement.includes.map((item) => (
+                  <li key={item}><Check aria-hidden="true" weight="bold" />{item}</li>
+                ))}
+              </ul>
+              <a className={engagement.featured ? 'button button-primary button-block' : 'button button-outline button-block'} href={contactHref}>
+                {engagement.cta}
                 <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>
             </Reveal>
           ))}
         </div>
-        <p className="pricing-note">Pricing reflects the current productised offer ranges in the Lumicoria.com agency PRD. Final scope is confirmed in writing.</p>
       </div>
     </section>
   )

@@ -24,7 +24,7 @@ export function Nav() {
       <nav className="site-nav" aria-label="Primary navigation">
         <a className="brand" href="#top" aria-label="Lumicoria.com home">
           <img src="/brand-mark.png" alt="" />
-          <span>Lumicoria.com</span>
+          <span>Lumicoria</span>
         </a>
 
         <div className="nav-links">
@@ -36,7 +36,7 @@ export function Nav() {
         </div>
 
         <a className="nav-cta" href={contactHref}>
-          Book a discovery call
+          Talk to our team
           <ArrowUpRight aria-hidden="true" weight="bold" />
         </a>
 
@@ -75,7 +75,7 @@ export function Nav() {
               ))}
             </div>
             <a className="button button-primary button-block" href={contactHref}>
-              Book a discovery call
+              Talk to our team
               <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
           </motion.div>

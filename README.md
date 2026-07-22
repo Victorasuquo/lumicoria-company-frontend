@@ -2,6 +2,8 @@
 
 The React and Vite frontend for [Lumicoria.com](https://lumicoria.com), the enterprise delivery and applied research arm of Lumicoria Inc.
 
+The homepage uses React 19, TypeScript, Motion, Phosphor Icons, and a custom responsive glass-and-editorial design system.
+
 ## Local development
 
 ```bash
