@@ -17,9 +17,9 @@ import {
 
 export const navItems = [
   { label: 'Solutions', href: '#solutions' },
-  { label: 'How it works', href: '#approach' },
+  { label: 'Industries', href: '#industries' },
+  { label: 'Platform', href: '#platform' },
   { label: 'Company', href: '#company' },
-  { label: 'Engagements', href: '#engagements' },
 ]
 
 export const heroActivity = [

@@ -6,6 +6,7 @@ import { contactHref, navItems } from '../data/site'
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false)
   const prefersReducedMotion = useReducedMotion()
+  const isHome = window.location.pathname === '/'
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
@@ -22,14 +23,14 @@ export function Nav() {
       transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
     >
       <nav className="site-nav" aria-label="Primary navigation">
-        <a className="brand" href="#top" aria-label="Lumicoria.com home">
+        <a className="brand" href={isHome ? '#top' : '/'} aria-label="Lumicoria.com home">
           <img src="/brand-mark.png" alt="" />
           <span>Lumicoria</span>
         </a>
 
         <div className="nav-links">
           {navItems.map((item) => (
-            <a key={item.href} href={item.href}>
+            <a key={item.href} href={isHome ? item.href : `/${item.href}`}>
               {item.label}
             </a>
           ))}
@@ -64,7 +65,7 @@ export function Nav() {
               {navItems.map((item, index) => (
                 <motion.a
                   key={item.href}
-                  href={item.href}
+                  href={isHome ? item.href : `/${item.href}`}
                   onClick={() => setIsOpen(false)}
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}

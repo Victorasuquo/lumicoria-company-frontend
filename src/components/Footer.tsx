@@ -2,42 +2,52 @@ import { ArrowUpRight } from '@phosphor-icons/react'
 import { contactHref } from '../data/site'
 
 const serviceLinks = [
-  ['Discovery sprint', '#engagements'],
-  ['Production agent build', '#engagements'],
-  ['Workflow orchestration', '#engagements'],
-  ['Optimisation retainer', '#engagements'],
+  ['Discovery sprint', '/services/discovery-sprint'],
+  ['Production agent build', '/services/production-agent-build'],
+  ['Workflow orchestration', '/services/workflow-orchestration'],
+  ['Optimisation retainer', '/services/optimisation-retainer'],
 ]
 
 const outcomeLinks = [
-  ['Sales and growth', '#solutions'],
-  ['Customer experience', '#solutions'],
-  ['Business operations', '#solutions'],
-  ['People and knowledge', '#solutions'],
+  ['Sales and growth', '/solutions/sales-growth'],
+  ['Customer experience', '/solutions/customer-experience'],
+  ['Business operations', '/solutions/business-operations'],
+  ['People and knowledge', '/solutions/people-knowledge'],
 ]
 
 const footerGroups = [
   {
     title: 'Company',
     links: [
-      ['About Lumicoria', '#company'],
-      ['Responsible AI', '#trust'],
-      ['Applied research', '#research'],
-      ['Frequently asked', '#faq'],
+      ['About Lumicoria', '/company'],
+      ['Responsible AI', '/responsible-ai'],
+      ['Applied research', '/research'],
+      ['Engagement evidence', '/case-studies'],
     ],
   },
   {
     title: 'Delivery',
     links: [
-      ['How it works', '#approach'],
-      ['First six weeks', '#approach'],
-      ['Ways to engage', '#engagements'],
+      ['Industries', '/industries'],
+      ['How it works', '/how-it-works'],
+      ['Ways to engage', '/engagements'],
+      ['Frequently asked', '/faq'],
     ],
   },
   {
-    title: 'Platform',
+    title: 'Ecosystem',
     links: [
+      ['Partners', '/partners'],
       ['Explore Lumicoria.ai', 'https://lumicoria.ai'],
-      ['Agent platform', 'https://lumicoria.ai'],
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      ['Privacy policy', '/privacy'],
+      ['Terms of service', '/terms'],
+      ['Acceptable use', '/acceptable-use'],
+      ['Security', '/security'],
     ],
   },
   {
@@ -128,14 +138,15 @@ export function Footer() {
         <div className="footer-legal">
           <span>© {new Date().getFullYear()} Lumicoria Inc.</span>
           <div>
-            <span>AI delivery</span>
-            <span>Agent platform</span>
-            <span>Applied research</span>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/acceptable-use">Acceptable use</a>
+            <a href="/security">Security</a>
           </div>
         </div>
       </div>
 
-      <a className="page-shell footer-signature" href="#top" aria-label="Back to the top of Lumicoria.com">
+      <a className="page-shell footer-signature" href="/" aria-label="Back to Lumicoria.com">
         <img src="/brand-mark.png" alt="" />
         <span>Lumicoria</span>
       </a>
