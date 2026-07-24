@@ -1515,6 +1515,130 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/client-portal/voice/skill-packs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List approved voice-agent skill packs */
+        get: operations["list_voice_skill_packs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/voice/skill-packs/{skill_pack_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get an approved voice-agent skill pack */
+        get: operations["get_voice_skill_pack"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/voice/agents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List visible voice agents */
+        get: operations["list_voice_agents"];
+        put?: never;
+        /** Create a voice agent from an approved skill pack */
+        post: operations["create_voice_agent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/voice/agents/{agent_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a visible voice agent */
+        get: operations["get_voice_agent"];
+        put?: never;
+        post?: never;
+        /** Archive a voice agent */
+        delete: operations["archive_voice_agent"];
+        options?: never;
+        head?: never;
+        /** Update mutable voice-agent fields */
+        patch: operations["update_voice_agent"];
+        trace?: never;
+    };
+    "/api/v1/client-portal/voice/agents/{agent_id}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List immutable voice-agent versions */
+        get: operations["list_voice_agent_versions"];
+        put?: never;
+        /** Create and validate an immutable voice-agent version */
+        post: operations["create_voice_agent_version"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/voice/agents/{agent_id}/versions/{version_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get an immutable voice-agent version */
+        get: operations["get_voice_agent_version"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/voice/compliance-profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the effective voice compliance profile */
+        get: operations["get_voice_compliance_profile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Create or update the organization voice compliance profile */
+        patch: operations["update_voice_compliance_profile"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -3634,6 +3758,309 @@ export interface components {
             input?: unknown;
             /** Context */
             ctx?: Record<string, never>;
+        };
+        /** VoiceAgentCreate */
+        VoiceAgentCreate: {
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /**
+             * Category
+             * @enum {string}
+             */
+            category: "customer_support" | "booking" | "receptionist" | "order_account" | "technical_support" | "sales_qualification" | "payment_reminder" | "customer_success";
+            /** Skill Pack Id */
+            skill_pack_id: string;
+            /** Engagement Id */
+            engagement_id?: string | null;
+            /**
+             * Default Language
+             * @default en
+             */
+            default_language: string;
+            /** Supported Languages */
+            supported_languages?: string[];
+        };
+        /** VoiceAgentResponse */
+        VoiceAgentResponse: {
+            /** Id */
+            id: string;
+            /** Organization Id */
+            organization_id: string;
+            /** Engagement Id */
+            engagement_id: string | null;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string | null;
+            /**
+             * Category
+             * @enum {string}
+             */
+            category: "customer_support" | "booking" | "receptionist" | "order_account" | "technical_support" | "sales_qualification" | "payment_reminder" | "customer_success";
+            /** Skill Pack Id */
+            skill_pack_id: string;
+            /** Status */
+            status: string;
+            /** Default Language */
+            default_language: string;
+            /** Supported Languages */
+            supported_languages: string[];
+            /** Published Version Id */
+            published_version_id: string | null;
+            /** Version */
+            version: number;
+            /** Created By */
+            created_by: string;
+            /** Updated By */
+            updated_by: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** VoiceAgentUpdate */
+        VoiceAgentUpdate: {
+            /** Name */
+            name?: string | null;
+            /** Description */
+            description?: string | null;
+            /** Default Language */
+            default_language?: string | null;
+            /** Supported Languages */
+            supported_languages?: string[] | null;
+        };
+        /** VoiceAgentVersionCollection */
+        VoiceAgentVersionCollection: {
+            /** Items */
+            items: components["schemas"]["VoiceAgentVersionResponse"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** VoiceAgentVersionCreate */
+        VoiceAgentVersionCreate: {
+            /** Skill Pack Version Id */
+            skill_pack_version_id?: string | null;
+            /** Vtl Document */
+            vtl_document?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        /** VoiceAgentVersionResponse */
+        VoiceAgentVersionResponse: {
+            /** Id */
+            id: string;
+            /** Organization Id */
+            organization_id: string;
+            /** Agent Id */
+            agent_id: string;
+            /** Version Number */
+            version_number: number;
+            /** Lifecycle Status */
+            lifecycle_status: string;
+            /** Schema Version */
+            schema_version: string;
+            /** Skill Pack Version Id */
+            skill_pack_version_id: string;
+            /** Vtl Document */
+            vtl_document: {
+                [key: string]: unknown;
+            };
+            /** Vtl Checksum Sha256 */
+            vtl_checksum_sha256: string;
+            /** Compiled Configuration */
+            compiled_configuration: {
+                [key: string]: unknown;
+            } | null;
+            /** Configuration Checksum Sha256 */
+            configuration_checksum_sha256: string | null;
+            /** Validation Result */
+            validation_result: {
+                [key: string]: unknown;
+            };
+            /** Published At */
+            published_at: string | null;
+            /** Published By */
+            published_by: string | null;
+            /** Version */
+            version: number;
+            /** Created By */
+            created_by: string;
+            /** Updated By */
+            updated_by: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** VoiceCollection[VoiceAgentResponse] */
+        VoiceCollection_VoiceAgentResponse_: {
+            /** Items */
+            items: components["schemas"]["VoiceAgentResponse"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** VoiceCollection[VoiceSkillPackResponse] */
+        VoiceCollection_VoiceSkillPackResponse_: {
+            /** Items */
+            items: components["schemas"]["VoiceSkillPackResponse"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** VoiceComplianceProfileResponse */
+        VoiceComplianceProfileResponse: {
+            /** Id */
+            id: string | null;
+            /** Organization Id */
+            organization_id: string;
+            /** Status */
+            status: string;
+            /** Data Region */
+            data_region: string;
+            /** Default Language */
+            default_language: string;
+            /** Ai Disclosure Required */
+            ai_disclosure_required: boolean;
+            /** Recording Policy */
+            recording_policy: string;
+            /** Transcript Retention Days */
+            transcript_retention_days: number;
+            /** Recording Retention Days */
+            recording_retention_days: number;
+            /** Allowed Call Purposes */
+            allowed_call_purposes: string[];
+            /**
+             * Source
+             * @enum {string}
+             */
+            source: "platform_default" | "organization";
+            /** Version */
+            version: number;
+            /** Created By */
+            created_by: string | null;
+            /** Updated By */
+            updated_by: string | null;
+            /** Created At */
+            created_at: string | null;
+            /** Updated At */
+            updated_at: string | null;
+        };
+        /** VoiceComplianceProfileUpdate */
+        VoiceComplianceProfileUpdate: {
+            /** Data Region */
+            data_region?: ("us" | "eu" | "uk") | null;
+            /** Default Language */
+            default_language?: string | null;
+            /** Ai Disclosure Required */
+            ai_disclosure_required?: boolean | null;
+            /** Recording Policy */
+            recording_policy?: ("disabled" | "explicit_consent" | "preconsented") | null;
+            /** Transcript Retention Days */
+            transcript_retention_days?: number | null;
+            /** Recording Retention Days */
+            recording_retention_days?: number | null;
+            /** Allowed Call Purposes */
+            allowed_call_purposes?: string[] | null;
+        };
+        /** VoiceSkillPackDetailResponse */
+        VoiceSkillPackDetailResponse: {
+            /** Id */
+            id: string;
+            /** Key */
+            key: string;
+            /** Display Name */
+            display_name: string;
+            /**
+             * Category
+             * @enum {string}
+             */
+            category: "customer_support" | "booking" | "receptionist" | "order_account" | "technical_support" | "sales_qualification" | "payment_reminder" | "customer_success";
+            /** Description */
+            description: string;
+            /** Status */
+            status: string;
+            /** Latest Version */
+            latest_version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            version: components["schemas"]["VoiceSkillPackVersionResponse"];
+        };
+        /** VoiceSkillPackResponse */
+        VoiceSkillPackResponse: {
+            /** Id */
+            id: string;
+            /** Key */
+            key: string;
+            /** Display Name */
+            display_name: string;
+            /**
+             * Category
+             * @enum {string}
+             */
+            category: "customer_support" | "booking" | "receptionist" | "order_account" | "technical_support" | "sales_qualification" | "payment_reminder" | "customer_success";
+            /** Description */
+            description: string;
+            /** Status */
+            status: string;
+            /** Latest Version */
+            latest_version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** VoiceSkillPackVersionResponse */
+        VoiceSkillPackVersionResponse: {
+            /** Id */
+            id: string;
+            /** Skill Pack Id */
+            skill_pack_id: string;
+            /** Version Number */
+            version_number: number;
+            /** Schema Version */
+            schema_version: string;
+            /** Vtl Template */
+            vtl_template: {
+                [key: string]: unknown;
+            };
+            /** Default Metrics */
+            default_metrics: string[];
+            /** Hard Stop Rules */
+            hard_stop_rules: string[];
+            /** Checksum Sha256 */
+            checksum_sha256: string;
+            /**
+             * Published At
+             * Format: date-time
+             */
+            published_at: string;
         };
     };
     responses: never;
@@ -16439,6 +16866,436 @@ export interface operations {
                             [key: string]: unknown;
                         }[];
                     };
+                };
+            };
+        };
+    };
+    list_voice_skill_packs: {
+        parameters: {
+            query?: {
+                category?: string | null;
+                page_size?: number;
+                page_after?: string | null;
+            };
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceCollection_VoiceSkillPackResponse_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_voice_skill_pack: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                skill_pack_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceSkillPackDetailResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_voice_agents: {
+        parameters: {
+            query?: {
+                engagement_id?: string | null;
+                status?: string | null;
+                page_size?: number;
+                page_after?: string | null;
+            };
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceCollection_VoiceAgentResponse_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_voice_agent: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoiceAgentCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceAgentResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_voice_agent: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                agent_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceAgentResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_voice_agent: {
+        parameters: {
+            query?: never;
+            header?: {
+                "If-Match"?: string | null;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                agent_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_voice_agent: {
+        parameters: {
+            query?: never;
+            header?: {
+                "If-Match"?: string | null;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                agent_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoiceAgentUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceAgentResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_voice_agent_versions: {
+        parameters: {
+            query?: {
+                page_size?: number;
+                page_after?: string | null;
+            };
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                agent_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceAgentVersionCollection"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_voice_agent_version: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                agent_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoiceAgentVersionCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceAgentVersionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_voice_agent_version: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                agent_id: string;
+                version_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceAgentVersionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_voice_compliance_profile: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceComplianceProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_voice_compliance_profile: {
+        parameters: {
+            query?: never;
+            header?: {
+                "If-Match"?: string | null;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoiceComplianceProfileUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoiceComplianceProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

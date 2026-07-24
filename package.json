@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "api:docs": "node scripts/generate-api-docs.mjs",
+    "api:sync": "npm run api:types && npm run api:docs",
     "api:types": "openapi-typescript http://127.0.0.1:8000/openapi/client.json --output src/api/generated/schema.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",

@@ -30,6 +30,14 @@ npm run build
 npm run preview
 ```
 
+## Documentation
+
+- `docs/CLIENT_PORTAL_FRONTEND_GUIDE.md`
+- `docs/generated/CLIENT_PORTAL_ENDPOINT_REFERENCE.md`
+- `docs/generated/CLIENT_PORTAL_SCHEMA_REFERENCE.md`
+
+Run `npm run api:sync` against the current backend to regenerate the TypeScript contract and both API references.
+
 ## Deployment
 
 The repository is configured for Vercel with `vercel.json`. Connect the GitHub repository to a Vercel project and deploy the `main` branch. Vercel should detect Vite, run `npm run build`, and publish `dist/`.
