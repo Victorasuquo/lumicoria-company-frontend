@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Company } from './components/Company'
 import { ContentPage } from './components/ContentPage'
 import { DeliverySystem } from './components/DeliverySystem'
@@ -14,9 +14,14 @@ import { Nav } from './components/Nav'
 import { OutcomeExplorer } from './components/OutcomeExplorer'
 import { Verticals } from './components/Verticals'
 
+const PortalApp = lazy(() => import('./portal/PortalApp').then(({ PortalApp: Portal }) => ({
+  default: Portal,
+})))
+
 function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
   const isHome = path === '/'
+  const isPortal = path === '/portal' || path.startsWith('/portal/')
 
   useEffect(() => {
     if (!isHome || !window.location.hash) return
@@ -26,6 +31,14 @@ function App() {
 
     window.requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }))
   }, [isHome])
+
+  if (isPortal) {
+    return (
+      <Suspense fallback={<div className="portal-route-loader">Loading client portal…</div>}>
+        <PortalApp />
+      </Suspense>
+    )
+  }
 
   return (
     <>

@@ -4,11 +4,22 @@ The React and Vite frontend for [Lumicoria.com](https://lumicoria.com), the ente
 
 The homepage uses React 19, TypeScript, Motion, Phosphor Icons, and a custom responsive glass-and-editorial design system.
 
+The client portal is available under `/portal` and uses Firebase Authentication, HTTP-only backend sessions, organization-scoped access, and the generated client-safe FastAPI contract.
+
 ## Local development
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
+```
+
+Run the portal API on `http://127.0.0.1:8000`, or set `VITE_PORTAL_API_ORIGIN` to its URL. Add the matching Firebase web app values from the backend's Firebase project before testing sign-in.
+
+Regenerate the typed API contract while the backend is running:
+
+```bash
+npm run api:types
 ```
 
 ## Validation
@@ -22,6 +33,8 @@ npm run preview
 ## Deployment
 
 The repository is configured for Vercel with `vercel.json`. Connect the GitHub repository to a Vercel project and deploy the `main` branch. Vercel should detect Vite, run `npm run build`, and publish `dist/`.
+
+Configure `VITE_PORTAL_API_ORIGIN` and all `VITE_FIREBASE_*` values in Vercel. The portal intentionally has no production API fallback when `VITE_PORTAL_API_ORIGIN` is missing.
 
 ## Content sources
 

@@ -23,6 +23,7 @@ const footerGroups = [
       ['Responsible AI', '/responsible-ai'],
       ['Applied research', '/research'],
       ['Engagement evidence', '/case-studies'],
+      ['Client portal', '/portal/login'],
     ],
   },
   {

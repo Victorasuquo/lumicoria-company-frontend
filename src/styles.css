@@ -137,6 +137,18 @@ svg {
   transform: translateY(0);
 }
 
+.portal-route-loader {
+  display: grid;
+  min-height: 100dvh;
+  color: var(--ink-soft);
+  background: #edf1f6;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  place-items: center;
+}
+
 .page-shell {
   width: var(--page);
   margin-inline: auto;

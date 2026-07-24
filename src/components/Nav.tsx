@@ -34,6 +34,7 @@ export function Nav() {
               {item.label}
             </a>
           ))}
+          <a href="/portal/login">Client portal</a>
         </div>
 
         <a className="nav-cta" href={contactHref}>
@@ -74,6 +75,15 @@ export function Nav() {
                   {item.label}
                 </motion.a>
               ))}
+              <motion.a
+                href="/portal/login"
+                onClick={() => setIsOpen(false)}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navItems.length * 0.05, duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Client portal
+              </motion.a>
             </div>
             <a className="button button-primary button-block" href={contactHref}>
               Talk to our team
