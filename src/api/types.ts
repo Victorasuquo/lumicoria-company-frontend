@@ -28,6 +28,20 @@ export type PublicInvitation = ApiSchemas['PublicInvitationResponse']
 export type InvitationAcceptance = ApiSchemas['InvitationAcceptanceResponse']
 export type DownloadAuthorization = ApiSchemas['DownloadAuthorizationResponse']
 
+export type VoiceAgent = ApiSchemas['VoiceAgentResponse']
+export type VoiceAgentCreate = ApiSchemas['VoiceAgentCreate']
+export type VoiceAgentUpdate = ApiSchemas['VoiceAgentUpdate']
+export type VoiceAgentVersion = ApiSchemas['VoiceAgentVersionResponse']
+export type VoiceAgentVersionCreate = ApiSchemas['VoiceAgentVersionCreate']
+export type VoiceAgentVersionCollection = ApiSchemas['VoiceAgentVersionCollection']
+export type VoiceAgentCollection = ApiSchemas['VoiceCollection_VoiceAgentResponse_']
+export type VoiceSkillPack = ApiSchemas['VoiceSkillPackResponse']
+export type VoiceSkillPackDetail = ApiSchemas['VoiceSkillPackDetailResponse']
+export type VoiceSkillPackVersion = ApiSchemas['VoiceSkillPackVersionResponse']
+export type VoiceSkillPackCollection = ApiSchemas['VoiceCollection_VoiceSkillPackResponse_']
+export type VoiceComplianceProfile = ApiSchemas['VoiceComplianceProfileResponse']
+export type VoiceComplianceProfileUpdatePayload = ApiSchemas['VoiceComplianceProfileUpdate']
+
 export type ApiCollection<T> = {
   items: T[]
   page: {

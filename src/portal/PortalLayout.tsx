@@ -1,16 +1,26 @@
 import {
+  ArrowsLeftRight,
   Bell,
+  BookOpenText,
   CaretDown,
   ChartDonut,
+  ChartLine,
   CheckSquare,
   ClockCounterClockwise,
+  Code,
   FileText,
   FolderOpen,
   GearSix,
   ListChecks,
+  Phone,
+  Play,
+  ShieldCheck,
   SignOut,
   SquaresFour,
   UsersThree,
+  Waveform,
+  WhatsappLogo,
+  Wrench,
   X,
 } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState } from 'react'
@@ -31,6 +41,19 @@ const navigation = [
   { label: 'Team', to: '/portal/team', icon: UsersThree, scope: 'engagements.read' },
   { label: 'Settings', to: '/portal/settings', icon: GearSix, scope: 'portal.read' },
   { label: 'Audit', to: '/portal/audit', icon: ClockCounterClockwise, scope: 'security.audit.read' },
+]
+
+const voiceNavigation = [
+  { label: 'Voice Agents', to: '/portal/voice/agents', icon: Waveform, scope: 'voice.agents.read' },
+  { label: 'Knowledge', to: '/portal/voice/knowledge', icon: BookOpenText, scope: 'voice.knowledge.read' },
+  { label: 'Tools', to: '/portal/voice/tools', icon: Wrench, scope: 'voice.tools.read' },
+  { label: 'Handoffs', to: '/portal/voice/handoffs', icon: ArrowsLeftRight, scope: 'voice.handoff.read' },
+  { label: 'Widgets', to: '/portal/voice/widgets', icon: Code, scope: 'voice.widgets.read' },
+  { label: 'Playground', to: '/portal/voice/playground', icon: Play, scope: 'voice.sessions.create' },
+  { label: 'Telephony', to: '/portal/voice/telephony', icon: Phone, scope: 'voice.channel.read' },
+  { label: 'WhatsApp', to: '/portal/voice/whatsapp', icon: WhatsappLogo, scope: 'voice.channel.read' },
+  { label: 'Analytics', to: '/portal/voice/analytics', icon: ChartLine, scope: 'voice.analytics.read' },
+  { label: 'Compliance', to: '/portal/voice/compliance', icon: ShieldCheck, scope: 'voice.compliance.read' },
 ]
 
 type UnreadCount = { unread_count: number }
@@ -143,6 +166,25 @@ export function PortalLayout() {
               </NavLink>
             )
           })}
+          {voiceNavigation.some(({ scope }) => hasScope(scope)) && (
+            <>
+              <span className="portal-navigation-section">Voice Platform</span>
+              {voiceNavigation.filter(({ scope }) => hasScope(scope)).map((item) => {
+                const Icon = item.icon
+                return (
+                  <NavLink
+                    className={({ isActive }) => isActive ? 'active' : undefined}
+                    to={item.to}
+                    onClick={() => setMobileOpen(false)}
+                    key={item.to}
+                  >
+                    <Icon aria-hidden="true" weight="duotone" />
+                    <span>{item.label}</span>
+                  </NavLink>
+                )
+              })}
+            </>
+          )}
         </nav>
 
         <div className="portal-sidebar-user">
