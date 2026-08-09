@@ -21,6 +21,22 @@ const ReviewsPage = lazy(() => import('./pages/ReviewsPage').then(({ ReviewsPage
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then(({ SettingsPage: Page }) => ({ default: Page })))
 const StatusReportsPage = lazy(() => import('./pages/StatusReportsPage').then(({ StatusReportsPage: Page }) => ({ default: Page })))
 const TeamPage = lazy(() => import('./pages/TeamPage').then(({ TeamPage: Page }) => ({ default: Page })))
+const VoiceAgentsPage = lazy(() => import('./pages/VoiceAgentsPage').then(({ VoiceAgentsPage: Page }) => ({ default: Page })))
+const VoiceAgentDetailPage = lazy(() => import('./pages/VoiceAgentDetailPage').then(({ VoiceAgentDetailPage: Page }) => ({ default: Page })))
+const VoiceKnowledgePage = lazy(() => import('./pages/VoiceKnowledgePage').then(({ VoiceKnowledgePage: Page }) => ({ default: Page })))
+const VoiceKnowledgeDetailPage = lazy(() => import('./pages/VoiceKnowledgeDetailPage').then(({ VoiceKnowledgeDetailPage: Page }) => ({ default: Page })))
+const VoiceToolsPage = lazy(() => import('./pages/VoiceToolsPage').then(({ VoiceToolsPage: Page }) => ({ default: Page })))
+const VoiceToolDetailPage = lazy(() => import('./pages/VoiceToolDetailPage').then(({ VoiceToolDetailPage: Page }) => ({ default: Page })))
+const VoiceTelephonyPage = lazy(() => import('./pages/VoiceTelephonyPage').then(({ VoiceTelephonyPage: Page }) => ({ default: Page })))
+const VoiceAnalyticsPage = lazy(() => import('./pages/VoiceAnalyticsPage').then(({ VoiceAnalyticsPage: Page }) => ({ default: Page })))
+const VoiceCallDetailPage = lazy(() => import('./pages/VoiceCallDetailPage').then(({ VoiceCallDetailPage: Page }) => ({ default: Page })))
+const VoicePlaygroundPage = lazy(() => import('./pages/VoicePlaygroundPage').then(({ VoicePlaygroundPage: Page }) => ({ default: Page })))
+const VoiceCompliancePage = lazy(() => import('./pages/VoiceCompliancePage').then(({ VoiceCompliancePage: Page }) => ({ default: Page })))
+const VoiceHandoffsPage = lazy(() => import('./pages/VoiceHandoffsPage').then(({ VoiceHandoffsPage: Page }) => ({ default: Page })))
+const VoiceHandoffDetailPage = lazy(() => import('./pages/VoiceHandoffDetailPage').then(({ VoiceHandoffDetailPage: Page }) => ({ default: Page })))
+const VoiceWidgetsPage = lazy(() => import('./pages/VoiceWidgetsPage').then(({ VoiceWidgetsPage: Page }) => ({ default: Page })))
+const VoiceWidgetDetailPage = lazy(() => import('./pages/VoiceWidgetDetailPage').then(({ VoiceWidgetDetailPage: Page }) => ({ default: Page })))
+const VoiceWhatsAppPage = lazy(() => import('./pages/VoiceWhatsAppPage').then(({ VoiceWhatsAppPage: Page }) => ({ default: Page })))
 
 export function PortalApp() {
   useEffect(() => {
@@ -68,6 +84,22 @@ export function PortalApp() {
                   <Route path="/portal/team" element={<TeamPage />} />
                   <Route path="/portal/settings" element={<SettingsPage />} />
                   <Route path="/portal/audit" element={<AuditPage />} />
+                  <Route path="/portal/voice/agents" element={<VoiceAgentsPage />} />
+                  <Route path="/portal/voice/agents/:agentId" element={<VoiceAgentDetailPage />} />
+                  <Route path="/portal/voice/knowledge" element={<VoiceKnowledgePage />} />
+                  <Route path="/portal/voice/knowledge/:knowledgeBaseId" element={<VoiceKnowledgeDetailPage />} />
+                  <Route path="/portal/voice/tools" element={<VoiceToolsPage />} />
+                  <Route path="/portal/voice/tools/:toolId" element={<VoiceToolDetailPage />} />
+                  <Route path="/portal/voice/telephony" element={<VoiceTelephonyPage />} />
+                  <Route path="/portal/voice/analytics" element={<VoiceAnalyticsPage />} />
+                  <Route path="/portal/voice/calls/:callId" element={<VoiceCallDetailPage />} />
+                  <Route path="/portal/voice/handoffs" element={<VoiceHandoffsPage />} />
+                  <Route path="/portal/voice/handoffs/:destinationId" element={<VoiceHandoffDetailPage />} />
+                  <Route path="/portal/voice/widgets" element={<VoiceWidgetsPage />} />
+                  <Route path="/portal/voice/widgets/:widgetId" element={<VoiceWidgetDetailPage />} />
+                  <Route path="/portal/voice/whatsapp" element={<VoiceWhatsAppPage />} />
+                  <Route path="/portal/voice/playground" element={<VoicePlaygroundPage />} />
+                  <Route path="/portal/voice/compliance" element={<VoiceCompliancePage />} />
                 </Route>
               </Route>
               <Route path="/portal/*" element={<Navigate to="/portal" replace />} />
