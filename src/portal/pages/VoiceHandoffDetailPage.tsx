@@ -81,7 +81,7 @@ export function VoiceHandoffDetailPage() {
         {
           organizationId: context.organization_id,
           method: 'PATCH',
-          ifMatch: `W/"${destination.version}"`,
+          ifMatch: `"v${destination.version}"`,
           ...jsonBody({
             name: editName || undefined,
             routing_skills: editSkills ? editSkills.split(',').map((s) => s.trim()).filter(Boolean) : undefined,

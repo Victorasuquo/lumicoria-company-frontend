@@ -49,7 +49,7 @@ export function VoiceAgentDetailPage() {
       const agent = agentQuery.data!
       const { data } = await portalFetch<VoiceAgent>(
         `/voice/agents/${agentId}`,
-        { organizationId: context!.organization_id, method: 'PATCH', ifMatch: `W/"${agent.version}"`, ...jsonBody(body) },
+        { organizationId: context!.organization_id, method: 'PATCH', ifMatch: `"v${agent.version}"`, ...jsonBody(body) },
       )
       return data
     },
@@ -72,6 +72,7 @@ export function VoiceAgentDetailPage() {
     onSuccess: () => {
       setMutationError(null)
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-versions', agentId] })
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent', agentId] })
     },
     onError: (err) => setMutationError(err instanceof Error ? err.message : 'Failed to create version'),
   })
@@ -81,7 +82,7 @@ export function VoiceAgentDetailPage() {
       const agent = agentQuery.data!
       const { data } = await portalFetch<VoiceAgent>(
         `/voice/agents/${agentId}/publish`,
-        { organizationId: context!.organization_id, method: 'POST', idempotencyKey: createIdempotencyKey(), ifMatch: `W/"${agent.version}"`, ...jsonBody({ version_id: versionId }) },
+        { organizationId: context!.organization_id, method: 'POST', idempotencyKey: createIdempotencyKey(), ifMatch: `"v${agent.version}"`, ...jsonBody({ version_id: versionId }) },
       )
       return data
     },
@@ -98,7 +99,7 @@ export function VoiceAgentDetailPage() {
       const agent = agentQuery.data!
       const { data } = await portalFetch<VoiceAgent>(
         `/voice/agents/${agentId}/pause`,
-        { organizationId: context!.organization_id, method: 'POST', ifMatch: `W/"${agent.version}"` },
+        { organizationId: context!.organization_id, method: 'POST', ifMatch: `"v${agent.version}"` },
       )
       return data
     },
@@ -114,7 +115,7 @@ export function VoiceAgentDetailPage() {
       const agent = agentQuery.data!
       const { data } = await portalFetch<VoiceAgent>(
         `/voice/agents/${agentId}/resume`,
-        { organizationId: context!.organization_id, method: 'POST', ifMatch: `W/"${agent.version}"` },
+        { organizationId: context!.organization_id, method: 'POST', ifMatch: `"v${agent.version}"` },
       )
       return data
     },

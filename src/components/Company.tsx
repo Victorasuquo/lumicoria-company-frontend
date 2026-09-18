@@ -9,13 +9,13 @@ export function Company() {
         <Reveal className="company-intro">
           <div>
             <p className="eyebrow light">About Lumicoria</p>
-            <h2>We are the team that gets AI <span>out of the pilot.</span></h2>
+            <h2>We help businesses make support <span>easier to run.</span></h2>
           </div>
           <div className="company-intro-copy">
             <p>
-              Lumicoria is building the operating environment where people and AI agents work together. Our company combines a production platform with a delivery team, so you get the speed of software and the ownership of an expert partner.
+              Lumicoria helps Nigerian businesses answer customers consistently, protect staff time, and keep follow-up visible. We combine a voice support service with a client workspace and an accountable team that helps it improve.
             </p>
-            <span><GlobeHemisphereWest aria-hidden="true" weight="duotone" /> Distributed delivery across the United States, United Kingdom, European Union, and Africa.</span>
+            <span><GlobeHemisphereWest aria-hidden="true" weight="duotone" /> Built for Nigerian operations, with a path to wider African teams.</span>
           </div>
         </Reveal>
 
@@ -24,12 +24,12 @@ export function Company() {
             <span className="company-arm-index">01</span>
             <div className="company-arm-icon"><img src="/brand-mark.png" alt="" /></div>
             <p className="eyebrow light">Lumicoria.com</p>
-            <h3>We build and run it with you.</h3>
+            <h3>Support designed around your business.</h3>
             <p>
-              Strategy, workflow design, production agent delivery, change support, and ongoing improvement from one accountable team.
+              We map the calls your team receives, prepare the approved answers, set the handoff rules, and stay close as the workflow becomes part of daily work.
             </p>
             <a href="#engagements" className="text-link light-link">
-              Explore our engagements <ArrowUpRight aria-hidden="true" weight="bold" />
+              See how we work <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
           </Reveal>
 
@@ -37,9 +37,9 @@ export function Company() {
             <span className="company-arm-index">02</span>
             <div className="company-arm-icon"><Stack aria-hidden="true" weight="duotone" /></div>
             <p className="eyebrow light">Lumicoria.ai</p>
-            <h3>The platform underneath every deployment.</h3>
+            <h3>The workspace behind every conversation.</h3>
             <p>
-              A model-flexible environment for building, connecting, governing, observing, and improving production AI agents.
+              Lumicoria.ai gives your team one place for approved knowledge, call records, human handoffs, permissions, and support reporting.
             </p>
             <a href="https://lumicoria.ai" className="text-link light-link" target="_blank" rel="noreferrer">
               Visit Lumicoria.ai <ArrowUpRight aria-hidden="true" weight="bold" />

@@ -1,5 +1,5 @@
 import { ArrowUpRight, Check } from '@phosphor-icons/react'
-import { contactHref, engagements } from '../data/site'
+import { engagements, salesFormHref } from '../data/site'
 import { Reveal } from './Reveal'
 
 export function Engagements() {
@@ -10,7 +10,7 @@ export function Engagements() {
           <p className="eyebrow">Ways to work together</p>
           <h2>Start at the level of commitment <span>that feels right.</span></h2>
           <p>
-            Every engagement has a defined outcome, timeline, and handover. Begin with discovery or move directly into a production build when the workflow is already clear.
+            Every engagement has a defined support outcome, a clear handoff, and a practical path from the first conversation to daily use.
           </p>
         </Reveal>
 
@@ -36,7 +36,7 @@ export function Engagements() {
                   <li key={item}><Check aria-hidden="true" weight="bold" />{item}</li>
                 ))}
               </ul>
-              <a className={engagement.featured ? 'button button-primary button-block' : 'button button-outline button-block'} href={contactHref}>
+              <a className={engagement.featured ? 'button button-primary button-block' : 'button button-outline button-block'} href={salesFormHref} target="_blank" rel="noreferrer">
                 {engagement.cta}
                 <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>

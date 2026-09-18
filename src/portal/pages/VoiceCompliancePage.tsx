@@ -32,7 +32,7 @@ export function VoiceCompliancePage() {
         {
           organizationId: context.organization_id,
           method: 'PATCH',
-          ifMatch: `W/"${query.data.version}"`,
+          ifMatch: `"v${query.data.version}"`,
           ...jsonBody(payload),
         },
       )

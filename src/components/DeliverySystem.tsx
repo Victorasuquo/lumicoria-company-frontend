@@ -8,9 +8,9 @@ export function DeliverySystem() {
       <div className="page-shell">
         <Reveal className="section-heading approach-heading">
           <p className="eyebrow">How it works</p>
-          <h2>A clear path from business problem <span>to working system.</span></h2>
+          <h2>A clear path from missed calls <span>to better follow-up.</span></h2>
           <p>
-            You do not need a year-long transformation programme. We start narrow, prove value with real work, and expand from evidence.
+            We start with one customer-support workflow, prepare it around your rules, and expand only when the team can see the improvement.
           </p>
         </Reveal>
 
@@ -35,15 +35,15 @@ export function DeliverySystem() {
         <Reveal className="delivery-track">
           <div className="delivery-track-head">
             <div>
-              <p className="eyebrow">The first six weeks</p>
-              <h3>Built to earn trust before autonomy.</h3>
+              <p className="eyebrow">How it works</p>
+              <h3>Set up your support agent in minutes.</h3>
             </div>
-            <span><CheckCircle aria-hidden="true" weight="fill" /> 45-day production target</span>
+            <span><CheckCircle aria-hidden="true" weight="fill" /> Review before publish</span>
           </div>
           <div className="milestone-grid">
             {deliveryMilestones.map((item) => (
-              <div className="milestone" key={item.week}>
-                <span>Week {item.week}</span>
+              <div className="milestone" key={item.step}>
+                <span>Step {item.step}</span>
                 <strong>{item.label}</strong>
                 <p>{item.detail}</p>
               </div>

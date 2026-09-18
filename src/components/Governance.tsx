@@ -1,5 +1,5 @@
 import { ArrowUpRight, Flask } from '@phosphor-icons/react'
-import { contactHref, researchAreas, trustPrinciples } from '../data/site'
+import { researchAreas, salesFormHref, trustPrinciples } from '../data/site'
 import { Reveal } from './Reveal'
 
 export function Governance() {
@@ -9,10 +9,10 @@ export function Governance() {
         <Reveal className="trust-intro">
           <div>
             <p className="eyebrow light">Designed for production</p>
-            <h2>Give AI the right amount of freedom. <span>Not all of it.</span></h2>
+            <h2>Give customers a quick answer. <span>Keep judgment with people.</span></h2>
           </div>
           <p>
-            Trust is not a promise we add at the end. It is built into how the workflow is designed, tested, released, and owned.
+            Support should feel helpful and accountable. Routine questions can move quickly, while complaints, uncertainty, and sensitive decisions reach your team.
           </p>
         </Reveal>
 
@@ -34,12 +34,12 @@ export function Governance() {
           <div className="research-copy">
             <span className="research-icon"><Flask aria-hidden="true" weight="duotone" /></span>
             <p className="eyebrow">Applied AI research</p>
-            <h3>Research that makes production systems better.</h3>
+            <h3>Better support starts with better information.</h3>
             <p>
-              Our applied research practice focuses on the practical questions that appear after the demo: reliability, evaluation, coordination, oversight, and cost.
+              We help teams keep their answers current, review what customers ask, and improve the support workflow as the business changes.
             </p>
-            <a className="text-link" href={contactHref}>
-              Discuss a research engagement <ArrowUpRight aria-hidden="true" weight="bold" />
+            <a className="text-link" href={salesFormHref} target="_blank" rel="noreferrer">
+              Talk to our team <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
           </div>
           <div className="research-list">

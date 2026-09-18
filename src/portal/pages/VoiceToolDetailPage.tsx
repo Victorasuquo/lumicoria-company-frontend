@@ -63,7 +63,7 @@ export function VoiceToolDetailPage() {
         {
           organizationId: context!.organization_id,
           method: 'PATCH',
-          ifMatch: `W/"${toolQuery.data!.version}"`,
+          ifMatch: `"v${toolQuery.data!.version}"`,
           ...jsonBody(payload),
         },
       )

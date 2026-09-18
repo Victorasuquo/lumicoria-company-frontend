@@ -102,7 +102,7 @@ export function VoiceKnowledgeDetailPage() {
     mutationFn: async ({ sourceId, version }: { sourceId: string; version: number }) => {
       await portalFetch<void>(
         `/voice/knowledge-bases/${kbId}/sources/${sourceId}`,
-        { organizationId: orgId!, method: 'DELETE', ifMatch: `W/"${version}"` },
+        { organizationId: orgId!, method: 'DELETE', ifMatch: `"v${version}"` },
       )
     },
     onSuccess: () => {

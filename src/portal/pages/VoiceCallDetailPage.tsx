@@ -74,7 +74,7 @@ export function VoiceCallDetailPage() {
         {
           organizationId: context!.organization_id,
           method: 'PATCH',
-          ifMatch: `W/"${item.version}"`,
+          ifMatch: `"v${item.version}"`,
           ...jsonBody({ status: 'completed' }),
         },
       )

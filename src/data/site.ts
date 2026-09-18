@@ -23,72 +23,72 @@ export const navItems = [
 ]
 
 export const heroActivity = [
-  { time: '09:02', label: 'New lead researched', tone: 'blue' },
-  { time: '09:18', label: 'Customer request resolved', tone: 'violet' },
-  { time: '09:41', label: 'Invoice exception escalated', tone: 'gold' },
+  { time: '09:02', label: 'Customer call received', tone: 'blue' },
+  { time: '09:18', label: 'Routine answer provided', tone: 'violet' },
+  { time: '09:41', label: 'Staff follow-up created', tone: 'gold' },
 ]
 
 export const heroOutcomes = [
-  'CRM stays current',
-  'Customers get faster answers',
-  'Your team keeps the judgment calls',
+  'Customer gets a clear answer',
+  'Request context stays together',
+  'Important issues reach staff',
 ]
 
 export const proofPoints = [
-  { value: '45 days', label: 'target to first production agent' },
-  { value: '21+', label: 'agents already in our platform library' },
-  { value: '6', label: 'model providers with built-in fallback' },
-  { value: 'Human-led', label: 'approval wherever the decision matters' },
+  { value: 'Voice first', label: 'support for the calls your team cannot answer' },
+  { value: 'One record', label: 'for the request, answer, and next action' },
+  { value: 'Human-led', label: 'escalation wherever judgment matters' },
+  { value: 'Naira ready', label: 'built for the way Nigerian businesses operate' },
 ]
 
 export const outcomes = [
   {
     id: 'growth',
-    label: 'Sales and growth',
-    title: 'Create more time for real conversations.',
+    label: 'Lead capture',
+    title: 'Turn every serious enquiry into a next step.',
     description:
-      'Let an AI agent handle account research, lead qualification, follow-up, and CRM upkeep so your team can focus on relationships and revenue.',
+      'Answer calls from campaigns and business listings, capture the customer’s need, and give your team the context to follow up while the interest is still fresh.',
     icon: ChartLineUp,
-    result: 'A fuller pipeline without multiplying the admin around it.',
-    handles: ['Account research', 'Lead qualification', 'Follow-up drafts', 'CRM updates'],
-    humans: 'Positioning, negotiation, and every important customer conversation.',
-    measure: 'Meetings booked, response time, and pipeline coverage.',
+    result: 'Fewer good enquiries disappear before your team can respond.',
+    handles: ['Inbound calls', 'Lead qualification', 'Booking requests', 'Follow-up records'],
+    humans: 'Pricing, negotiation, and every important customer conversation.',
+    measure: 'Answered enquiries, qualified leads, and follow-up completion.',
   },
   {
     id: 'service',
-    label: 'Customer experience',
-    title: 'Make fast support still feel personal.',
+    label: 'Customer support',
+    title: 'Give customers an answer before they give up.',
     description:
-      'Give customers immediate, grounded answers while complex or sensitive requests move to the right person with the full context attached.',
+      'Give customers clear answers about orders, deliveries, bookings, availability, and policies while complaints and uncertain requests move to the right person with context attached.',
     icon: Headset,
-    result: 'Shorter queues, faster answers, and more time for high-value support.',
-    handles: ['Request triage', 'Knowledge lookup', 'Response drafts', 'Case routing'],
+    result: 'Shorter queues and fewer customers repeating themselves.',
+    handles: ['Order questions', 'Delivery updates', 'Policy answers', 'Case routing'],
     humans: 'Exceptions, empathy, complaints, and high-stakes decisions.',
-    measure: 'First response time, resolution time, and escalation quality.',
+    measure: 'Answer rate, response time, and escalation quality.',
   },
   {
     id: 'operations',
-    label: 'Business operations',
-    title: 'Take recurring admin off the critical path.',
+    label: 'Bookings and service',
+    title: 'Keep bookings moving when your team is busy.',
     description:
-      'Move documents, status updates, scheduling, and routine checks through a dependable system that works across the tools you already use.',
+      'Handle appointment requests, availability questions, confirmations, and reminders through a dependable support flow that works around the tools your team already uses.',
     icon: Buildings,
-    result: 'Fewer handoffs, cleaner operations, and hours returned every week.',
-    handles: ['Document review', 'Status updates', 'SLA checks', 'Exception routing'],
-    humans: 'Approvals, policy decisions, and anything outside agreed boundaries.',
-    measure: 'Cycle time, error volume, and hours recovered.',
+    result: 'More completed bookings without adding another front desk shift.',
+    handles: ['Availability questions', 'Appointment requests', 'Confirmations', 'Reminder follow-up'],
+    humans: 'Sensitive requests, exceptions, and anything outside agreed boundaries.',
+    measure: 'Booking completion, response time, and staff workload.',
   },
   {
     id: 'people',
-    label: 'People and knowledge',
-    title: 'Help everyone find answers and move faster.',
+    label: 'After-hours support',
+    title: 'Keep your business reachable beyond the desk.',
     description:
-      'Turn company knowledge into useful answers, guide onboarding, coordinate recurring people workflows, and keep sensitive decisions with people.',
+      'Give customers a helpful first response after hours and return unresolved work to your team with the details needed for the next morning.',
     icon: UsersThree,
-    result: 'Less time searching, smoother onboarding, and fewer repeated questions.',
-    handles: ['Knowledge search', 'Onboarding guidance', 'Scheduling', 'Policy questions'],
-    humans: 'Hiring decisions, performance matters, and sensitive conversations.',
-    measure: 'Time to answer, coordinator load, and employee satisfaction.',
+    result: 'Fewer missed opportunities between closing time and opening time.',
+    handles: ['After-hours calls', 'Common questions', 'Message taking', 'Callback requests'],
+    humans: 'Complaints, urgent matters, and sensitive conversations.',
+    measure: 'After-hours answer rate, callback completion, and repeat contacts.',
   },
 ]
 
@@ -101,7 +101,7 @@ export const companyAdvantages = [
   {
     icon: Wrench,
     title: 'Built on a real platform',
-    text: 'Every engagement runs on Lumicoria.ai, so you inherit reusable infrastructure instead of a fragile one-off build.',
+    text: 'Every engagement runs on Lumicoria.ai, so your support workflow can improve without becoming another disconnected tool.',
   },
   {
     icon: ClockCountdown,
@@ -114,71 +114,72 @@ export const approachSteps = [
   {
     number: '01',
     icon: MagnifyingGlass,
-    eyebrow: 'Find the right work',
-    title: 'Choose one workflow with a visible business result.',
-    text: 'We map how the work happens today, what it costs, where judgment is required, and what success should look like.',
-    timing: 'Week 1',
+    eyebrow: 'Start with your account',
+    title: 'Create your workspace and organisation.',
+    text: 'Set up your team, business details, and the customer-support area you want to improve first.',
+    timing: 'A few minutes',
   },
   {
     number: '02',
     icon: CirclesFour,
-    eyebrow: 'Build and prove it',
-    title: 'Create the agent around your systems and your rules.',
-    text: 'We connect the tools, test against real examples, and run beside your current process before the agent is allowed to act.',
-    timing: 'Weeks 2-5',
+    eyebrow: 'Teach it your business',
+    title: 'Add the answers and rules your customers need.',
+    text: 'Provide approved information such as opening hours, services, delivery areas, booking details, and when staff should take over.',
+    timing: 'Your information',
   },
   {
     number: '03',
     icon: ArrowBendDownRight,
-    eyebrow: 'Launch and improve',
-    title: 'Go live gradually, then keep making it better.',
-    text: 'We stage the rollout, train your team, monitor outcomes, and improve the system as your business and models change.',
-    timing: 'Week 6 onward',
+    eyebrow: 'Test, then publish',
+    title: 'Try real questions before customers hear it.',
+    text: 'Run test conversations, review the responses, and publish when the experience matches your standards.',
+    timing: 'When ready',
   },
 ]
 
 export const deliveryMilestones = [
-  { week: '01', label: 'Discover', detail: 'Workflow, economics, data, owners' },
-  { week: '02', label: 'Design', detail: 'Agent behaviour, integrations, controls' },
-  { week: '03', label: 'Build', detail: 'Configuration, connections, measurement' },
-  { week: '04', label: 'Shadow', detail: 'Real work, no production actions yet' },
-  { week: '05', label: 'Stage', detail: 'Controlled workload, human approvals' },
-  { week: '06', label: 'Launch', detail: 'Production, training, ongoing support' },
+  { step: '01', label: 'Create your account', detail: 'Open your workspace and get started' },
+  { step: '02', label: 'Set up your organisation', detail: 'Add your team and business details' },
+  { step: '03', label: 'Add business knowledge', detail: 'Share approved answers and policies' },
+  { step: '04', label: 'Set your support rules', detail: 'Choose when staff should take over' },
+  { step: '05', label: 'Create your voice agent', detail: 'Give it a clear role and greeting' },
+  { step: '06', label: 'Test the conversations', detail: 'Try common questions and review replies' },
+  { step: '07', label: 'Publish when ready', detail: 'Make it available through the agreed channel' },
 ]
 
 export const engagements = [
   {
-    name: 'Discovery Sprint',
-    bestFor: 'You know AI could help, but need to find the right place to start.',
+    name: 'Voice Support Setup',
+    bestFor: 'You want to choose the first call workflow and prepare it around your business rules.',
     duration: '2-4 weeks',
-    price: '$7.5k-$15k',
-    includes: ['Workflow opportunity map', 'Business case and ROI model', 'Working quick-win prototype', 'Production recommendation'],
-    cta: 'Start with discovery',
+    price: '₦10m to ₦20m',
+    includes: ['Support workflow review', 'Approved answer library', 'Call and escalation design', 'Launch recommendation'],
+    cta: 'Talk to our team',
   },
   {
-    name: 'Production Agent Build',
-    bestFor: 'You have one clear workflow and want it operating in production.',
+    name: 'Controlled Support Launch',
+    bestFor: 'You have a clear customer-support problem and want to introduce voice support carefully.',
     duration: '6-10 weeks',
-    price: '$35k-$85k',
-    includes: ['Production-ready agent', 'Business system integrations', 'Testing and monitoring', 'Runbook, training, and support'],
-    cta: 'Build the first agent',
+    price: '₦45m to ₦100m',
+    includes: ['Voice workflow configuration', 'Business knowledge setup', 'Human handoff testing', 'Team training and support'],
+    cta: 'Talk to our team',
     featured: true,
   },
   {
-    name: 'Workflow Orchestration',
-    bestFor: 'The outcome depends on several teams, systems, or coordinated agents.',
+    name: 'Support Operations',
+    bestFor: 'Your customer support spans calls, WhatsApp, email, bookings, and more than one team.',
     duration: '12-20 weeks',
-    price: '$90k-$200k',
-    includes: ['Three to five coordinated agents', 'Enterprise integration design', 'Governance and change planning', 'Three months of optimisation'],
-    cta: 'Transform a workflow',
+    price: '₦120m to ₦300m',
+    includes: ['Connected support channels', 'Escalation ownership', 'Reporting and review', 'Ongoing workflow improvement'],
+    cta: 'Talk to our team',
   },
   {
-    name: 'Optimisation Retainer',
-    bestFor: 'You want ongoing ownership, improvement, and expansion after launch.',
+    name: 'Managed Support Improvement',
+    bestFor: 'You want a partner to monitor support quality and improve the workflow after launch.',
     duration: 'Monthly',
-    price: '$4k-$25k / month',
-    includes: ['Performance and quality review', 'Tuning and model updates', 'Incident response and cost control', 'Executive outcome reporting'],
-    cta: 'Operate what ships',
+    price: '₦5m to ₦30m / month',
+    includes: ['Quality and outcome review', 'Knowledge updates', 'Escalation and issue review', 'Monthly support reporting'],
+    cta: 'Talk to our team',
   },
 ]
 
@@ -207,43 +208,45 @@ export const trustPrinciples = [
 
 export const faqs = [
   {
-    question: 'What exactly does Lumicoria.com do?',
+    question: 'What does Lumicoria help with?',
     answer:
-      'Lumicoria.com is the delivery, consulting, and applied research arm of Lumicoria Inc. We design, build, launch, and operate AI agents for companies that want the outcome without assembling an internal AI platform team.',
+      'Lumicoria helps businesses answer routine customer calls, capture missed enquiries, and keep follow-up visible. We start with voice support and connect the request to the people and tools already running the business.',
   },
   {
-    question: 'How is Lumicoria.com different from Lumicoria.ai?',
+    question: 'How is voice support different from a basic IVR?',
     answer:
-      'Lumicoria.ai is the platform where agents are built and operated. Lumicoria.com is the expert team that uses that platform to deliver a complete business outcome for you. Every services engagement is built on Lumicoria.ai.',
+      'A basic IVR sends callers through fixed menu options. Lumicoria is designed to understand routine requests, use the business information you approve, record what happened, and return exceptions to your team with context.',
   },
   {
-    question: 'What should we automate first?',
+    question: 'What kinds of calls can Lumicoria handle?',
     answer:
-      'The best first workflow is repetitive, expensive enough to matter, measurable, and safe to introduce gradually. Sales research, customer request triage, document processing, reporting, and internal knowledge are common starting points.',
+      'Common starting points include order and delivery questions, booking requests, availability, service coverage, approved policies, lead capture, callbacks, and after-hours messages. The first workflow is chosen around your business and its boundaries.',
   },
   {
-    question: 'Will this replace our team?',
+    question: 'Will Lumicoria replace our support team?',
     answer:
-      'The goal is to remove repetitive work and increase the capacity of your team. People remain responsible for judgment, relationships, exceptions, and sensitive decisions. We design those boundaries with you before launch.',
+      'No. The goal is to reduce repetitive work and increase the capacity of your team. People remain responsible for complaints, refunds, disputes, sensitive requests, and decisions that need judgment.',
+  },
+  {
+    question: 'Can customers speak in Nigerian languages?',
+    answer:
+      'We can design the workspace and support flow around the language your customers use. Nigerian English is the starting point, with Yoruba and other local language support handled according to the agreed workflow and testing plan.',
   },
   {
     question: 'Can Lumicoria work with our existing systems?',
     answer:
-      'Yes. We design around the tools and systems of record your company already uses. Integration scope, access, error handling, and ownership are confirmed during discovery before the production build begins.',
-  },
-  {
-    question: 'How quickly can we launch?',
-    answer:
-      'A focused production agent targets a six-week delivery path, with a standing target of 45 days from signature to production. Larger multi-agent workflows typically take 12 to 20 weeks.',
+      'Yes. We begin with the information and tools your team already uses. We confirm access, handoff rules, error handling, and ownership before connecting the support workflow to your operation.',
   },
 ]
 
 export const researchAreas = [
-  'Reliable agents and practical evaluation',
-  'Human oversight and responsible autonomy',
-  'Multi-agent coordination across real workflows',
-  'Smaller specialised models for cost and quality',
+  'Clear answers from approved business information',
+  'Human oversight for complaints and exceptions',
+  'Reliable call records and follow-up ownership',
+  'Practical support workflows for Nigerian businesses',
 ]
 
 export const contactHref =
   'mailto:hello@lumicoria.ai?subject=Lumicoria.com%20Discovery%20Call&body=Hello%20Lumicoria%20team%2C%0A%0AI%20would%20like%20to%20discuss%20a%20workflow%20for%20automation.%0A%0ACompany%3A%0AWorkflow%3A%0ACurrent%20team%20or%20hours%20involved%3A%0ATimeline%3A'
+
+export const salesFormHref = 'https://forms.gle/JpJDuSzAEVJH8Md19'

@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowsLeftRight, Ear, MicrophoneStage, Phone, Star, Stop, UserSwitch } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Room, RoomEvent, Track, ConnectionState } from 'livekit-client'
 import { portalFetch, createIdempotencyKey, jsonBody } from '../../api/client'
 import type { VoiceAgentCollection } from '../../api/types'
 import type {
@@ -37,6 +38,59 @@ export function VoicePlaygroundPage() {
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false)
 
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const roomRef = useRef<Room | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [connectionState, setConnectionState] = useState<string>('disconnected')
+
+  const disconnectRoom = useCallback(() => {
+    if (roomRef.current) {
+      roomRef.current.disconnect()
+      roomRef.current = null
+    }
+    setConnectionState('disconnected')
+  }, [])
+
+  const connectToRoom = useCallback(async (url: string, token: string) => {
+    disconnectRoom()
+    const room = new Room({
+      adaptiveStream: true,
+      dynacast: true,
+    })
+    roomRef.current = room
+
+    room.on(RoomEvent.ConnectionStateChanged, (state: ConnectionState) => {
+      setConnectionState(state)
+    })
+
+    room.on(RoomEvent.TrackSubscribed, (track) => {
+      if (track.kind === Track.Kind.Audio) {
+        const el = track.attach()
+        el.id = 'livekit-remote-audio'
+        document.body.appendChild(el)
+      }
+    })
+
+    room.on(RoomEvent.TrackUnsubscribed, (track) => {
+      if (track.kind === Track.Kind.Audio) {
+        track.detach().forEach((el) => el.remove())
+      }
+    })
+
+    room.on(RoomEvent.Disconnected, () => {
+      setConnectionState('disconnected')
+    })
+
+    setConnectionState('connecting')
+    await room.connect(url, token)
+    await room.localParticipant.setMicrophoneEnabled(true)
+    setConnectionState('connected')
+  }, [disconnectRoom])
+
+  useEffect(() => {
+    return () => {
+      disconnectRoom()
+    }
+  }, [disconnectRoom])
 
   const agentsQuery = useVoiceQuery<VoiceAgentCollection>(
     ['voice-agents-playground'],
@@ -104,6 +158,12 @@ export function VoicePlaygroundPage() {
       setFeedbackRating(0)
       setFeedbackTags([])
       setFeedbackComment('')
+      if (data.connection.url && data.connection.access_token) {
+        connectToRoom(data.connection.url, data.connection.access_token).catch((err) => {
+          console.error('LiveKit connection failed:', err)
+          setConnectionState('error')
+        })
+      }
     },
   })
 
@@ -115,12 +175,13 @@ export function VoicePlaygroundPage() {
         {
           organizationId,
           method: 'POST',
-          ...jsonBody({ reason: 'user_ended' }),
+          ...jsonBody({ reason: 'customer_requested' }),
         },
       )
       return data
     },
     onSuccess: () => {
+      disconnectRoom()
       if (session) {
         setSession({
           ...session,
@@ -215,8 +276,8 @@ export function VoicePlaygroundPage() {
           organizationId,
           method: 'POST',
           ...jsonBody({
-            rating: feedbackRating || null,
-            tags: feedbackTags.length ? feedbackTags : null,
+            rating: feedbackRating || 3,
+            tags: feedbackTags,
             comment: feedbackComment || null,
           }),
         },
@@ -296,6 +357,11 @@ export function VoicePlaygroundPage() {
                 <dd className="portal-voice-mono">{session.connection.room_name}</dd>
                 <dt>Participant</dt>
                 <dd className="portal-voice-mono">{session.connection.participant_identity}</dd>
+                <dt>Audio</dt>
+                <dd>
+                  <span className={`portal-voice-session-status ${connectionState === 'connected' ? 'is-active' : ''}`} />
+                  {connectionState === 'connected' ? 'Connected' : connectionState === 'connecting' ? 'Connecting…' : connectionState === 'error' ? 'Connection failed' : 'Disconnected'}
+                </dd>
                 <dt>Started</dt>
                 <dd>{session.session.started_at ? formatPortalDate(session.session.started_at, true) : '—'}</dd>
                 {session.session.end_reason && (

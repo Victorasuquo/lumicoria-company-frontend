@@ -32,6 +32,10 @@ function defaultToDate(): string {
   return new Date().toISOString().slice(0, 10)
 }
 
+function pct(value: number): number {
+  return value <= 1 ? value * 100 : value
+}
+
 export function VoiceAnalyticsPage() {
   const { context, hasScope } = usePortalAuth()
   const [fromDate, setFromDate] = useState(defaultFromDate)
@@ -140,11 +144,11 @@ export function VoiceAnalyticsPage() {
           </article>
           <article>
             <span>Resolution Rate</span>
-            <strong>{(summary.resolution_rate * 100).toFixed(1)}%</strong>
+            <strong>{pct(summary.resolution_rate).toFixed(1)}%</strong>
           </article>
           <article>
             <span>Avg Duration</span>
-            <strong>{Math.round(summary.average_duration_seconds)}s</strong>
+            <strong>{formatDuration(summary.average_duration_seconds)}</strong>
           </article>
           <article>
             <span>Cost</span>
@@ -166,15 +170,18 @@ export function VoiceAnalyticsPage() {
       {dispositions.length > 0 && (
         <section className="portal-panel portal-voice-dispositions">
           <header><h2>Dispositions</h2></header>
-          {dispositions.map((d) => (
-            <div key={d.code} className="portal-voice-disposition-row">
-              <span className="portal-voice-disposition-label">{humanize(d.code)}</span>
-              <div className="portal-voice-disposition-bar">
-                <div style={{ width: `${d.percentage}%` }} />
+          {dispositions.map((d) => {
+            const p = pct(d.percentage)
+            return (
+              <div key={d.code} className="portal-voice-disposition-row">
+                <span className="portal-voice-disposition-label">{humanize(d.code)}</span>
+                <div className="portal-voice-disposition-bar">
+                  <div style={{ width: `${Math.max(p, 2)}%` }} />
+                </div>
+                <span className="portal-voice-disposition-value">{d.count} ({p.toFixed(1)}%)</span>
               </div>
-              <span className="portal-voice-disposition-value">{d.count} ({d.percentage.toFixed(1)}%)</span>
-            </div>
-          ))}
+            )
+          })}
         </section>
       )}
 
@@ -198,7 +205,7 @@ export function VoiceAnalyticsPage() {
                     <span className="portal-voice-truncated">{call.agent_id.slice(0, 12)}</span>
                     <span><StatusPill value={call.direction} /></span>
                     <span><StatusPill value={call.status} /></span>
-                    <span>{call.duration_seconds}s</span>
+                    <span>{formatDuration(call.duration_seconds)}</span>
                     <span>{call.disposition ? humanize(call.disposition) : '—'}</span>
                   </Link>
                 ))}
@@ -213,45 +220,99 @@ export function VoiceAnalyticsPage() {
   )
 }
 
+function formatDuration(seconds: number): string {
+  if (seconds < 60) return `${Math.round(seconds)}s`
+  const m = Math.floor(seconds / 60)
+  const s = Math.round(seconds % 60)
+  return s > 0 ? `${m}m ${s}s` : `${m}m`
+}
+
 function TimeseriesChart({ points }: { points: VoiceAnalyticsTimeseries['points'] }) {
   if (!points.length) return null
 
   const maxCalls = Math.max(...points.map((p) => p.total_calls), 1)
-  const chartHeight = 200
+  const yTicks = computeYTicks(maxCalls)
+  const yMax = yTicks[yTicks.length - 1] || maxCalls
+
+  const padding = { top: 12, right: 16, bottom: 40, left: 40 }
   const barPadding = 2
-  const barWidth = Math.max(4, Math.min(40, (800 - points.length * barPadding) / points.length))
-  const chartWidth = points.length * (barWidth + barPadding)
+  const barWidth = Math.max(8, Math.min(40, (700 - points.length * barPadding) / points.length))
+  const plotWidth = points.length * (barWidth + barPadding)
+  const plotHeight = 200
+  const svgWidth = padding.left + plotWidth + padding.right
+  const svgHeight = padding.top + plotHeight + padding.bottom
 
   return (
     <svg
-      viewBox={`0 0 ${chartWidth} ${chartHeight + 24}`}
+      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       className="portal-voice-chart-svg"
-      preserveAspectRatio="xMidYEnd meet"
+      preserveAspectRatio="xMidYMid meet"
     >
+      {yTicks.map((tick) => {
+        const y = padding.top + plotHeight - (tick / yMax) * plotHeight
+        return (
+          <g key={tick}>
+            <line
+              x1={padding.left}
+              y1={y}
+              x2={padding.left + plotWidth}
+              y2={y}
+              stroke="var(--portal-border, #e2e2e2)"
+              strokeDasharray="3,3"
+            />
+            <text
+              x={padding.left - 8}
+              y={y + 3}
+              textAnchor="end"
+              fontSize="10"
+              fill="var(--portal-muted, #888)"
+            >
+              {tick}
+            </text>
+          </g>
+        )
+      })}
+
       {points.map((point, i) => {
-        const height = (point.total_calls / maxCalls) * chartHeight
-        const x = i * (barWidth + barPadding)
-        const y = chartHeight - height
+        const height = (point.total_calls / yMax) * plotHeight
+        const x = padding.left + i * (barWidth + barPadding)
+        const y = padding.top + plotHeight - height
+        const resolvedHeight = (point.resolved_calls / yMax) * plotHeight
+        const resolvedY = padding.top + plotHeight - resolvedHeight
         return (
           <g key={point.date}>
             <rect
               x={x}
               y={y}
               width={barWidth}
-              height={height}
+              height={Math.max(height, height > 0 ? 2 : 0)}
               rx={2}
-              fill="var(--portal-accent)"
+              fill="var(--portal-accent, #6366f1)"
               opacity={0.85}
             >
-              <title>{`${point.date}: ${point.total_calls} calls`}</title>
+              <title>{`${point.date}: ${point.total_calls} calls (${point.resolved_calls} resolved)`}</title>
             </rect>
-            {points.length <= 14 && (
+            {point.resolved_calls > 0 && (
+              <rect
+                x={x}
+                y={resolvedY}
+                width={barWidth}
+                height={Math.max(resolvedHeight, 2)}
+                rx={2}
+                fill="var(--portal-success, #22c55e)"
+                opacity={0.9}
+              >
+                <title>{`${point.date}: ${point.resolved_calls} resolved`}</title>
+              </rect>
+            )}
+            {(points.length <= 14 || i % Math.ceil(points.length / 14) === 0) && (
               <text
                 x={x + barWidth / 2}
-                y={chartHeight + 14}
+                y={svgHeight - 8}
                 textAnchor="middle"
-                fontSize="8"
-                fill="var(--portal-muted)"
+                fontSize="9"
+                fill="var(--portal-muted, #888)"
+                transform={points.length > 7 ? `rotate(-45, ${x + barWidth / 2}, ${svgHeight - 8})` : undefined}
               >
                 {point.date.slice(5)}
               </text>
@@ -261,4 +322,15 @@ function TimeseriesChart({ points }: { points: VoiceAnalyticsTimeseries['points'
       })}
     </svg>
   )
+}
+
+function computeYTicks(maxValue: number): number[] {
+  if (maxValue <= 5) return Array.from({ length: maxValue + 1 }, (_, i) => i)
+  const step = Math.ceil(maxValue / 5)
+  const ticks: number[] = []
+  for (let v = 0; v <= maxValue + step - 1; v += step) {
+    ticks.push(v)
+    if (ticks.length >= 6) break
+  }
+  return ticks
 }

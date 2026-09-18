@@ -7,7 +7,7 @@ import {
 } from '@phosphor-icons/react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import { useRef } from 'react'
-import { contactHref, heroActivity, heroOutcomes, proofPoints } from '../data/site'
+import { heroActivity, heroOutcomes, proofPoints, salesFormHref } from '../data/site'
 
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null)
@@ -63,27 +63,31 @@ export function Hero() {
           >
             <motion.p className="eyebrow hero-eyebrow" {...enter(0.06)}>
               <Sparkle aria-hidden="true" weight="fill" />
-              AI systems for everyday work
+              Voice support for Nigerian businesses
             </motion.p>
 
             <motion.h1 {...enter(0.14)}>
-              Your team has <span>better work to do.</span>
+              Give customers a clear answer. <span>Keep your team in control.</span>
             </motion.h1>
 
             <motion.p className="hero-lede" {...enter(0.22)}>
-              We build and run AI agents for the repetitive work slowing your business down.
+              Lumicoria helps Nigerian businesses answer routine customer calls, recover missed enquiries, and hand important conversations to the right person with the customer’s context intact.
             </motion.p>
 
             <motion.div className="hero-actions" {...enter(0.3)}>
-              <a className="button button-white" href={contactHref}>
+              <a className="button button-white" href={salesFormHref} target="_blank" rel="noreferrer">
                 Talk to our team
                 <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>
               <a className="button hero-secondary-button" href="#solutions">
-                See what we build
+                See how it works
                 <ArrowDown aria-hidden="true" weight="bold" />
               </a>
             </motion.div>
+
+            <motion.p className="hero-trust-line" {...enter(0.36)}>
+              Built around your rules. Connected to the tools you already use. Human when it matters.
+            </motion.p>
           </motion.div>
         </motion.div>
 
@@ -137,7 +141,7 @@ export function Hero() {
               <div className="core-mark">
                 <img src="/brand-mark.png" alt="" />
               </div>
-              <span className="core-caption">Lumicoria coordinates the work</span>
+              <span className="core-caption">Context stays with the request</span>
             </div>
 
             <div className="outcome-panel glass-panel">
@@ -159,9 +163,10 @@ export function Hero() {
           </div>
 
             <div className="stage-footer">
-              <span>Built around your rules</span>
-              <span>Connected to your tools</span>
-              <span>Measured against a business result</span>
+              <span>More calls answered</span>
+              <span>Fewer enquiries lost</span>
+              <span>Faster follow-up</span>
+              <span>Important decisions stay with staff</span>
             </div>
           </motion.div>
         </motion.div>
