@@ -5,37 +5,37 @@ import { Reveal } from './Reveal'
 
 const stories = [
   {
-    id: 'saas',
-    label: 'B2B SaaS',
-    statement: 'The revenue team should spend its week talking to qualified buyers—not researching accounts and repairing CRM records.',
-    person: 'Representative SaaS founder',
+    id: 'retail',
+    label: 'Online retail',
+    statement: 'A customer should not have to call three times to find out where an order is.',
+    person: 'Representative online retail team',
     role: 'Illustrative engagement blueprint',
-    image: '/stories/saas-founder.jpg',
-    challenge: 'Manual prospect research, qualification, follow-up, and CRM upkeep fragment the seller’s day.',
-    shape: 'Outbound research agent + lead triage + CRM integration + human approval at outreach.',
-    change: 'A measurable path toward more selling time and a CRM the team can trust.',
+    image: '/generated/africa/industries/commerce-africa.png',
+    challenge: 'Order questions and returns arrive through calls and messages while staff are packing, dispatching, and selling.',
+    shape: 'Voice answers for routine order questions, with unresolved requests recorded for staff follow-up.',
+    change: 'Customers get a clear next step and staff start follow-up with the context already in front of them.',
   },
   {
-    id: 'agency',
-    label: 'Agency operations',
-    statement: 'Account managers should create client value—not lose margin to reporting, content repurposing, and internal handoffs.',
-    person: 'Representative agency leader',
+    id: 'hospitality',
+    label: 'Hospitality',
+    statement: 'A guest enquiry should reach the right person before the room or booking is lost.',
+    person: 'Representative hospitality team',
     role: 'Illustrative engagement blueprint',
-    image: '/stories/agency-leader.jpg',
-    challenge: 'Recurring campaign administration absorbs time that should remain billable and client-facing.',
-    shape: 'Lead intake + campaign reporting + content operations coordinated through reviewed agents.',
-    change: 'A clearer operating rhythm with more capacity protected for client work.',
+    image: '/generated/africa/illustrations/hospitality-front-desk-africa.png',
+    challenge: 'Front-desk teams answer the same availability and booking questions while managing guests already on site.',
+    shape: 'Voice support for routine enquiries, booking capture, and a clear handoff for requests the front desk must decide.',
+    change: 'More enquiries are captured without asking the team to sound less human.',
   },
   {
     id: 'logistics',
     label: 'Logistics',
-    statement: 'Operations leaders should manage the exceptions—not chase every invoice, dispatch update, and SLA by hand.',
-    person: 'Representative operations leader',
+    statement: 'Dispatch staff should solve delivery exceptions—not repeat the same status update all day.',
+    person: 'Representative logistics team',
     role: 'Illustrative engagement blueprint',
-    image: '/stories/operations-leader.jpg',
-    challenge: 'Invoices, dispatch events, and service exceptions move through disconnected queues and inboxes.',
-    shape: 'Document extraction + dispatch tasking + SLA monitoring + named exception owners.',
-    change: 'A visible operations flow where people intervene only when judgment is required.',
+    image: '/generated/africa/illustrations/bike-courier-africa.png',
+    challenge: 'Customers call for delivery updates while dispatch teams are coordinating riders, routes, and exceptions.',
+    shape: 'A voice workflow for delivery status, service coverage, and named human follow-up when something has gone wrong.',
+    change: 'Customers receive a useful answer and exceptions become visible work instead of another missed call.',
   },
 ]
 
@@ -53,7 +53,7 @@ export function EngagementStories() {
             <h2>Proof should be specific. <span>And honest.</span></h2>
           </div>
           <p>
-            Public customer stories will appear only with client approval. Until then, these representative blueprints show the problems, delivery shapes, and operating changes Lumicoria is built to own—without dressing examples up as testimonials.
+            These representative blueprints show how voice support can fit real businesses. They are examples, not customer testimonials.
           </p>
         </Reveal>
 
@@ -85,7 +85,7 @@ export function EngagementStories() {
             transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="story-copy">
-              <span className="story-disclosure"><Check aria-hidden="true" weight="bold" /> Representative engagement · not a customer testimonial</span>
+              <span className="story-disclosure"><Check aria-hidden="true" weight="bold" /> Representative scenario · not a customer testimonial</span>
               <h3>{active.statement}</h3>
               <div className="story-blueprint">
                 <div><span>The operating problem</span><p>{active.challenge}</p></div>

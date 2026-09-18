@@ -43,7 +43,7 @@ export function VoiceWidgetDetailPage() {
         {
           organizationId: context.organization_id,
           method: 'PATCH',
-          ifMatch: `W/"${widget.version}"`,
+          ifMatch: `"v${widget.version}"`,
           ...jsonBody({
             display_name: editName,
             channels: editChannels,

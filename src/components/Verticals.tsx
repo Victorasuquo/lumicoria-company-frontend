@@ -1,83 +1,82 @@
 import {
   ArrowRight,
   Briefcase,
-  Code,
-  MegaphoneSimple,
+  Buildings,
   ShoppingBag,
   Truck,
   UsersThree,
 } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useState } from 'react'
-import { contactHref } from '../data/site'
+import { salesFormHref } from '../data/site'
 import { Reveal } from './Reveal'
 
 const verticals = [
   {
-    id: 'saas',
-    tab: 'SaaS + technology',
-    title: 'B2B SaaS and technology companies',
-    description: 'Turn account research, qualification, follow-up, and CRM maintenance into one governed revenue workflow.',
-    buyer: 'For founders and revenue leaders',
-    phase: 'Current focus',
-    image: '/industries/b2b-saas.jpg',
-    icon: Code,
-    workflows: ['Outbound research', 'Lead triage', 'CRM hygiene'],
-  },
-  {
-    id: 'agency',
-    tab: 'Marketing agencies',
-    title: 'Marketing and creative agencies',
-    description: 'Recover billable capacity by coordinating lead intake, campaign reporting, content repurposing, and client handoffs.',
-    buyer: 'For agency founders and account leaders',
-    phase: 'Current focus',
-    image: '/industries/marketing-agencies.jpg',
-    icon: MegaphoneSimple,
-    workflows: ['Lead intake', 'Campaign reporting', 'Content operations'],
-  },
-  {
     id: 'logistics',
-    tab: 'Logistics + operations',
-    title: 'Logistics and operations-heavy businesses',
-    description: 'Move invoices, dispatch updates, SLA checks, and exceptions through one visible operating flow.',
-    buyer: 'For COOs and operations leaders',
-    phase: 'Current focus',
-    image: '/industries/logistics-operations.jpg',
+    tab: 'Logistics',
+    title: 'Logistics and delivery teams',
+    description: 'Answer shipment questions, capture delivery issues, and return exceptions to dispatch staff with the customer context intact.',
+    buyer: 'For operations and support leads',
+    phase: 'Starting market',
+    image: '/generated/africa/industries/logistics-operations-africa.png',
     icon: Truck,
-    workflows: ['Invoice processing', 'Dispatch updates', 'SLA monitoring'],
-  },
-  {
-    id: 'people',
-    tab: 'People operations',
-    title: 'People, recruiting, and knowledge teams',
-    description: 'Coordinate screening, scheduling, onboarding, and policy questions while keeping sensitive decisions with people.',
-    buyer: 'For people and talent leaders',
-    phase: 'Adjacent capability',
-    image: '/industries/people-operations.jpg',
-    icon: UsersThree,
-    workflows: ['Candidate screening', 'Interview scheduling', 'Onboarding'],
+    workflows: ['Delivery status', 'Service coverage', 'Exception follow-up'],
   },
   {
     id: 'commerce',
-    tab: 'Commerce',
-    title: 'E-commerce and customer operations',
-    description: 'Keep order questions, returns, customer support, and post-purchase communication moving around the clock.',
-    buyer: 'For commerce and CX leaders',
-    phase: 'Adjacent capability',
-    image: '/industries/commerce.jpg',
+    tab: 'Online retail',
+    title: 'Online retailers and fulfilment teams',
+    description: 'Keep order questions, payment concerns, returns, and post-purchase calls moving without making customers start again.',
+    buyer: 'For founders and customer experience leads',
+    phase: 'Starting market',
+    image: '/generated/africa/industries/commerce-africa.png',
     icon: ShoppingBag,
-    workflows: ['Order status', 'Returns triage', 'Customer support'],
+    workflows: ['Order status', 'Returns triage', 'Lead capture'],
   },
   {
-    id: 'professional',
+    id: 'hospitality',
+    tab: 'Hotels and hospitality',
+    title: 'Hotels and hospitality teams',
+    description: 'Answer availability questions, capture booking requests, and give the front desk a clear record of every guest follow-up.',
+    buyer: 'For hotel managers and guest-service leads',
+    phase: 'Starting market',
+    image: '/generated/africa/illustrations/hospitality-front-desk-africa.png',
+    icon: Buildings,
+    workflows: ['Room enquiries', 'Booking requests', 'Guest follow-up'],
+  },
+  {
+    id: 'appointments',
+    tab: 'Appointments',
+    title: 'Clinics, salons, and appointment businesses',
+    description: 'Make it easier for customers to ask questions, request a time, confirm an appointment, and reach a person when needed.',
+    buyer: 'For practice, service, and front-desk managers',
+    phase: 'Expansion market',
+    image: '/generated/africa/illustrations/hospitality-front-desk-africa.png',
+    icon: UsersThree,
+    workflows: ['Availability questions', 'Appointment requests', 'Reminders'],
+  },
+  {
+    id: 'services',
     tab: 'Professional services',
-    title: 'Professional and advisory services',
-    description: 'Make client intake, document collection, status reporting, and deliverable handoff feel like one connected service.',
-    buyer: 'For managing partners and delivery leads',
-    phase: 'Adjacent capability',
-    image: '/industries/professional-services.jpg',
+    title: 'Professional and service businesses',
+    description: 'Capture new enquiries, answer approved questions, and route serious requests to the right person with the details already recorded.',
+    buyer: 'For owners and client-service leads',
+    phase: 'Expansion market',
+    image: '/generated/africa/industries/professional-services-africa.png',
     icon: Briefcase,
-    workflows: ['Client onboarding', 'Document intake', 'Status reporting'],
+    workflows: ['New enquiries', 'Service questions', 'Callback requests'],
+  },
+  {
+    id: 'healthcare',
+    tab: 'Healthcare administration',
+    title: 'Healthcare administration teams',
+    description: 'Handle routine appointment and service questions while sensitive health matters and clinical decisions remain with qualified staff.',
+    buyer: 'For clinic and practice administrators',
+    phase: 'Expansion market',
+    image: '/generated/africa/illustrations/hospitality-front-desk-africa.png',
+    icon: UsersThree,
+    workflows: ['Appointment enquiries', 'Confirmations', 'Human escalation'],
   },
 ]
 
@@ -94,11 +93,11 @@ export function Verticals() {
           <p className="eyebrow">Industry focus</p>
           <h2>Built around the work <span>inside your industry.</span></h2>
           <p>
-            We begin where repeated work, fragmented systems, and human judgment meet. These are the markets where Lumicoria is concentrating delivery patterns first.
+            We begin with businesses where missed calls become lost orders, delayed bookings, or unresolved customer issues. The workflow changes by industry, but the outcome stays clear.
           </p>
           <div className="verticals-intro-actions">
-            <a className="button button-primary" href={contactHref}>
-              Discuss your workflow <ArrowRight aria-hidden="true" weight="bold" />
+            <a className="button button-primary" href={salesFormHref} target="_blank" rel="noreferrer">
+              Talk to our team <ArrowRight aria-hidden="true" weight="bold" />
             </a>
             <a className="text-link" href="/industries">
               View all industry work <ArrowRight aria-hidden="true" weight="bold" />

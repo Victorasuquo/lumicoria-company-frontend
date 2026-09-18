@@ -2,16 +2,16 @@ import { ArrowUpRight } from '@phosphor-icons/react'
 import { Reveal } from './Reveal'
 
 const ecosystemNames = [
-  'Google Workspace',
-  'Slack',
-  'Notion',
-  'Salesforce',
-  'Stripe',
-  'OpenAI',
-  'Gemini',
-  'Claude',
-  'Perplexity',
-  'Mistral',
+  'Phone calls',
+  'WhatsApp Business',
+  'Facebook Pages',
+  'Instagram DMs',
+  'Email',
+  'Google Business',
+  'Web enquiries',
+  'CRM systems',
+  'Bookings',
+  'Spreadsheets',
 ]
 
 export function Ecosystem() {
@@ -21,20 +21,20 @@ export function Ecosystem() {
     <section className="ecosystem-section" id="ecosystem" aria-labelledby="ecosystem-title">
       <div className="page-shell">
         <Reveal className="ecosystem-heading">
-          <p className="eyebrow">Works with your stack</p>
-          <h2 id="ecosystem-title">Keep the tools. <span>Improve the work between them.</span></h2>
+          <p className="eyebrow">Support that follows the customer</p>
+          <h2 id="ecosystem-title">Start with a call. <span>Keep the context moving.</span></h2>
           <div>
             <p>
-              Lumicoria connects model providers, knowledge sources, communication tools, and systems of record so your first agent fits the operation you already run.
+              Voice is the first response. WhatsApp, email, web chat, and your existing business tools keep the same request moving when a person needs to step in.
             </p>
             <a href="/partners" className="text-link">
-              Explore our ecosystem <ArrowUpRight aria-hidden="true" weight="bold" />
+              See the support flow <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
           </div>
         </Reveal>
       </div>
 
-      <div className="ecosystem-marquee" aria-label="Technology ecosystem">
+      <div className="ecosystem-marquee" aria-label="Customer support channels and tools">
         <div className="ecosystem-track">
           {repeatedNames.map((name, index) => (
             <div className="ecosystem-name" key={`${name}-${index}`} aria-hidden={index >= ecosystemNames.length}>
@@ -46,7 +46,7 @@ export function Ecosystem() {
       </div>
 
       <div className="page-shell ecosystem-note">
-        <span>Integration and model compatibility references only.</span>
+        <span>Bring the channels and tools your team already uses.</span>
         <span>All trademarks belong to their respective owners.</span>
       </div>
     </section>

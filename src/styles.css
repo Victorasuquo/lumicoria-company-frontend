@@ -545,6 +545,17 @@ svg {
   line-height: 1.6;
 }
 
+.hero-trust-line {
+  max-width: 470px;
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.56);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  line-height: 1.6;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
 .hero-actions {
   display: flex;
   align-items: center;

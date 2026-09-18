@@ -24,7 +24,7 @@ import {
   X,
 } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import type { ApiCollection, Engagement } from '../api/types'
 import { usePortalAuth } from '../auth/AuthProvider'
 import { usePortalQuery, useEngagements } from './hooks'
@@ -69,6 +69,8 @@ export function PortalLayout() {
     selectEngagement,
     switchOrganization,
   } = usePortalAuth()
+  const location = useLocation()
+  const isVoiceRoute = location.pathname.startsWith('/portal/voice')
   const [mobileOpen, setMobileOpen] = useState(false)
   const engagementsQuery = useEngagements()
   const unreadQuery = usePortalQuery<UnreadCount>(
@@ -206,8 +208,8 @@ export function PortalLayout() {
       <div className="portal-workspace">
         <header className="portal-topbar">
           <div>
-            <small>Active engagement</small>
-            <strong>{selectedEngagement?.name || 'No engagement assigned'}</strong>
+            <small>{isVoiceRoute ? 'Voice intelligence' : 'Active engagement'}</small>
+            <strong>{isVoiceRoute ? (organizationName || 'Voice Portal') : (selectedEngagement?.name || 'No engagement assigned')}</strong>
           </div>
           {engagements.length > 1 && (
             <label className="portal-engagement-picker">

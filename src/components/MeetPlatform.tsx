@@ -4,36 +4,36 @@ import { Reveal } from './Reveal'
 const platformCapabilities = [
   {
     icon: Cube,
-    title: 'Run production agents',
-    text: 'Start with a library of 21 agents across documents, support, meetings, research, data, legal review, and operations.',
+    title: 'Answer routine calls',
+    text: 'Give customers clear answers about orders, deliveries, bookings, availability, and approved business policies.',
     visual: (
       <div className="platform-agent-stack" aria-hidden="true">
-        <span>Meeting agent</span>
-        <span>Document agent</span>
-        <span>Customer service</span>
+        <span>Customer support</span>
+        <span>Delivery enquiries</span>
+        <span>Booking requests</span>
       </div>
     ),
   },
   {
     icon: CirclesFour,
-    title: 'Compose in Agent Studio',
-    text: 'Arrange typed components into versioned workflows with model routing, retrieval, conditions, integrations, and approvals.',
+    title: 'Keep people in the loop',
+    text: 'Set clear boundaries for complaints, refunds, disputes, and any request that needs a member of staff to decide.',
     visual: (
       <div className="platform-flow-mini" aria-hidden="true">
-        <span>Input</span><i /><span>Reason</span><i /><span>Review</span>
+        <span>Call</span><i /><span>Answer</span><i /><span>Handoff</span>
       </div>
     ),
   },
   {
     icon: ShieldCheck,
-    title: 'Operate one shared environment',
-    text: 'Keep projects, tasks, documents, knowledge, support, permissions, audit trails, and agent output together.',
+    title: 'See what still needs attention',
+    text: 'Give managers a shared view of calls, unresolved requests, next actions, and the quality of customer follow-up.',
     visual: (
       <div className="platform-workspace-mini" aria-hidden="true">
-        <span>Projects</span>
+        <span>Calls</span>
+        <span>Follow-up</span>
         <span>Knowledge</span>
-        <span>Audit</span>
-        <span>Models</span>
+        <span>Reports</span>
       </div>
     ),
   },
@@ -46,10 +46,10 @@ export function MeetPlatform() {
         <Reveal className="platform-hero-card">
           <div className="platform-hero-glow" aria-hidden="true" />
           <div className="platform-hero-copy">
-            <p className="eyebrow light">The platform underneath every engagement</p>
+            <p className="eyebrow light">The workspace behind your support team</p>
             <h2>Meet <span>{'{ Lumicoria.ai }'}</span></h2>
             <p>
-              Twenty-one production agents. Six model providers. One environment to build, deploy, govern, and improve AI-powered work.
+              One place to prepare approved answers, manage voice support, preserve context, and keep every important follow-up visible.
             </p>
             <a href="https://lumicoria.ai" target="_blank" rel="noreferrer" aria-label="Explore Lumicoria.ai">
               <ArrowUpRight aria-hidden="true" weight="bold" />
@@ -59,7 +59,7 @@ export function MeetPlatform() {
           <div className="platform-operating-map" aria-label="Lumicoria.ai operating environment preview">
             <div className="operating-map-head">
               <span><img src="/brand-mark.png" alt="" /> Lumicoria.ai</span>
-              <span>Production environment</span>
+                <span>Support workspace</span>
             </div>
             <div className="operating-map-body">
               <div className="operating-map-sidebar">
@@ -70,9 +70,9 @@ export function MeetPlatform() {
               </div>
               <div className="operating-map-canvas">
                 <div className="operating-map-kicker">Active workflow</div>
-                <strong>Customer request → reviewed resolution</strong>
+                <strong>Customer call → accountable follow-up</strong>
                 <div className="operating-map-flow">
-                  <span>Ticket</span><i /><span>Agent</span><i /><span>Source</span><i /><span>Approval</span>
+                  <span>Call</span><i /><span>Answer</span><i /><span>Staff</span><i /><span>Outcome</span>
                 </div>
                 <div className="operating-map-stats">
                   <div><span>Model route</span><strong>Automatic fallback</strong></div>

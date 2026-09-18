@@ -22,21 +22,21 @@ type PageDefinition = {
 const staticPages: Record<string, PageDefinition> = {
   '/company': {
     eyebrow: 'Company',
-    title: 'One company. A delivery practice and a production platform.',
-    lede: 'Lumicoria Inc. builds the environment where humans and AI agents do meaningful work together—and the expert practice that helps companies move into it.',
+    title: 'One company. Voice support and a better way to follow up.',
+    lede: 'Lumicoria helps businesses answer routine customer calls, capture missed enquiries, and keep important follow-up visible to the team.',
     sections: [
       {
         title: 'Lumicoria.com',
-        paragraphs: ['Our enterprise delivery, consulting, and applied research practice takes responsibility for a business workflow from discovery through production operation.'],
-        bullets: ['Workflow discovery and business-case design', 'Production agent delivery', 'Multi-agent orchestration', 'Ongoing optimisation and managed AI operations'],
+        paragraphs: ['Our delivery team prepares a voice support workflow around your business, your approved information, and the people responsible for customer care.'],
+        bullets: ['Support workflow design', 'Voice support setup', 'Human handoff and follow-up', 'Ongoing support improvement'],
       },
       {
         title: 'Lumicoria.ai',
-        paragraphs: ['Our multi-tenant agent platform is the operating environment underneath every engagement. It brings agents, knowledge, model routing, integrations, governance, and shared work into one place.'],
+        paragraphs: ['Our client workspace keeps approved knowledge, voice configuration, call records, handoffs, permissions, and support reporting together.'],
       },
       {
         title: 'The flywheel',
-        paragraphs: ['Every delivery engagement hardens the platform. Reusable connectors, evaluation patterns, workflow components, and controls return to Lumicoria.ai so the next deployment starts from a stronger foundation.'],
+        paragraphs: ['Every support workflow gives the team a clearer view of what customers ask, what staff handle, and where the business can improve next.'],
       },
     ],
   },
@@ -85,15 +85,15 @@ const staticPages: Record<string, PageDefinition> = {
   },
   '/how-it-works': {
     eyebrow: 'Delivery system',
-    title: 'From one expensive workflow to production in six deliberate steps.',
-    lede: 'The delivery sequence is designed to reduce implementation risk without turning the project into an endless pilot.',
+    title: 'From missed calls to a support workflow your team can trust.',
+    lede: 'The delivery sequence starts with one useful customer outcome and expands only when the team is ready.',
     sections: [
-      { title: '01 — Discover', paragraphs: ['Map the current workflow, economics, data, owners, systems, and success measure.'] },
-      { title: '02 — Design', paragraphs: ['Specify agent behaviour, integrations, human controls, test cases, and failure handling.'] },
-      { title: '03 — Build', paragraphs: ['Configure the workflow on Lumicoria.ai and connect the agreed systems and knowledge.'] },
-      { title: '04 — Shadow', paragraphs: ['Run against real work without production action and compare the output with human ground truth.'] },
-      { title: '05 — Stage', paragraphs: ['Release a controlled share of the workload with explicit review gates.'] },
-      { title: '06 — Launch', paragraphs: ['Move into production, train the team, monitor the result, and begin ongoing improvement.'] },
+      { title: '01: Discover', paragraphs: ['Map the calls, questions, owners, tools, and customer moments that need attention.'] },
+      { title: '02: Prepare', paragraphs: ['Gather approved answers, escalation rules, opening hours, and the details staff need for follow-up.'] },
+      { title: '03: Configure', paragraphs: ['Set up the voice support workflow around the information and boundaries your business approves.'] },
+      { title: '04: Test', paragraphs: ['Run realistic conversations, review answers, and improve anything that could confuse a customer.'] },
+      { title: '05: Stage', paragraphs: ['Introduce a controlled share of enquiries with clear human review and ownership.'] },
+      { title: '06: Improve', paragraphs: ['Review conversations, update business information, and expand support as the team gains confidence.'] },
     ],
   },
   '/engagements': {
@@ -108,18 +108,18 @@ const staticPages: Record<string, PageDefinition> = {
   },
   '/industries': {
     eyebrow: 'Industries',
-    title: 'Delivery patterns shaped around how the work actually moves.',
-    lede: 'Lumicoria concentrates first on markets where recurring operational work is measurable, connected to clear systems, and safe to introduce through staged autonomy.',
+    title: 'Voice support shaped around how your customers reach you.',
+    lede: 'Lumicoria starts with businesses where missed calls become lost orders, delayed bookings, or unresolved customer issues.',
     sections: [
-      { title: 'B2B SaaS and technology', bullets: ['Outbound research and qualification', 'Follow-up and CRM maintenance', 'Customer request routing', 'Knowledge and document workflows'] },
-      { title: 'Marketing agencies', bullets: ['Lead intake', 'Campaign reporting', 'Content repurposing', 'Client handoff and status communication'] },
-      { title: 'Logistics and operations', bullets: ['Invoice and manifest processing', 'Dispatch tasking', 'SLA monitoring', 'Exception escalation'] },
-      { title: 'Adjacent capabilities', paragraphs: ['People operations, e-commerce, professional services, healthcare administration, financial operations, and real-estate workflows are approached with the same evidence-first delivery model.'] },
+      { title: 'Logistics and delivery', bullets: ['Delivery status questions', 'Service coverage', 'Customer complaints', 'Exception follow-up'] },
+      { title: 'Online retail and fulfilment', bullets: ['Order status', 'Returns and exchanges', 'Payment questions', 'Lead capture from enquiries'] },
+      { title: 'Hotels and hospitality', bullets: ['Availability questions', 'Booking requests', 'Guest support', 'After-hours messages'] },
+      { title: 'Appointment and service businesses', bullets: ['Availability and scheduling', 'Confirmations and reminders', 'New customer enquiries', 'Human escalation'] },
     ],
   },
   '/partners': {
     eyebrow: 'Partners and ecosystem',
-    title: 'A partner model built around delivery quality—not logo collecting.',
+    title: 'A partner model built around better customer follow-up.',
     lede: 'Lumicoria works across the model providers, workplace tools, and systems of record customers already use while developing a certified implementation network for regional delivery.',
     sections: [
       { title: 'Technology ecosystem', bullets: ['Model-provider routing and fallback', 'Workplace and knowledge integrations', 'CRM, support, billing, and communication systems', 'Connector architecture for customer-specific systems'] },

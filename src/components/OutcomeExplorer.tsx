@@ -14,10 +14,10 @@ export function OutcomeExplorer() {
     <section className="section solutions-section" id="solutions">
       <div className="page-shell">
         <Reveal className="section-heading solutions-heading">
-          <p className="eyebrow">What we build</p>
-          <h2>Start with the work. <span>Not the technology.</span></h2>
+          <p className="eyebrow">What your customers need</p>
+          <h2>Start with the call. <span>Measure what follows.</span></h2>
           <p>
-            The best AI projects begin with a visible business problem. Choose the area where your team is losing the most time, speed, or customer attention.
+            Choose the support moment where your business is losing the most customer attention, then make the next action clear for your team.
           </p>
         </Reveal>
 

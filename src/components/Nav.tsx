@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ArrowUpRight, List, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { contactHref, navItems } from '../data/site'
+import { navItems, salesFormHref } from '../data/site'
 
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false)
@@ -37,7 +37,7 @@ export function Nav() {
           <a href="/portal/login">Client portal</a>
         </div>
 
-        <a className="nav-cta" href={contactHref}>
+        <a className="nav-cta" href={salesFormHref} target="_blank" rel="noreferrer">
           Talk to our team
           <ArrowUpRight aria-hidden="true" weight="bold" />
         </a>
@@ -85,7 +85,7 @@ export function Nav() {
                 Client portal
               </motion.a>
             </div>
-            <a className="button button-primary button-block" href={contactHref}>
+            <a className="button button-primary button-block" href={salesFormHref} target="_blank" rel="noreferrer">
               Talk to our team
               <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
