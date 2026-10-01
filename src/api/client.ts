@@ -1,5 +1,6 @@
 import createClient from 'openapi-fetch'
 import type { paths } from './generated/schema'
+import { portalAuth } from '../auth/firebase'
 
 const configuredOrigin = import.meta.env.VITE_PORTAL_API_ORIGIN?.trim()
 
@@ -80,7 +81,9 @@ export async function portalFetch<T>(
     headers.set('Content-Type', 'application/json')
   }
   if (organizationId) headers.set('X-Organization-ID', organizationId)
-  if (identityToken) headers.set('Authorization', `Bearer ${identityToken}`)
+  const bearerToken = identityToken
+    || (portalAuth?.currentUser ? await portalAuth.currentUser.getIdToken() : null)
+  if (bearerToken) headers.set('Authorization', `Bearer ${bearerToken}`)
   if (idempotencyKey) headers.set('Idempotency-Key', idempotencyKey)
   if (ifMatch) headers.set('If-Match', ifMatch)
 
