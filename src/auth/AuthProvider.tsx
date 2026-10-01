@@ -16,6 +16,7 @@ import {
 import {
   createPortalSession,
   deletePortalSession,
+  getAdminContext,
   getPortalContext,
   getPortalPermissions,
   getPortalSession,
@@ -24,6 +25,7 @@ import {
 import { isPortalApiError } from '../api/client'
 import type {
   PortalContext,
+  AdminContext,
   PortalDestination,
   PortalPermissions,
   PortalSession,
@@ -35,6 +37,7 @@ type AuthStatus = 'loading' | 'unauthenticated' | 'choosing-organization' | 'aut
 
 type SignInResult = {
   needsOrganization: boolean
+  isAdmin?: boolean
 }
 
 type AuthContextValue = {
@@ -42,6 +45,7 @@ type AuthContextValue = {
   firebaseUser: User | null
   session: PortalSession | null
   context: PortalContext | null
+  adminContext: AdminContext | null
   permissions: PortalPermissions | null
   destinations: PortalDestination[]
   selectedEngagementId: string | null
@@ -58,6 +62,12 @@ type AuthContextValue = {
 const PortalAuthContext = createContext<AuthContextValue | null>(null)
 const organizationStorageKey = 'lumicoria.portal.organization'
 
+function isInvalidIdentityToken(error: unknown): boolean {
+  return isPortalApiError(error)
+    && error.status === 401
+    && error.problem.code === 'INVALID_IDENTITY_TOKEN'
+}
+
 function engagementStorageKey(organizationId: string) {
   return `lumicoria.portal.engagement.${organizationId}`
 }
@@ -67,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null)
   const [session, setSession] = useState<PortalSession | null>(null)
   const [context, setContext] = useState<PortalContext | null>(null)
+  const [adminContext, setAdminContext] = useState<AdminContext | null>(null)
   const [permissions, setPermissions] = useState<PortalPermissions | null>(null)
   const [destinations, setDestinations] = useState<PortalDestination[]>([])
   const [pendingIdentityToken, setPendingIdentityToken] = useState<string | null>(null)
@@ -94,6 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     localStorage.setItem(organizationStorageKey, organizationId)
     setSession(nextSession)
+    setAdminContext(null)
     setContext(nextContext)
     setPermissions(nextPermissions)
     setDestinations(nextContext.destinations ?? [])
@@ -109,13 +121,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         || restoredSession.organization_id
       await applyContext(restoredSession, organizationId)
     } catch {
-      setSession(null)
-      setContext(null)
-      setPermissions(null)
-      setDestinations([])
-      setStatus('unauthenticated')
+      try {
+        if (!firebaseUser) throw new Error('No Firebase user is available.')
+        const identityToken = await firebaseUser.getIdToken()
+        const { data: restoredAdminContext } = await getAdminContext({ identityToken })
+        setSession(null)
+        setContext(null)
+        setPermissions(null)
+        setDestinations([])
+        setAdminContext(restoredAdminContext)
+        setStatus('authenticated')
+      } catch {
+        setSession(null)
+        setContext(null)
+        setPermissions(null)
+        setDestinations([])
+        setAdminContext(null)
+        setStatus('unauthenticated')
+      }
     }
-  }, [applyContext])
+  }, [applyContext, firebaseUser])
 
   useEffect(() => {
     void restore()
@@ -131,8 +156,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const credential = await signInWithEmailAndPassword(portalAuth, email, password)
-    const identityToken = await credential.user.getIdToken(true)
-    const { data: discoveredContext } = await getPortalContext({ identityToken })
+    let identityToken = await credential.user.getIdToken(true)
+
+    const withIdentityRetry = async <T,>(request: (token: string) => Promise<T>): Promise<T> => {
+      try {
+        return await request(identityToken)
+      } catch (error) {
+        if (!isInvalidIdentityToken(error)) throw error
+        identityToken = await credential.user.getIdToken(true)
+        return request(identityToken)
+      }
+    }
+
+    try {
+      const { data: nextAdminContext } = await withIdentityRetry((token) =>
+        getAdminContext({ identityToken: token }),
+      )
+      try {
+        await deletePortalSession()
+      } catch {
+        // An administrator may not have a client portal session yet.
+      }
+      setSession(null)
+      setContext(null)
+      setPermissions(null)
+      setDestinations([])
+      setAdminContext(nextAdminContext)
+      setStatus('authenticated')
+      return { needsOrganization: false, isAdmin: true }
+    } catch {
+      // Non-admin users continue through the client portal organisation flow.
+    }
+    const { data: discoveredContext } = await withIdentityRetry((token) =>
+      getPortalContext({ identityToken: token }),
+    )
     const availableDestinations = discoveredContext.destinations ?? []
 
     if (availableDestinations.length > 1) {
@@ -140,16 +197,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setPendingRememberMe(rememberMe)
       setDestinations(availableDestinations)
       setContext(discoveredContext)
+      setAdminContext(null)
       setStatus('choosing-organization')
       return { needsOrganization: true }
     }
 
     const organizationId = availableDestinations[0]?.organization_id
       || discoveredContext.organization_id
-    const { data: nextSession } = await createPortalSession(
-      identityToken,
-      organizationId,
-      rememberMe,
+    const { data: nextSession } = await withIdentityRetry((token) =>
+      createPortalSession(token, organizationId, rememberMe),
     )
     await applyContext(nextSession, organizationId)
     return { needsOrganization: false }
@@ -199,14 +255,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setContext(null)
       setPermissions(null)
       setDestinations([])
+      setAdminContext(null)
       setSelectedEngagementId(null)
       setStatus('unauthenticated')
     }
   }, [])
 
   const hasScope = useCallback(
-    (scope: string) => Boolean(permissions?.scopes.includes(scope) || context?.scopes.includes(scope)),
-    [context?.scopes, permissions?.scopes],
+    (scope: string) => Boolean(
+      adminContext?.scopes.includes(scope)
+      || permissions?.scopes.includes(scope)
+      || context?.scopes.includes(scope),
+    ),
+    [adminContext?.scopes, context?.scopes, permissions?.scopes],
   )
 
   const value = useMemo<AuthContextValue>(() => ({
@@ -214,6 +275,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     firebaseUser,
     session,
     context,
+    adminContext,
     permissions,
     destinations,
     selectedEngagementId,
@@ -228,6 +290,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }), [
     chooseOrganization,
     context,
+    adminContext,
     destinations,
     firebaseUser,
     hasScope,

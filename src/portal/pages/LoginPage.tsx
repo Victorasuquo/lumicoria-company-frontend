@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, LockKey, Pulse } from '@phosphor-icons/react'
+import { ArrowRight, CheckCircle, Eye, EyeSlash, LockKey, Pulse } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { type FormEvent, useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
@@ -9,11 +9,12 @@ import { usePortalAuth } from '../../auth/AuthProvider'
 type LocationState = { from?: string }
 
 export function LoginPage() {
-  const { firebaseConfigured, signIn, status } = usePortalAuth()
+  const { adminContext, firebaseConfigured, signIn, status } = usePortalAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -31,7 +32,8 @@ export function LoginPage() {
   }, [])
 
   if (status === 'authenticated') {
-    const destination = (location.state as LocationState | null)?.from || '/portal'
+    const destination = (location.state as LocationState | null)?.from
+      || (adminContext ? '/portal/admin' : '/portal')
     return <Navigate to={destination} replace />
   }
   if (status === 'choosing-organization') {
@@ -45,7 +47,10 @@ export function LoginPage() {
     setRequestId(null)
     try {
       const result = await signIn(email, password, rememberMe)
-      navigate(result.needsOrganization ? '/portal/organizations' : '/portal', { replace: true })
+      navigate(
+        result.isAdmin ? '/portal/admin' : result.needsOrganization ? '/portal/organizations' : '/portal',
+        { replace: true },
+      )
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Sign in could not be completed.')
       if (isPortalApiError(caught)) setRequestId(caught.requestId)
@@ -130,15 +135,24 @@ export function LoginPage() {
                 required
               />
             </label>
-            <label>
+            <label className="portal-password-field">
               Password
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 autoComplete="current-password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
               />
+              <button
+                className="portal-password-toggle"
+                type="button"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-pressed={showPassword}
+                onClick={() => setShowPassword((visible) => !visible)}
+              >
+                {showPassword ? <EyeSlash aria-hidden="true" /> : <Eye aria-hidden="true" />}
+              </button>
             </label>
             <div className="portal-auth-options">
               <label>

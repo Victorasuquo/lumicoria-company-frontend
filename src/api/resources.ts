@@ -1,11 +1,16 @@
 import { jsonBody, portalFetch } from './client'
 import type {
+  AdminContext,
   InvitationAcceptance,
   PortalContext,
   PortalPermissions,
   PortalSession,
   PublicInvitation,
 } from './types'
+
+export function getAdminContext(options: { identityToken?: string } = {}) {
+  return portalFetch<AdminContext>('/admin/context', options)
+}
 
 export function getPortalSession() {
   return portalFetch<PortalSession>('/auth/session')

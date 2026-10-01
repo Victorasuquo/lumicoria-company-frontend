@@ -4,7 +4,7 @@
 
 - Contract: **Lumicoria Client Portal API — Client Contract**
 - Contract version: **0.1.0**
-- Client-safe operations: **147**
+- Client-safe operations: **327**
 - Type source: `src/api/generated/schema.ts`
 - Regenerate: `npm run api:sync`
 
@@ -25,20 +25,37 @@
 | `api-contracts` | 1 |
 | `audit` | 2 |
 | `client-accounts` | 10 |
+| `crm` | 28 |
+| `crm-analytics` | 4 |
+| `crm-channels` | 1 |
+| `crm-connectors` | 10 |
+| `crm-notifications` | 4 |
+| `crm-workflows` | 11 |
 | `deliverable-actions` | 6 |
 | `deliverable-files` | 3 |
 | `deliverable-resources` | 25 |
 | `delivery-actions` | 18 |
 | `delivery-resources` | 20 |
 | `engagements` | 8 |
+| `enterprise` | 20 |
 | `health` | 1 |
 | `notifications` | 4 |
 | `operations` | 2 |
 | `organizations` | 3 |
 | `portal-administration` | 22 |
 | `portal-auth` | 10 |
-| `voice-agents` | 12 |
-| **Total** | **147** |
+| `voice-agents` | 21 |
+| `voice-analytics` | 14 |
+| `voice-handoffs` | 10 |
+| `voice-knowledge` | 19 |
+| `voice-public` | 5 |
+| `voice-recordings` | 4 |
+| `voice-runtime` | 6 |
+| `voice-telephony` | 7 |
+| `voice-tools` | 10 |
+| `voice-whatsapp` | 11 |
+| `voice-widgets` | 7 |
+| **Total** | **327** |
 
 ## api-contracts
 
@@ -491,9 +508,2491 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
+## crm
+
+### 14. `GET /api/v1/client-portal/crm/customers`
+
+List Customers
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_customers` |
+| Generated Type | `operations["list_crm_customers"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.customers.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `search` | query | No | `string` or `null` | None declared |
+| `status` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCollection_CRMCustomerResponse_"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 15. `POST /api/v1/client-portal/crm/customers`
+
+Create Customer
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_crm_customer` |
+| Generated Type | `operations["create_crm_customer"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.customers.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMCustomerCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMCustomerResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 16. `POST /api/v1/client-portal/crm/customers/resolve`
+
+Resolve Customer
+
+| Field | Value |
+|---|---|
+| Operation ID | `resolve_crm_customer` |
+| Generated Type | `operations["resolve_crm_customer"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.customers.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMCustomerResolveRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCustomerResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 17. `GET /api/v1/client-portal/crm/customers/{customer_id}`
+
+Get Customer
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_customer` |
+| Generated Type | `operations["get_crm_customer"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.customers.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `customer_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCustomerResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 18. `PATCH /api/v1/client-portal/crm/customers/{customer_id}`
+
+Update Customer
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_crm_customer` |
+| Generated Type | `operations["update_crm_customer"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.customers.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `customer_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMCustomerUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCustomerResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 19. `POST /api/v1/client-portal/crm/customers/{customer_id}/identities`
+
+Add Customer Identity
+
+| Field | Value |
+|---|---|
+| Operation ID | `add_crm_customer_identity` |
+| Generated Type | `operations["add_crm_customer_identity"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.customers.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `customer_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMCustomerIdentityCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMCustomerIdentityResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 20. `POST /api/v1/client-portal/crm/customers/{customer_id}/merge`
+
+Merge Customer
+
+| Field | Value |
+|---|---|
+| Operation ID | `merge_crm_customer` |
+| Generated Type | `operations["merge_crm_customer"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.customers.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `customer_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMIdentityMergeRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCustomerResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 21. `GET /api/v1/client-portal/crm/customers/{customer_id}/timeline`
+
+Customer Timeline
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_customer_timeline` |
+| Generated Type | `operations["get_crm_customer_timeline"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.timeline.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `customer_id` | path | Yes | `string` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCustomerTimelineResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 22. `GET /api/v1/client-portal/crm/conversations`
+
+List Conversations
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_conversations` |
+| Generated Type | `operations["list_crm_conversations"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.conversations.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `channel` | query | No | `string` or `null` | None declared |
+| `customer_id` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCollection_CRMConversationResponse_"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 23. `POST /api/v1/client-portal/crm/conversations`
+
+Create Conversation
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_crm_conversation` |
+| Generated Type | `operations["create_crm_conversation"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.conversations.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMConversationCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMConversationResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 24. `GET /api/v1/client-portal/crm/conversations/{conversation_id}`
+
+Get Conversation
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_conversation` |
+| Generated Type | `operations["get_crm_conversation"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.conversations.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `conversation_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConversationResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 25. `PATCH /api/v1/client-portal/crm/conversations/{conversation_id}`
+
+Update Conversation
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_crm_conversation` |
+| Generated Type | `operations["update_crm_conversation"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.conversations.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `conversation_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMConversationUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConversationResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 26. `GET /api/v1/client-portal/crm/conversations/{conversation_id}/messages`
+
+List Messages
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_messages` |
+| Generated Type | `operations["list_crm_messages"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.messages.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `conversation_id` | path | Yes | `string` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 200 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCollection_CRMMessageResponse_"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 27. `POST /api/v1/client-portal/crm/conversations/{conversation_id}/messages`
+
+Create Message
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_crm_message` |
+| Generated Type | `operations["create_crm_message"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.messages.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `conversation_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMMessageCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMMessageResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 28. `GET /api/v1/client-portal/crm/conversations/{conversation_id}/timeline`
+
+Conversation Timeline
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_conversation_timeline` |
+| Generated Type | `operations["get_crm_conversation_timeline"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.timeline.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `conversation_id` | path | Yes | `string` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 200 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConversationTimelineResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 29. `GET /api/v1/client-portal/crm/tickets`
+
+List Tickets
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_tickets` |
+| Generated Type | `operations["list_crm_tickets"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.tickets.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `status` | query | No | `string` or `null` | None declared |
+| `priority` | query | No | `string` or `null` | None declared |
+| `category` | query | No | `string` or `null` | None declared |
+| `queue_id` | query | No | `string` or `null` | None declared |
+| `assignee_id` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCollection_CRMTicketResponse_"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 30. `POST /api/v1/client-portal/crm/tickets`
+
+Create Ticket
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_crm_ticket` |
+| Generated Type | `operations["create_crm_ticket"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.tickets.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMTicketCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMTicketResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 31. `GET /api/v1/client-portal/crm/tickets/{ticket_id}`
+
+Get Ticket
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_ticket` |
+| Generated Type | `operations["get_crm_ticket"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.tickets.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `ticket_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMTicketResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 32. `PATCH /api/v1/client-portal/crm/tickets/{ticket_id}`
+
+Update Ticket
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_crm_ticket` |
+| Generated Type | `operations["update_crm_ticket"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.tickets.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `ticket_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMTicketUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMTicketResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 33. `POST /api/v1/client-portal/crm/tickets/{ticket_id}/assignment`
+
+Assign Ticket
+
+| Field | Value |
+|---|---|
+| Operation ID | `assign_crm_ticket` |
+| Generated Type | `operations["assign_crm_ticket"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.tickets.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `ticket_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMAssignmentRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMTicketResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 34. `GET /api/v1/client-portal/crm/tickets/{ticket_id}/events`
+
+List Ticket Events
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_ticket_events` |
+| Generated Type | `operations["list_crm_ticket_events"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.audit.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `ticket_id` | path | Yes | `string` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 200 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCollection_CRMTicketEventResponse_"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 35. `GET /api/v1/client-portal/crm/queues`
+
+List Queues
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_queues` |
+| Generated Type | `operations["list_crm_queues"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.queues.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCollection_CRMQueueResponse_"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 36. `POST /api/v1/client-portal/crm/queues`
+
+Create Queue
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_crm_queue` |
+| Generated Type | `operations["create_crm_queue"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.queues.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMQueueCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMQueueResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 37. `PATCH /api/v1/client-portal/crm/queues/{queue_id}`
+
+Update Queue
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_crm_queue` |
+| Generated Type | `operations["update_crm_queue"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.queues.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `queue_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMQueueUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMQueueResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 38. `GET /api/v1/client-portal/crm/queues/{queue_id}/members`
+
+List Queue Members
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_queue_members` |
+| Generated Type | `operations["list_crm_queue_members"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.queues.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `queue_id` | path | Yes | `string` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 200 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCollection_CRMQueueMemberResponse_"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 39. `POST /api/v1/client-portal/crm/queues/{queue_id}/members`
+
+Add Queue Member
+
+| Field | Value |
+|---|---|
+| Operation ID | `add_crm_queue_member` |
+| Generated Type | `operations["add_crm_queue_member"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.queues.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `queue_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMQueueMemberCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMQueueMemberResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 40. `GET /api/v1/client-portal/crm/tags`
+
+List Tags
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_tags` |
+| Generated Type | `operations["list_crm_tags"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.tickets.read` |
+| Code Owner | `crm` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 200 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMCollection_CRMTagResponse_"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 41. `POST /api/v1/client-portal/crm/tags`
+
+Create Tag
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_crm_tag` |
+| Generated Type | `operations["create_crm_tag"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.tags.manage` |
+| Code Owner | `crm` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMTagCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMTagResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+## crm-analytics
+
+### 42. `GET /api/v1/client-portal/crm/analytics/report`
+
+Get Report
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_analytics_report` |
+| Generated Type | `operations["get_crm_analytics_report"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.analytics.read` |
+| Code Owner | `crm-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `from_date` | query | No | `string:date` or `null` | None declared |
+| `to_date` | query | No | `string:date` or `null` | None declared |
+| `channel` | query | No | `string` or `null` | None declared |
+| `workflow_id` | query | No | `string` or `null` | None declared |
+| `queue_id` | query | No | `string` or `null` | None declared |
+| `vertical` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMAnalyticsReportResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 43. `GET /api/v1/client-portal/crm/analytics/reconciliation`
+
+Get Reconciliation
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_analytics_reconciliation` |
+| Generated Type | `operations["get_crm_analytics_reconciliation"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.analytics.read` |
+| Code Owner | `crm-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `from_date` | query | No | `string:date` or `null` | None declared |
+| `to_date` | query | No | `string:date` or `null` | None declared |
+| `channel` | query | No | `string` or `null` | None declared |
+| `workflow_id` | query | No | `string` or `null` | None declared |
+| `queue_id` | query | No | `string` or `null` | None declared |
+| `vertical` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMAnalyticsReportResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 44. `POST /api/v1/client-portal/crm/analytics/exports`
+
+Export Report
+
+| Field | Value |
+|---|---|
+| Operation ID | `export_crm_analytics` |
+| Generated Type | `operations["export_crm_analytics"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.analytics.export` |
+| Code Owner | `crm-analytics` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMAnalyticsExportCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `202` | Successful Response | application/json: `components["schemas"]["OperationResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 45. `POST /api/v1/client-portal/crm/analytics/snapshots/recompute`
+
+Recompute Snapshots
+
+| Field | Value |
+|---|---|
+| Operation ID | `recompute_crm_analytics_snapshots` |
+| Generated Type | `operations["recompute_crm_analytics_snapshots"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.analytics.export` |
+| Code Owner | `crm-analytics` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMAnalyticsSnapshotRecompute"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `202` | Successful Response | application/json: `components["schemas"]["OperationResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+## crm-channels
+
+### 46. `POST /api/v1/client-portal/public/voice/widgets/{widget_key}/messages`
+
+Create Public Widget Message
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_public_widget_crm_message` |
+| Generated Type | `operations["create_public_widget_crm_message"]` |
+| Access | Declared by route security and permissions |
+| Security | Portal session or declared route policy |
+| Permissions | None declared |
+| Code Owner | `crm-channels` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_key` | path | Yes | `string` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["PublicWidgetMessage"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["WidgetMessageResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## crm-connectors
+
+### 47. `GET /api/v1/client-portal/crm/connectors`
+
+List Connectors
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_connectors` |
+| Generated Type | `operations["list_crm_connectors"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.read` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `provider` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConnectorCollection"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 48. `POST /api/v1/client-portal/crm/connectors`
+
+Create Connector
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_crm_connector` |
+| Generated Type | `operations["create_crm_connector"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.manage` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMConnectorCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMConnectorResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 49. `PATCH /api/v1/client-portal/crm/connectors/{connection_id}`
+
+Update Connector
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_crm_connector` |
+| Generated Type | `operations["update_crm_connector"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.manage` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `connection_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMConnectorUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConnectorResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 50. `GET /api/v1/client-portal/crm/connectors/{connection_id}/capabilities`
+
+Connector Capabilities
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_connector_capabilities` |
+| Generated Type | `operations["get_crm_connector_capabilities"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.read` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `connection_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConnectorCapabilitiesResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 51. `POST /api/v1/client-portal/crm/connectors/{connection_id}/health`
+
+Check Connector Health
+
+| Field | Value |
+|---|---|
+| Operation ID | `check_crm_connector_health` |
+| Generated Type | `operations["check_crm_connector_health"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.manage` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `connection_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConnectorHealthResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 52. `POST /api/v1/client-portal/crm/connectors/{connection_id}/sync`
+
+Sync Connector
+
+| Field | Value |
+|---|---|
+| Operation ID | `sync_crm_connector` |
+| Generated Type | `operations["sync_crm_connector"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.manage` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `connection_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `202` | Successful Response | application/json: `components["schemas"]["CRMConnectorSyncResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 53. `POST /api/v1/client-portal/crm/connectors/{connection_id}/tickets/{ticket_id}/export`
+
+Export Connector Ticket
+
+| Field | Value |
+|---|---|
+| Operation ID | `export_crm_ticket_to_connector` |
+| Generated Type | `operations["export_crm_ticket_to_connector"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.manage`, `crm.tickets.manage` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `connection_id` | path | Yes | `string` | None declared |
+| `ticket_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConnectorWriteResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 54. `POST /api/v1/client-portal/crm/connectors/{connection_id}/tickets/{ticket_id}/comments`
+
+Add Connector Ticket Comment
+
+| Field | Value |
+|---|---|
+| Operation ID | `add_crm_connector_ticket_comment` |
+| Generated Type | `operations["add_crm_connector_ticket_comment"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.manage`, `crm.messages.manage` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `connection_id` | path | Yes | `string` | None declared |
+| `ticket_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMConnectorCommentCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConnectorWriteResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 55. `POST /api/v1/client-portal/crm/connectors/{connection_id}/tickets/{ticket_id}/update`
+
+Update Connector Ticket
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_crm_connector_ticket` |
+| Generated Type | `operations["update_crm_connector_ticket"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.manage`, `crm.tickets.manage` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `connection_id` | path | Yes | `string` | None declared |
+| `ticket_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConnectorWriteResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 56. `POST /api/v1/client-portal/crm/connectors/{connection_id}/disconnect`
+
+Disconnect Connector
+
+| Field | Value |
+|---|---|
+| Operation ID | `disconnect_crm_connector` |
+| Generated Type | `operations["disconnect_crm_connector"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.integrations.manage` |
+| Code Owner | `crm-connectors` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `connection_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMConnectorResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+## crm-notifications
+
+### 57. `GET /api/v1/client-portal/crm/notifications/preferences`
+
+List Preferences
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_notification_preferences` |
+| Generated Type | `operations["list_crm_notification_preferences"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.notifications.read` |
+| Code Owner | `crm-notifications` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 200 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMNotificationPreferenceCollection"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 58. `PUT /api/v1/client-portal/crm/notifications/preferences`
+
+Upsert Preference
+
+| Field | Value |
+|---|---|
+| Operation ID | `upsert_crm_notification_preference` |
+| Generated Type | `operations["upsert_crm_notification_preference"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.notifications.manage` |
+| Code Owner | `crm-notifications` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMNotificationPreferenceUpsert"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMNotificationPreferenceResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 59. `GET /api/v1/client-portal/crm/notifications/deliveries`
+
+List Deliveries
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_notification_deliveries` |
+| Generated Type | `operations["list_crm_notification_deliveries"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.notifications.read` |
+| Code Owner | `crm-notifications` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `status` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 200 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMNotificationDeliveryCollection"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 60. `POST /api/v1/client-portal/crm/notifications/deliveries/{delivery_id}/retry`
+
+Retry Delivery
+
+| Field | Value |
+|---|---|
+| Operation ID | `retry_crm_notification_delivery` |
+| Generated Type | `operations["retry_crm_notification_delivery"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.notifications.manage` |
+| Code Owner | `crm-notifications` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `delivery_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMNotificationRetryResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+## crm-workflows
+
+### 61. `GET /api/v1/client-portal/crm/workflows/catalog`
+
+List Catalog
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_workflow_catalog` |
+| Generated Type | `operations["list_crm_workflow_catalog"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.read` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowCatalogResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 62. `GET /api/v1/client-portal/crm/workflows/templates`
+
+List Templates
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_workflow_templates` |
+| Generated Type | `operations["list_crm_workflow_templates"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.read` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `vertical` | query | No | `string` or `null` | None declared |
+| `status` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowTemplateCollection"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 63. `POST /api/v1/client-portal/crm/workflows/templates`
+
+Create Template
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_crm_workflow_template` |
+| Generated Type | `operations["create_crm_workflow_template"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.manage` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMWorkflowTemplateCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMWorkflowTemplateResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 64. `GET /api/v1/client-portal/crm/workflows/templates/{template_id}`
+
+Get Template
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_workflow_template` |
+| Generated Type | `operations["get_crm_workflow_template"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.read` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `template_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowTemplateResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 65. `PATCH /api/v1/client-portal/crm/workflows/templates/{template_id}`
+
+Update Template
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_crm_workflow_template` |
+| Generated Type | `operations["update_crm_workflow_template"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.manage` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `template_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMWorkflowTemplateUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowTemplateResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 66. `POST /api/v1/client-portal/crm/workflows/templates/{template_id}/publish`
+
+Publish Template
+
+| Field | Value |
+|---|---|
+| Operation ID | `publish_crm_workflow_template` |
+| Generated Type | `operations["publish_crm_workflow_template"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.manage` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `template_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowTemplateResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 67. `POST /api/v1/client-portal/crm/workflows/templates/{template_id}/archive`
+
+Archive Template
+
+| Field | Value |
+|---|---|
+| Operation ID | `archive_crm_workflow_template` |
+| Generated Type | `operations["archive_crm_workflow_template"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.manage` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `template_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowTemplateResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 68. `GET /api/v1/client-portal/crm/workflows/runs`
+
+List Runs
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_crm_workflow_runs` |
+| Generated Type | `operations["list_crm_workflow_runs"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.read` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `status` | query | No | `string` or `null` | None declared |
+| `template_id` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowRunCollection"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 69. `POST /api/v1/client-portal/crm/workflows/runs`
+
+Start Run
+
+| Field | Value |
+|---|---|
+| Operation ID | `start_crm_workflow_run` |
+| Generated Type | `operations["start_crm_workflow_run"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.manage` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMWorkflowRunCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CRMWorkflowRunResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 70. `GET /api/v1/client-portal/crm/workflows/runs/{run_id}`
+
+Get Run
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_crm_workflow_run` |
+| Generated Type | `operations["get_crm_workflow_run"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.read` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `run_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowRunResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 71. `POST /api/v1/client-portal/crm/workflows/runs/{run_id}/events`
+
+Add Event
+
+| Field | Value |
+|---|---|
+| Operation ID | `apply_crm_workflow_event` |
+| Generated Type | `operations["apply_crm_workflow_event"]` |
+| Access | client-internal |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `crm.workflows.manage` |
+| Code Owner | `crm-workflows` |
+| Mutation Controls | `If-Match`, `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `run_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CRMWorkflowEventCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CRMWorkflowRunResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
 ## deliverable-actions
 
-### 14. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/request-review`
+### 72. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/request-review`
 
 Open a frozen review cycle for the submitted version
 
@@ -537,7 +3036,7 @@ Open a frozen review cycle for the submitted version
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 15. `POST /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}/approve`
+### 73. `POST /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}/approve`
 
 Record an immutable approval decision
 
@@ -581,7 +3080,7 @@ Record an immutable approval decision
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 16. `POST /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}/reject`
+### 74. `POST /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}/reject`
 
 Record an immutable rejection decision
 
@@ -625,7 +3124,7 @@ Record an immutable rejection decision
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 17. `POST /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}/request-changes`
+### 75. `POST /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}/request-changes`
 
 Record an immutable request-changes decision
 
@@ -669,7 +3168,7 @@ Record an immutable request-changes decision
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 18. `GET /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}/quorum`
+### 76. `GET /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}/quorum`
 
 Return field-safe review quorum state
 
@@ -711,7 +3210,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 19. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/accept`
+### 77. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/accept`
 
 Create immutable final client acceptance evidence
 
@@ -757,7 +3256,7 @@ Create immutable final client acceptance evidence
 
 ## deliverable-files
 
-### 20. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/upload-intent`
+### 78. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/upload-intent`
 
 Create a one-use checksum-bound upload authorization
 
@@ -801,7 +3300,7 @@ Create a one-use checksum-bound upload authorization
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 21. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/complete-upload`
+### 79. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/complete-upload`
 
 Verify an uploaded object and register a clean immutable version
 
@@ -846,7 +3345,7 @@ Verify an uploaded object and register a clean immutable version
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 22. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/download`
+### 80. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}/download`
 
 Authorize a short-lived download for an explicit immutable version
 
@@ -891,7 +3390,7 @@ No request body.
 
 ## deliverable-resources
 
-### 23. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverables`
+### 81. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverables`
 
 List deliverables visible to the actor
 
@@ -934,7 +3433,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 24. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables`
+### 82. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverables`
 
 Create a deliverable
 
@@ -977,7 +3476,7 @@ Create a deliverable
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 25. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}`
+### 83. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}`
 
 Get one deliverable
 
@@ -1019,7 +3518,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 26. `PATCH /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}`
+### 84. `PATCH /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}`
 
 Update mutable deliverable metadata
 
@@ -1063,7 +3562,7 @@ Update mutable deliverable metadata
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 27. `DELETE /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}`
+### 85. `DELETE /api/v1/client-portal/engagements/{engagement_id}/deliverables/{deliverable_id}`
 
 Archive an unversioned deliverable
 
@@ -1106,7 +3605,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 28. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions`
+### 86. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions`
 
 List authorized immutable deliverable versions
 
@@ -1150,7 +3649,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 29. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions`
+### 87. `POST /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions`
 
 Resolve a verified upload into an immutable version
 
@@ -1192,7 +3691,7 @@ Resolve a verified upload into an immutable version
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 30. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions/{deliverable_version_id}`
+### 88. `GET /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions/{deliverable_version_id}`
 
 Get one authorized immutable deliverable version
 
@@ -1234,7 +3733,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 31. `PATCH /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions/{deliverable_version_id}`
+### 89. `PATCH /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions/{deliverable_version_id}`
 
 Reject mutation of immutable deliverable evidence
 
@@ -1277,7 +3776,7 @@ Reject mutation of immutable deliverable evidence
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 32. `DELETE /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions/{deliverable_version_id}`
+### 90. `DELETE /api/v1/client-portal/engagements/{engagement_id}/deliverable-versions/{deliverable_version_id}`
 
 Reject deletion of immutable deliverable evidence
 
@@ -1319,7 +3818,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 33. `GET /api/v1/client-portal/engagements/{engagement_id}/review-cycles`
+### 91. `GET /api/v1/client-portal/engagements/{engagement_id}/review-cycles`
 
 List review cycles visible to the actor
 
@@ -1363,7 +3862,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 34. `POST /api/v1/client-portal/engagements/{engagement_id}/review-cycles`
+### 92. `POST /api/v1/client-portal/engagements/{engagement_id}/review-cycles`
 
 Create a frozen draft review plan
 
@@ -1406,7 +3905,7 @@ Create a frozen draft review plan
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 35. `GET /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}`
+### 93. `GET /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}`
 
 Get one review cycle
 
@@ -1448,7 +3947,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 36. `PATCH /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}`
+### 94. `PATCH /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}`
 
 Update a draft review deadline
 
@@ -1492,7 +3991,7 @@ Update a draft review deadline
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 37. `DELETE /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}`
+### 95. `DELETE /api/v1/client-portal/engagements/{engagement_id}/review-cycles/{review_cycle_id}`
 
 Cancel a draft review cycle
 
@@ -1535,7 +4034,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 38. `GET /api/v1/client-portal/engagements/{engagement_id}/approval-policies`
+### 96. `GET /api/v1/client-portal/engagements/{engagement_id}/approval-policies`
 
 List active approval policies
 
@@ -1578,7 +4077,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 39. `POST /api/v1/client-portal/engagements/{engagement_id}/approval-policies`
+### 97. `POST /api/v1/client-portal/engagements/{engagement_id}/approval-policies`
 
 Create an approval policy
 
@@ -1621,7 +4120,7 @@ Create an approval policy
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 40. `GET /api/v1/client-portal/engagements/{engagement_id}/approval-policies/{approval_policy_id}`
+### 98. `GET /api/v1/client-portal/engagements/{engagement_id}/approval-policies/{approval_policy_id}`
 
 Get one approval policy
 
@@ -1663,7 +4162,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 41. `PATCH /api/v1/client-portal/engagements/{engagement_id}/approval-policies/{approval_policy_id}`
+### 99. `PATCH /api/v1/client-portal/engagements/{engagement_id}/approval-policies/{approval_policy_id}`
 
 Update an unused approval policy
 
@@ -1707,7 +4206,7 @@ Update an unused approval policy
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 42. `DELETE /api/v1/client-portal/engagements/{engagement_id}/approval-policies/{approval_policy_id}`
+### 100. `DELETE /api/v1/client-portal/engagements/{engagement_id}/approval-policies/{approval_policy_id}`
 
 Archive an unused approval policy
 
@@ -1750,7 +4249,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 43. `GET /api/v1/client-portal/engagements/{engagement_id}/acceptance-records`
+### 101. `GET /api/v1/client-portal/engagements/{engagement_id}/acceptance-records`
 
 List immutable acceptance evidence
 
@@ -1794,7 +4293,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 44. `POST /api/v1/client-portal/engagements/{engagement_id}/acceptance-records`
+### 102. `POST /api/v1/client-portal/engagements/{engagement_id}/acceptance-records`
 
 Create final acceptance through the governed workflow
 
@@ -1837,7 +4336,7 @@ Create final acceptance through the governed workflow
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 45. `GET /api/v1/client-portal/engagements/{engagement_id}/acceptance-records/{acceptance_record_id}`
+### 103. `GET /api/v1/client-portal/engagements/{engagement_id}/acceptance-records/{acceptance_record_id}`
 
 Get immutable acceptance evidence
 
@@ -1879,7 +4378,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 46. `PATCH /api/v1/client-portal/engagements/{engagement_id}/acceptance-records/{acceptance_record_id}`
+### 104. `PATCH /api/v1/client-portal/engagements/{engagement_id}/acceptance-records/{acceptance_record_id}`
 
 Reject mutation of immutable acceptance evidence
 
@@ -1922,7 +4421,7 @@ Reject mutation of immutable acceptance evidence
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 47. `DELETE /api/v1/client-portal/engagements/{engagement_id}/acceptance-records/{acceptance_record_id}`
+### 105. `DELETE /api/v1/client-portal/engagements/{engagement_id}/acceptance-records/{acceptance_record_id}`
 
 Reject deletion of immutable acceptance evidence
 
@@ -1966,7 +4465,7 @@ No request body.
 
 ## delivery-actions
 
-### 48. `GET /api/v1/client-portal/engagements/{engagement_id}/dashboard`
+### 106. `GET /api/v1/client-portal/engagements/{engagement_id}/dashboard`
 
 Return the client-safe engagement dashboard
 
@@ -1999,7 +4498,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["EngagementDashboardResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 49. `GET /api/v1/client-portal/engagements/{engagement_id}/timeline`
+### 107. `GET /api/v1/client-portal/engagements/{engagement_id}/timeline`
 
 Return the role-filtered engagement timeline
 
@@ -2034,7 +4533,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["TimelineResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 50. `GET /api/v1/client-portal/engagements/{engagement_id}/next-actions`
+### 108. `GET /api/v1/client-portal/engagements/{engagement_id}/next-actions`
 
 Return actions assigned to or blocking the current actor
 
@@ -2067,7 +4566,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["NextActionsResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 51. `GET /api/v1/client-portal/engagements/{engagement_id}/pending-approvals`
+### 109. `GET /api/v1/client-portal/engagements/{engagement_id}/pending-approvals`
 
 Return milestone approvals visible to the actor
 
@@ -2100,7 +4599,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["PendingApprovalsResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 52. `GET /api/v1/client-portal/engagements/{engagement_id}/health`
+### 110. `GET /api/v1/client-portal/engagements/{engagement_id}/health`
 
 Return evidence-backed engagement health
 
@@ -2133,7 +4632,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["EngagementHealthResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 53. `GET /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/forecast`
+### 111. `GET /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/forecast`
 
 Return milestone baseline and forecast data
 
@@ -2167,7 +4666,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneForecastResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 54. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/start`
+### 112. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/start`
 
 Start a planned milestone
 
@@ -2201,7 +4700,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 55. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/block`
+### 113. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/block`
 
 Block a planned or in-progress milestone
 
@@ -2236,7 +4735,7 @@ Block a planned or in-progress milestone
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 56. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/unblock`
+### 114. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/unblock`
 
 Resolve a milestone blocker
 
@@ -2271,7 +4770,7 @@ Resolve a milestone blocker
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 57. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/submit-for-acceptance`
+### 115. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/submit-for-acceptance`
 
 Submit a milestone for client acceptance
 
@@ -2305,7 +4804,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 58. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/accept`
+### 116. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/accept`
 
 Accept a milestone
 
@@ -2340,7 +4839,7 @@ Accept a milestone
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 59. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/request-changes`
+### 117. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}/request-changes`
 
 Request milestone changes
 
@@ -2375,7 +4874,7 @@ Request milestone changes
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 60. `POST /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists/{checklist_id}/launch`
+### 118. `POST /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists/{checklist_id}/launch`
 
 Launch onboarding and assign item due dates
 
@@ -2409,7 +4908,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["OnboardingProgressResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 61. `GET /api/v1/client-portal/engagements/{engagement_id}/onboarding/progress`
+### 119. `GET /api/v1/client-portal/engagements/{engagement_id}/onboarding/progress`
 
 Return party-specific onboarding progress
 
@@ -2442,7 +4941,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["OnboardingProgressResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 62. `POST /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}/complete`
+### 120. `POST /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}/complete`
 
 Complete an assigned onboarding item
 
@@ -2477,7 +4976,7 @@ Complete an assigned onboarding item
 | `200` | Successful Response | application/json: `components["schemas"]["ChecklistItemResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 63. `POST /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}/reopen`
+### 121. `POST /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}/reopen`
 
 Reopen a completed onboarding item
 
@@ -2512,7 +5011,7 @@ Reopen a completed onboarding item
 | `200` | Successful Response | application/json: `components["schemas"]["ChecklistItemResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 64. `POST /api/v1/client-portal/engagements/{engagement_id}/status-reports/{status_report_id}/acknowledge`
+### 122. `POST /api/v1/client-portal/engagements/{engagement_id}/status-reports/{status_report_id}/acknowledge`
 
 Acknowledge a published status report
 
@@ -2547,7 +5046,7 @@ Acknowledge a published status report
 | `200` | Successful Response | application/json: `components["schemas"]["StatusAcknowledgementResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 65. `GET /api/v1/client-portal/engagements/{engagement_id}/status-reports/latest`
+### 123. `GET /api/v1/client-portal/engagements/{engagement_id}/status-reports/latest`
 
 Return the latest published client status report
 
@@ -2582,7 +5081,7 @@ No request body.
 
 ## delivery-resources
 
-### 66. `GET /api/v1/client-portal/engagements/{engagement_id}/milestones`
+### 124. `GET /api/v1/client-portal/engagements/{engagement_id}/milestones`
 
 List milestones
 
@@ -2617,7 +5116,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["DeliveryCollection_MilestoneResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 67. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones`
+### 125. `POST /api/v1/client-portal/engagements/{engagement_id}/milestones`
 
 Create a milestone
 
@@ -2651,7 +5150,7 @@ Create a milestone
 | `201` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 68. `GET /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}`
+### 126. `GET /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}`
 
 Get a milestone
 
@@ -2685,7 +5184,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 69. `PATCH /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}`
+### 127. `PATCH /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}`
 
 Update mutable milestone fields
 
@@ -2721,7 +5220,7 @@ Update mutable milestone fields
 | `200` | Successful Response | application/json: `components["schemas"]["MilestoneResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 70. `DELETE /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}`
+### 128. `DELETE /api/v1/client-portal/engagements/{engagement_id}/milestones/{milestone_id}`
 
 Cancel a draft or planned milestone
 
@@ -2756,7 +5255,7 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 71. `GET /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists`
+### 129. `GET /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists`
 
 List onboarding checklists
 
@@ -2791,7 +5290,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["DeliveryCollection_OnboardingChecklistResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 72. `POST /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists`
+### 130. `POST /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists`
 
 Create an onboarding checklist
 
@@ -2825,7 +5324,7 @@ Create an onboarding checklist
 | `201` | Successful Response | application/json: `components["schemas"]["OnboardingChecklistResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 73. `GET /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists/{checklist_id}`
+### 131. `GET /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists/{checklist_id}`
 
 Get an onboarding checklist
 
@@ -2859,7 +5358,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["OnboardingChecklistResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 74. `PATCH /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists/{checklist_id}`
+### 132. `PATCH /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists/{checklist_id}`
 
 Update mutable onboarding-checklist fields
 
@@ -2895,7 +5394,7 @@ Update mutable onboarding-checklist fields
 | `200` | Successful Response | application/json: `components["schemas"]["OnboardingChecklistResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 75. `DELETE /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists/{checklist_id}`
+### 133. `DELETE /api/v1/client-portal/engagements/{engagement_id}/onboarding-checklists/{checklist_id}`
 
 Archive an onboarding checklist
 
@@ -2930,7 +5429,7 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 76. `GET /api/v1/client-portal/engagements/{engagement_id}/checklist-items`
+### 134. `GET /api/v1/client-portal/engagements/{engagement_id}/checklist-items`
 
 List checklist items
 
@@ -2966,7 +5465,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["DeliveryCollection_ChecklistItemResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 77. `POST /api/v1/client-portal/engagements/{engagement_id}/checklist-items`
+### 135. `POST /api/v1/client-portal/engagements/{engagement_id}/checklist-items`
 
 Create a checklist item
 
@@ -3000,7 +5499,7 @@ Create a checklist item
 | `201` | Successful Response | application/json: `components["schemas"]["ChecklistItemResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 78. `GET /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}`
+### 136. `GET /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}`
 
 Get a checklist item
 
@@ -3034,7 +5533,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["ChecklistItemResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 79. `PATCH /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}`
+### 137. `PATCH /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}`
 
 Update mutable checklist-item fields
 
@@ -3070,7 +5569,7 @@ Update mutable checklist-item fields
 | `200` | Successful Response | application/json: `components["schemas"]["ChecklistItemResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 80. `DELETE /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}`
+### 138. `DELETE /api/v1/client-portal/engagements/{engagement_id}/checklist-items/{checklist_item_id}`
 
 Archive a pending checklist item
 
@@ -3105,7 +5604,7 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 81. `GET /api/v1/client-portal/engagements/{engagement_id}/status-reports`
+### 139. `GET /api/v1/client-portal/engagements/{engagement_id}/status-reports`
 
 List status reports
 
@@ -3140,7 +5639,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["DeliveryCollection_StatusReportResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 82. `POST /api/v1/client-portal/engagements/{engagement_id}/status-reports`
+### 140. `POST /api/v1/client-portal/engagements/{engagement_id}/status-reports`
 
 Create a draft status report
 
@@ -3174,7 +5673,7 @@ Create a draft status report
 | `201` | Successful Response | application/json: `components["schemas"]["StatusReportResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 83. `GET /api/v1/client-portal/engagements/{engagement_id}/status-reports/{status_report_id}`
+### 141. `GET /api/v1/client-portal/engagements/{engagement_id}/status-reports/{status_report_id}`
 
 Get a status report
 
@@ -3208,7 +5707,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["StatusReportResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 84. `PATCH /api/v1/client-portal/engagements/{engagement_id}/status-reports/{status_report_id}`
+### 142. `PATCH /api/v1/client-portal/engagements/{engagement_id}/status-reports/{status_report_id}`
 
 Update mutable draft status-report fields
 
@@ -3244,7 +5743,7 @@ Update mutable draft status-report fields
 | `200` | Successful Response | application/json: `components["schemas"]["StatusReportResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 85. `DELETE /api/v1/client-portal/engagements/{engagement_id}/status-reports/{status_report_id}`
+### 143. `DELETE /api/v1/client-portal/engagements/{engagement_id}/status-reports/{status_report_id}`
 
 Archive a draft status report
 
@@ -3281,7 +5780,7 @@ No request body.
 
 ## engagements
 
-### 86. `GET /api/v1/client-portal/engagements`
+### 144. `GET /api/v1/client-portal/engagements`
 
 List visible engagements
 
@@ -3315,7 +5814,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["Collection_EngagementResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 87. `GET /api/v1/client-portal/engagements/{engagement_id}`
+### 145. `GET /api/v1/client-portal/engagements/{engagement_id}`
 
 Get a visible engagement
 
@@ -3348,7 +5847,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["EngagementResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 88. `PATCH /api/v1/client-portal/engagements/{engagement_id}`
+### 146. `PATCH /api/v1/client-portal/engagements/{engagement_id}`
 
 Update mutable engagement fields
 
@@ -3383,7 +5882,7 @@ Update mutable engagement fields
 | `200` | Successful Response | application/json: `components["schemas"]["EngagementResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 89. `GET /api/v1/client-portal/engagements/{engagement_id}/team-members`
+### 147. `GET /api/v1/client-portal/engagements/{engagement_id}/team-members`
 
 List engagement team assignments
 
@@ -3418,7 +5917,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["Collection_TeamMemberResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 90. `POST /api/v1/client-portal/engagements/{engagement_id}/team-members`
+### 148. `POST /api/v1/client-portal/engagements/{engagement_id}/team-members`
 
 Create an engagement team assignment
 
@@ -3452,7 +5951,7 @@ Create an engagement team assignment
 | `201` | Successful Response | application/json: `components["schemas"]["TeamMemberResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 91. `GET /api/v1/client-portal/engagements/{engagement_id}/team-members/{team_member_id}`
+### 149. `GET /api/v1/client-portal/engagements/{engagement_id}/team-members/{team_member_id}`
 
 Get an engagement team assignment
 
@@ -3486,7 +5985,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["TeamMemberResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 92. `PATCH /api/v1/client-portal/engagements/{engagement_id}/team-members/{team_member_id}`
+### 150. `PATCH /api/v1/client-portal/engagements/{engagement_id}/team-members/{team_member_id}`
 
 Update mutable team assignment fields
 
@@ -3522,7 +6021,7 @@ Update mutable team assignment fields
 | `200` | Successful Response | application/json: `components["schemas"]["TeamMemberResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 93. `DELETE /api/v1/client-portal/engagements/{engagement_id}/team-members/{team_member_id}`
+### 151. `DELETE /api/v1/client-portal/engagements/{engagement_id}/team-members/{team_member_id}`
 
 Archive an engagement team assignment
 
@@ -3557,9 +6056,831 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
+## enterprise
+
+### 152. `GET /api/v1/client-portal/enterprise/controls`
+
+Get Controls
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_enterprise_controls` |
+| Generated Type | `operations["get_enterprise_controls"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.read` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `object` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 153. `GET /api/v1/client-portal/enterprise/entitlement`
+
+Get Entitlement
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_enterprise_entitlement` |
+| Generated Type | `operations["get_enterprise_entitlement"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.read` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["EntitlementResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 154. `PATCH /api/v1/client-portal/enterprise/entitlement`
+
+Update Entitlement
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_enterprise_entitlement` |
+| Generated Type | `operations["update_enterprise_entitlement"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.entitlements.manage` |
+| Code Owner | `enterprise` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["EntitlementUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["EntitlementResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 155. `GET /api/v1/client-portal/enterprise/security-policy`
+
+Get Security Policy
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_enterprise_security_policy` |
+| Generated Type | `operations["get_enterprise_security_policy"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.read` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["SecurityPolicyResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 156. `PATCH /api/v1/client-portal/enterprise/security-policy`
+
+Update Security Policy
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_enterprise_security_policy` |
+| Generated Type | `operations["update_enterprise_security_policy"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.policy.manage` |
+| Code Owner | `enterprise` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["SecurityPolicyUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["SecurityPolicyResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 157. `GET /api/v1/client-portal/enterprise/domains`
+
+List Domains
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_enterprise_domains` |
+| Generated Type | `operations["list_enterprise_domains"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.read` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: array of `components["schemas"]["DomainResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 158. `POST /api/v1/client-portal/enterprise/domains`
+
+Create Domain
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_enterprise_domain` |
+| Generated Type | `operations["create_enterprise_domain"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.domains.manage` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["DomainCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["DomainResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 159. `POST /api/v1/client-portal/enterprise/domains/{domain_id}/verify`
+
+Verify Domain
+
+| Field | Value |
+|---|---|
+| Operation ID | `verify_enterprise_domain` |
+| Generated Type | `operations["verify_enterprise_domain"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.domains.manage` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `domain_id` | path | Yes | `string` | None declared |
+| `token` | query | Yes | `string` | minimum length 20; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["DomainResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 160. `GET /api/v1/client-portal/enterprise/custom-roles`
+
+List Custom Roles
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_enterprise_custom_roles` |
+| Generated Type | `operations["list_enterprise_custom_roles"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.read` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: array of `components["schemas"]["CustomRoleResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 161. `POST /api/v1/client-portal/enterprise/custom-roles`
+
+Create Custom Role
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_enterprise_custom_role` |
+| Generated Type | `operations["create_enterprise_custom_role"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.roles.manage` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CustomRoleCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CustomRoleResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 162. `PATCH /api/v1/client-portal/enterprise/custom-roles/{role_id}`
+
+Update Custom Role
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_enterprise_custom_role` |
+| Generated Type | `operations["update_enterprise_custom_role"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.roles.manage` |
+| Code Owner | `enterprise` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `role_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CustomRoleUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CustomRoleResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 163. `GET /api/v1/client-portal/enterprise/legal-holds`
+
+List Legal Holds
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_enterprise_legal_holds` |
+| Generated Type | `operations["list_enterprise_legal_holds"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.read` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: array of `components["schemas"]["LegalHoldResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 164. `POST /api/v1/client-portal/enterprise/legal-holds`
+
+Create Legal Hold
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_enterprise_legal_hold` |
+| Generated Type | `operations["create_enterprise_legal_hold"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.legal_holds.manage` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["LegalHoldCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["LegalHoldResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 165. `POST /api/v1/client-portal/enterprise/legal-holds/{hold_id}/release`
+
+Release Legal Hold
+
+| Field | Value |
+|---|---|
+| Operation ID | `release_enterprise_legal_hold` |
+| Generated Type | `operations["release_enterprise_legal_hold"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.legal_holds.manage` |
+| Code Owner | `enterprise` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `hold_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["LegalHoldResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 166. `GET /api/v1/client-portal/enterprise/usage`
+
+Get Usage
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_enterprise_usage` |
+| Generated Type | `operations["get_enterprise_usage"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.usage.read` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["UsageResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 167. `GET /api/v1/client-portal/enterprise/deletion-requests`
+
+List Deletion Requests
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_enterprise_deletion_requests` |
+| Generated Type | `operations["list_enterprise_deletion_requests"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.read` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: array of `components["schemas"]["DeletionRequestResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 168. `POST /api/v1/client-portal/enterprise/deletion-requests`
+
+Create Deletion Request
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_enterprise_deletion_request` |
+| Generated Type | `operations["create_enterprise_deletion_request"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.delete` |
+| Code Owner | `enterprise` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["DeletionRequestCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `202` | Successful Response | application/json: `components["schemas"]["OperationResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 169. `POST /api/v1/client-portal/enterprise/data-exports`
+
+Create Data Export
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_enterprise_data_export` |
+| Generated Type | `operations["create_enterprise_data_export"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.export` |
+| Code Owner | `enterprise` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["DataExportCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `202` | Successful Response | application/json: `components["schemas"]["OperationResponse"]` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 170. `GET /api/v1/client-portal/enterprise/exports/{artifact_id}`
+
+Get Export Artifact
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_enterprise_export_artifact` |
+| Generated Type | `operations["get_enterprise_export_artifact"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.export` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `artifact_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `object` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
+### 171. `GET /api/v1/client-portal/enterprise/exports/{artifact_id}/download`
+
+Download Export Artifact
+
+| Field | Value |
+|---|---|
+| Operation ID | `download_enterprise_export_artifact` |
+| Generated Type | `operations["download_enterprise_export_artifact"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `enterprise.export` |
+| Code Owner | `enterprise` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `artifact_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `object` |
+| `401` | A valid authenticated principal is required. | application/problem+json: `object` |
+| `403` | The authenticated principal is not authorized. | application/problem+json: `object` |
+| `404` | The resource is unavailable in the resolved tenant context. | application/problem+json: `object` |
+| `409` | The request conflicts with current state or immutable evidence. | application/problem+json: `object` |
+| `412` | The supplied If-Match precondition failed. | application/problem+json: `object` |
+| `413` | The requested upload exceeds the allowed size. | application/problem+json: `object` |
+| `422` | The request violates field or domain validation. | application/problem+json: `object` |
+| `428` | A required precondition header is missing. | application/problem+json: `object` |
+| `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
+
 ## health
 
-### 94. `GET /health/live`
+### 172. `GET /health/live`
 
 Process liveness
 
@@ -3589,7 +6910,7 @@ No request body.
 
 ## notifications
 
-### 95. `GET /api/v1/client-portal/organizations/{organization_id}/notifications`
+### 173. `GET /api/v1/client-portal/organizations/{organization_id}/notifications`
 
 List the current actor's portal notifications
 
@@ -3632,7 +6953,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 96. `GET /api/v1/client-portal/organizations/{organization_id}/notifications/unread-count`
+### 174. `GET /api/v1/client-portal/organizations/{organization_id}/notifications/unread-count`
 
 Return the current actor's unread notification count
 
@@ -3672,7 +6993,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 97. `POST /api/v1/client-portal/organizations/{organization_id}/notifications/{notification_id}/read`
+### 175. `POST /api/v1/client-portal/organizations/{organization_id}/notifications/{notification_id}/read`
 
 Mark one current-actor notification read
 
@@ -3714,7 +7035,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 98. `POST /api/v1/client-portal/organizations/{organization_id}/notifications/read-all`
+### 176. `POST /api/v1/client-portal/organizations/{organization_id}/notifications/read-all`
 
 Mark all currently visible notifications read
 
@@ -3757,7 +7078,7 @@ No request body.
 
 ## operations
 
-### 99. `GET /api/v1/client-portal/operations/{operation_id}`
+### 177. `GET /api/v1/client-portal/operations/{operation_id}`
 
 Get a long-running operation
 
@@ -3790,7 +7111,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["OperationResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 100. `POST /api/v1/client-portal/operations/{operation_id}/cancel`
+### 178. `POST /api/v1/client-portal/operations/{operation_id}/cancel`
 
 Cancel an eligible long-running operation
 
@@ -3825,7 +7146,7 @@ No request body.
 
 ## organizations
 
-### 101. `GET /api/v1/client-portal/organizations`
+### 179. `GET /api/v1/client-portal/organizations`
 
 List organizations visible in the selected context
 
@@ -3857,7 +7178,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["Collection_OrganizationResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 102. `GET /api/v1/client-portal/organizations/{organization_id}`
+### 180. `GET /api/v1/client-portal/organizations/{organization_id}`
 
 Get an organization
 
@@ -3890,7 +7211,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["OrganizationResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 103. `PATCH /api/v1/client-portal/organizations/{organization_id}`
+### 181. `PATCH /api/v1/client-portal/organizations/{organization_id}`
 
 Update mutable organization fields
 
@@ -3927,7 +7248,7 @@ Update mutable organization fields
 
 ## portal-administration
 
-### 104. `GET /api/v1/client-portal/public/portal-resolution`
+### 182. `GET /api/v1/client-portal/public/portal-resolution`
 
 Resolve safe public portal configuration
 
@@ -3958,7 +7279,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["PublicPortalResolution"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 105. `GET /api/v1/client-portal/public/invitations/{invitation_token}`
+### 183. `GET /api/v1/client-portal/public/invitations/{invitation_token}`
 
 Validate an invitation token
 
@@ -3989,7 +7310,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["PublicInvitationResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 106. `POST /api/v1/client-portal/public/invitations/{invitation_token}/accept`
+### 184. `POST /api/v1/client-portal/public/invitations/{invitation_token}/accept`
 
 Accept an invitation with a verified identity
 
@@ -4020,7 +7341,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["InvitationAcceptanceResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 107. `GET /api/v1/client-portal/organizations/{organization_id}/portals`
+### 185. `GET /api/v1/client-portal/organizations/{organization_id}/portals`
 
 List portal configurations
 
@@ -4055,7 +7376,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["Collection_PortalResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 108. `POST /api/v1/client-portal/organizations/{organization_id}/portals`
+### 186. `POST /api/v1/client-portal/organizations/{organization_id}/portals`
 
 Create a portal configuration
 
@@ -4089,7 +7410,7 @@ Create a portal configuration
 | `201` | Successful Response | application/json: `components["schemas"]["PortalResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 109. `GET /api/v1/client-portal/organizations/{organization_id}/portals/{portal_id}`
+### 187. `GET /api/v1/client-portal/organizations/{organization_id}/portals/{portal_id}`
 
 Get a portal configuration
 
@@ -4123,7 +7444,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["PortalResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 110. `PATCH /api/v1/client-portal/organizations/{organization_id}/portals/{portal_id}`
+### 188. `PATCH /api/v1/client-portal/organizations/{organization_id}/portals/{portal_id}`
 
 Update mutable portal fields
 
@@ -4159,7 +7480,7 @@ Update mutable portal fields
 | `200` | Successful Response | application/json: `components["schemas"]["PortalResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 111. `DELETE /api/v1/client-portal/organizations/{organization_id}/portals/{portal_id}`
+### 189. `DELETE /api/v1/client-portal/organizations/{organization_id}/portals/{portal_id}`
 
 Archive a portal configuration
 
@@ -4194,7 +7515,7 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 112. `GET /api/v1/client-portal/organizations/{organization_id}/memberships`
+### 190. `GET /api/v1/client-portal/organizations/{organization_id}/memberships`
 
 List organization memberships
 
@@ -4229,7 +7550,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["Collection_MembershipResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 113. `POST /api/v1/client-portal/organizations/{organization_id}/memberships`
+### 191. `POST /api/v1/client-portal/organizations/{organization_id}/memberships`
 
 Create an organization membership
 
@@ -4263,7 +7584,7 @@ Create an organization membership
 | `201` | Successful Response | application/json: `components["schemas"]["MembershipResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 114. `GET /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}`
+### 192. `GET /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}`
 
 Get an organization membership
 
@@ -4297,7 +7618,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["MembershipResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 115. `PATCH /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}`
+### 193. `PATCH /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}`
 
 Update mutable membership fields
 
@@ -4333,7 +7654,7 @@ Update mutable membership fields
 | `200` | Successful Response | application/json: `components["schemas"]["MembershipResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 116. `DELETE /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}`
+### 194. `DELETE /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}`
 
 Archive an organization membership
 
@@ -4367,7 +7688,7 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 117. `POST /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}/suspend`
+### 195. `POST /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}/suspend`
 
 Suspend a membership immediately
 
@@ -4401,7 +7722,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["MembershipResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 118. `POST /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}/restore`
+### 196. `POST /api/v1/client-portal/organizations/{organization_id}/memberships/{membership_id}/restore`
 
 Restore a suspended membership
 
@@ -4435,7 +7756,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["MembershipResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 119. `GET /api/v1/client-portal/organizations/{organization_id}/invitations`
+### 197. `GET /api/v1/client-portal/organizations/{organization_id}/invitations`
 
 List invitations
 
@@ -4470,7 +7791,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["Collection_InvitationResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 120. `POST /api/v1/client-portal/organizations/{organization_id}/invitations`
+### 198. `POST /api/v1/client-portal/organizations/{organization_id}/invitations`
 
 Create an invitation
 
@@ -4504,7 +7825,7 @@ Create an invitation
 | `201` | Successful Response | application/json: `components["schemas"]["InvitationIssuedResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 121. `GET /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}`
+### 199. `GET /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}`
 
 Get an invitation
 
@@ -4538,7 +7859,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["InvitationResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 122. `PATCH /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}`
+### 200. `PATCH /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}`
 
 Update a pending invitation
 
@@ -4574,7 +7895,7 @@ Update a pending invitation
 | `200` | Successful Response | application/json: `components["schemas"]["InvitationResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 123. `DELETE /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}`
+### 201. `DELETE /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}`
 
 Revoke a pending invitation
 
@@ -4608,7 +7929,7 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 124. `POST /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}/revoke`
+### 202. `POST /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}/revoke`
 
 Revoke a pending invitation
 
@@ -4642,7 +7963,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["InvitationResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 125. `POST /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}/resend`
+### 203. `POST /api/v1/client-portal/organizations/{organization_id}/invitations/{invitation_id}/resend`
 
 Resend a pending invitation
 
@@ -4678,7 +7999,7 @@ No request body.
 
 ## portal-auth
 
-### 126. `GET /api/v1/client-portal/auth/session`
+### 204. `GET /api/v1/client-portal/auth/session`
 
 Return the active first-party portal session
 
@@ -4718,7 +8039,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 127. `POST /api/v1/client-portal/auth/session`
+### 205. `POST /api/v1/client-portal/auth/session`
 
 Exchange a verified Firebase assertion for a first-party session
 
@@ -4756,7 +8077,7 @@ No parameters.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 128. `DELETE /api/v1/client-portal/auth/session`
+### 206. `DELETE /api/v1/client-portal/auth/session`
 
 Revoke and clear the active first-party portal session
 
@@ -4796,7 +8117,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 129. `POST /api/v1/client-portal/auth/session/refresh`
+### 207. `POST /api/v1/client-portal/auth/session/refresh`
 
 Rotate and refresh an active first-party portal session
 
@@ -4836,7 +8157,7 @@ No request body.
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 130. `POST /api/v1/client-portal/auth/session/step-up`
+### 208. `POST /api/v1/client-portal/auth/session/step-up`
 
 Complete recent authentication for a sensitive portal command
 
@@ -4877,7 +8198,7 @@ Complete recent authentication for a sensitive portal command
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 131. `POST /api/v1/client-portal/auth/email/verify`
+### 209. `POST /api/v1/client-portal/auth/email/verify`
 
 Complete an email verification action
 
@@ -4917,7 +8238,7 @@ Complete an email verification action
 | `428` | A required precondition header is missing. | application/problem+json: `object` |
 | `429` | A rate or quota limit was exceeded. | application/problem+json: `object` |
 
-### 132. `POST /api/v1/client-portal/auth/password/reset-link`
+### 210. `POST /api/v1/client-portal/auth/password/reset-link`
 
 Request a non-enumerating password reset flow
 
@@ -4947,7 +8268,7 @@ No parameters.
 | `202` | Successful Response | application/json: `components["schemas"]["PasswordResetLinkResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 133. `GET /api/v1/client-portal/auth/context`
+### 211. `GET /api/v1/client-portal/auth/context`
 
 Resolve the authenticated actor's tenant context
 
@@ -4981,7 +8302,7 @@ No request body.
 | `404` | Context unavailable. | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 134. `POST /api/v1/client-portal/auth/context/switch`
+### 212. `POST /api/v1/client-portal/auth/context/switch`
 
 Validate and switch the active portal destination
 
@@ -5011,7 +8332,7 @@ No parameters.
 | `200` | Successful Response | application/json: `components["schemas"]["RequestContextResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 135. `GET /api/v1/client-portal/auth/permissions`
+### 213. `GET /api/v1/client-portal/auth/permissions`
 
 Return effective permissions for the active context
 
@@ -5045,7 +8366,7 @@ No request body.
 
 ## voice-agents
 
-### 136. `GET /api/v1/client-portal/voice/skill-packs`
+### 214. `GET /api/v1/client-portal/voice/skill-packs`
 
 List approved voice-agent skill packs
 
@@ -5080,7 +8401,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceCollection_VoiceSkillPackResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 137. `GET /api/v1/client-portal/voice/skill-packs/{skill_pack_id}`
+### 215. `GET /api/v1/client-portal/voice/skill-packs/{skill_pack_id}`
 
 Get an approved voice-agent skill pack
 
@@ -5113,7 +8434,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceSkillPackDetailResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 138. `GET /api/v1/client-portal/voice/agents`
+### 216. `GET /api/v1/client-portal/voice/agents`
 
 List visible voice agents
 
@@ -5149,7 +8470,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceCollection_VoiceAgentResponse_"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 139. `POST /api/v1/client-portal/voice/agents`
+### 217. `POST /api/v1/client-portal/voice/agents`
 
 Create a voice agent from an approved skill pack
 
@@ -5183,7 +8504,7 @@ Create a voice agent from an approved skill pack
 | `201` | Successful Response | application/json: `components["schemas"]["VoiceAgentResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 140. `GET /api/v1/client-portal/voice/agents/{agent_id}`
+### 218. `GET /api/v1/client-portal/voice/agents/{agent_id}`
 
 Get a visible voice agent
 
@@ -5216,7 +8537,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 141. `PATCH /api/v1/client-portal/voice/agents/{agent_id}`
+### 219. `PATCH /api/v1/client-portal/voice/agents/{agent_id}`
 
 Update mutable voice-agent fields
 
@@ -5251,7 +8572,7 @@ Update mutable voice-agent fields
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 142. `DELETE /api/v1/client-portal/voice/agents/{agent_id}`
+### 220. `DELETE /api/v1/client-portal/voice/agents/{agent_id}`
 
 Archive a voice agent
 
@@ -5285,7 +8606,7 @@ No request body.
 | `204` | Successful Response | None |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 143. `GET /api/v1/client-portal/voice/agents/{agent_id}/versions`
+### 221. `GET /api/v1/client-portal/voice/agents/{agent_id}/versions`
 
 List immutable voice-agent versions
 
@@ -5320,7 +8641,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentVersionCollection"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 144. `POST /api/v1/client-portal/voice/agents/{agent_id}/versions`
+### 222. `POST /api/v1/client-portal/voice/agents/{agent_id}/versions`
 
 Create and validate an immutable voice-agent version
 
@@ -5355,7 +8676,7 @@ Create and validate an immutable voice-agent version
 | `201` | Successful Response | application/json: `components["schemas"]["VoiceAgentVersionResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 145. `GET /api/v1/client-portal/voice/agents/{agent_id}/versions/{version_id}`
+### 223. `GET /api/v1/client-portal/voice/agents/{agent_id}/versions/{version_id}`
 
 Get an immutable voice-agent version
 
@@ -5389,7 +8710,318 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentVersionResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 146. `GET /api/v1/client-portal/voice/compliance-profile`
+### 224. `POST /api/v1/client-portal/voice/agents/{agent_id}/validate`
+
+Validate an immutable agent version and all publication dependencies
+
+| Field | Value |
+|---|---|
+| Operation ID | `validate_voice_agent` |
+| Generated Type | `operations["validate_voice_agent"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceAgentVersionSelection"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentValidationResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 225. `POST /api/v1/client-portal/voice/agents/{agent_id}/compile`
+
+Compile an immutable VTL version into a provider-neutral runtime contract
+
+| Field | Value |
+|---|---|
+| Operation ID | `compile_voice_agent` |
+| Generated Type | `operations["compile_voice_agent"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceAgentVersionSelection"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentCompileResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 226. `GET /api/v1/client-portal/voice/agents/{agent_id}/readiness`
+
+Get stable publication readiness for an agent version
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_agent_readiness` |
+| Generated Type | `operations["get_voice_agent_readiness"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `version_id` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentReadinessResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 227. `GET /api/v1/client-portal/voice/agents/{agent_id}/configuration-preview`
+
+Preview the client-safe provider-neutral runtime configuration
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_agent_configuration_preview` |
+| Generated Type | `operations["get_voice_agent_configuration_preview"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `version_id` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentConfigurationPreviewResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 228. `GET /api/v1/client-portal/voice/agents/{agent_id}/evaluations`
+
+List immutable agent evaluation evidence
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_agent_evaluations` |
+| Generated Type | `operations["list_voice_agent_evaluations"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `version_id` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentEvaluationCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 229. `POST /api/v1/client-portal/voice/agents/{agent_id}/evaluations`
+
+Run and persist deterministic evaluation-suite evidence
+
+| Field | Value |
+|---|---|
+| Operation ID | `run_voice_agent_evaluation` |
+| Generated Type | `operations["run_voice_agent_evaluation"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceAgentEvaluationCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["VoiceAgentEvaluationResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 230. `POST /api/v1/client-portal/voice/agents/{agent_id}/publish`
+
+Publish a ready immutable voice-agent version
+
+| Field | Value |
+|---|---|
+| Operation ID | `publish_voice_agent` |
+| Generated Type | `operations["publish_voice_agent"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.publish` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key`, `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceAgentVersionSelection"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 231. `POST /api/v1/client-portal/voice/agents/{agent_id}/pause`
+
+Pause new calls without deleting the published version
+
+| Field | Value |
+|---|---|
+| Operation ID | `pause_voice_agent` |
+| Generated Type | `operations["pause_voice_agent"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.publish` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 232. `POST /api/v1/client-portal/voice/agents/{agent_id}/resume`
+
+Resume calls using the unchanged published version
+
+| Field | Value |
+|---|---|
+| Operation ID | `resume_voice_agent` |
+| Generated Type | `operations["resume_voice_agent"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.agents.publish` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAgentResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 233. `GET /api/v1/client-portal/voice/compliance-profile`
 
 Get the effective voice compliance profile
 
@@ -5421,7 +9053,7 @@ No request body.
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceComplianceProfileResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
 
-### 147. `PATCH /api/v1/client-portal/voice/compliance-profile`
+### 234. `PATCH /api/v1/client-portal/voice/compliance-profile`
 
 Create or update the organization voice compliance profile
 
@@ -5453,4 +9085,3202 @@ Create or update the organization voice compliance profile
 | Status | Description | Content |
 |---:|---|---|
 | `200` | Successful Response | application/json: `components["schemas"]["VoiceComplianceProfileResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-analytics
+
+### 235. `GET /api/v1/client-portal/voice/calls`
+
+List governed completed-call records
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_calls` |
+| Generated Type | `operations["list_voice_calls"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | query | No | `string` or `null` | None declared |
+| `direction` | query | No | `string` or `null` | None declared |
+| `processing_status` | query | No | `string` or `null` | None declared |
+| `from_date` | query | No | `string:date` or `null` | None declared |
+| `to_date` | query | No | `string:date` or `null` | None declared |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceCallCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 236. `GET /api/v1/client-portal/voice/calls/{call_id}`
+
+Get one governed completed-call record
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_call` |
+| Generated Type | `operations["get_voice_call"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceCallResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 237. `GET /api/v1/client-portal/voice/calls/{call_id}/transcript`
+
+Read the retained, redacted, diarized transcript
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_call_transcript` |
+| Generated Type | `operations["get_voice_call_transcript"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `page_after` | query | No | `integer` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 500 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceCallTranscriptResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 238. `GET /api/v1/client-portal/voice/calls/{call_id}/retrievals`
+
+List Call Retrievals
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_call_retrievals` |
+| Generated Type | `operations["list_voice_call_retrievals"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 500 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceRetrievalCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 239. `GET /api/v1/client-portal/voice/calls/{call_id}/tool-executions`
+
+List Call Tool Executions
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_call_tool_executions` |
+| Generated Type | `operations["list_voice_call_tool_executions"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 500 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceToolExecutionCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 240. `GET /api/v1/client-portal/voice/calls/{call_id}/action-items`
+
+List Call Action Items
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_call_action_items` |
+| Generated Type | `operations["list_voice_call_action_items"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 500 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceActionItemCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 241. `PATCH /api/v1/client-portal/voice/calls/{call_id}/action-items/{action_item_id}`
+
+Update Call Action Item
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_voice_call_action_item` |
+| Generated Type | `operations["update_voice_call_action_item"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.start` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `action_item_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceCallActionItemPatch"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceCallActionItemResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 242. `GET /api/v1/client-portal/voice/calls/{call_id}/evaluations`
+
+List Call Evaluations
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_call_evaluations` |
+| Generated Type | `operations["list_voice_call_evaluations"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 500 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceEvaluationCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 243. `POST /api/v1/client-portal/voice/calls/{call_id}/recording-access`
+
+Authorize short-lived access to a separately governed recording
+
+| Field | Value |
+|---|---|
+| Operation ID | `authorize_voice_call_recording_access` |
+| Generated Type | `operations["authorize_voice_call_recording_access"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.recording.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceRecordingAccessRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceRecordingAccessResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 244. `POST /api/v1/client-portal/voice/calls/{call_id}/reprocess`
+
+Reprocess Voice Call
+
+| Field | Value |
+|---|---|
+| Operation ID | `reprocess_voice_call` |
+| Generated Type | `operations["reprocess_voice_call"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.start` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `call_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceCallReprocessRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `202` | Successful Response | application/json: `components["schemas"]["OperationResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 245. `GET /api/v1/client-portal/voice/analytics/summary`
+
+Get Analytics Summary
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_analytics_summary` |
+| Generated Type | `operations["get_voice_analytics_summary"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.analytics.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `from_date` | query | No | `string:date` or `null` | None declared |
+| `to_date` | query | No | `string:date` or `null` | None declared |
+| `timezone` | query | No | `string` | default "UTC"; pattern `^UTC$` |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAnalyticsSummaryResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 246. `GET /api/v1/client-portal/voice/analytics/timeseries`
+
+Get Analytics Timeseries
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_analytics_timeseries` |
+| Generated Type | `operations["get_voice_analytics_timeseries"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.analytics.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `from_date` | query | No | `string:date` or `null` | None declared |
+| `to_date` | query | No | `string:date` or `null` | None declared |
+| `timezone` | query | No | `string` | default "UTC"; pattern `^UTC$` |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAnalyticsTimeseriesResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 247. `GET /api/v1/client-portal/voice/analytics/dispositions`
+
+Get Analytics Dispositions
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_analytics_dispositions` |
+| Generated Type | `operations["get_voice_analytics_dispositions"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.analytics.read` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `from_date` | query | No | `string:date` or `null` | None declared |
+| `to_date` | query | No | `string:date` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceAnalyticsDispositionsResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 248. `POST /api/v1/client-portal/voice/calls/exports`
+
+Export Voice Calls
+
+| Field | Value |
+|---|---|
+| Operation ID | `export_voice_calls` |
+| Generated Type | `operations["export_voice_calls"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.export` |
+| Code Owner | `voice-analytics` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceCallExportRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `202` | Successful Response | application/json: `components["schemas"]["OperationResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-handoffs
+
+### 249. `GET /api/v1/client-portal/voice/handoff-destinations`
+
+List handoff destinations for the organization
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_handoff_destinations` |
+| Generated Type | `operations["list_voice_handoff_destinations"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.handoff.read` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `status` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 500 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["HandoffDestinationCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 250. `POST /api/v1/client-portal/voice/handoff-destinations`
+
+Create a handoff destination
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_handoff_destination` |
+| Generated Type | `operations["create_voice_handoff_destination"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.handoff.manage` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["HandoffDestinationCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["HandoffDestinationResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 251. `PATCH /api/v1/client-portal/voice/handoff-destinations/{destination_id}`
+
+Update a handoff destination
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_voice_handoff_destination` |
+| Generated Type | `operations["update_voice_handoff_destination"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.handoff.manage` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `destination_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | Yes | `string` | minimum length 1 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["HandoffDestinationUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["HandoffDestinationResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 252. `GET /api/v1/client-portal/voice/handoff-policies`
+
+List handoff policies
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_handoff_policies` |
+| Generated Type | `operations["list_voice_handoff_policies"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.handoff.read` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["HandoffPolicyCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 253. `POST /api/v1/client-portal/voice/handoff-policies`
+
+Create a handoff policy for an agent
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_handoff_policy` |
+| Generated Type | `operations["create_voice_handoff_policy"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.handoff.manage` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["HandoffPolicyCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["HandoffPolicyResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 254. `GET /api/v1/client-portal/voice/sessions/{session_id}/handoff`
+
+Get the latest handoff attempt for a session
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_handoff_attempt` |
+| Generated Type | `operations["get_voice_handoff_attempt"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.read` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["HandoffAttemptResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 255. `POST /api/v1/client-portal/voice/sessions/{session_id}/handoff`
+
+Initiate a handoff from voice agent to human
+
+| Field | Value |
+|---|---|
+| Operation ID | `initiate_voice_handoff` |
+| Generated Type | `operations["initiate_voice_handoff"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.handoff` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["HandoffRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["HandoffAttemptResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 256. `POST /api/v1/client-portal/voice/sessions/{session_id}/supervise`
+
+Start listening to or whispering in a voice session
+
+| Field | Value |
+|---|---|
+| Operation ID | `start_voice_supervision` |
+| Generated Type | `operations["start_voice_supervision"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.supervise` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["SupervisorSessionCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["SupervisorSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 257. `POST /api/v1/client-portal/voice/sessions/{session_id}/take-over`
+
+Take over a voice session from the agent
+
+| Field | Value |
+|---|---|
+| Operation ID | `take_over_voice_session` |
+| Generated Type | `operations["take_over_voice_session"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.supervise` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["TakeOverRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["SupervisorSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 258. `POST /api/v1/client-portal/voice/sessions/{session_id}/return-control`
+
+Return control of a voice session to the agent
+
+| Field | Value |
+|---|---|
+| Operation ID | `return_voice_control` |
+| Generated Type | `operations["return_voice_control"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.supervise` |
+| Code Owner | `voice-handoffs` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["ReturnControlRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["SupervisorSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-knowledge
+
+### 259. `GET /api/v1/client-portal/voice/knowledge-bases`
+
+List visible voice knowledge bases
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_knowledge_bases` |
+| Generated Type | `operations["list_voice_knowledge_bases"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `engagement_id` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeCollection_KnowledgeBaseResponse_"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 260. `POST /api/v1/client-portal/voice/knowledge-bases`
+
+Create a governed voice knowledge base
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_knowledge_base` |
+| Generated Type | `operations["create_voice_knowledge_base"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeBaseCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["KnowledgeBaseResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 261. `GET /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}`
+
+Get a voice knowledge base
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_knowledge_base` |
+| Generated Type | `operations["get_voice_knowledge_base"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeBaseResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 262. `PATCH /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}`
+
+Update mutable knowledge-base metadata
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_voice_knowledge_base` |
+| Generated Type | `operations["update_voice_knowledge_base"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeBaseUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeBaseResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 263. `GET /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/sources`
+
+List knowledge sources and processing state
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_knowledge_sources` |
+| Generated Type | `operations["list_voice_knowledge_sources"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `status` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeCollection_KnowledgeSourceResponse_"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 264. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/sources`
+
+Create and process a text, FAQ or approved website source
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_knowledge_source` |
+| Generated Type | `operations["create_voice_knowledge_source"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeSourceCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["KnowledgeSourceProcessResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 265. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/sources/upload-intents`
+
+Create a checksum-bound private upload intent
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_knowledge_upload_intent` |
+| Generated Type | `operations["create_voice_knowledge_upload_intent"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeUploadIntentCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["KnowledgeUploadIntentResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 266. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/sources/{source_id}/complete`
+
+Verify, parse, index and classify an uploaded source
+
+| Field | Value |
+|---|---|
+| Operation ID | `complete_voice_knowledge_source` |
+| Generated Type | `operations["complete_voice_knowledge_source"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `source_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeUploadComplete"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeSourceProcessResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 267. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/sources/{source_id}/reprocess`
+
+Create and process a new immutable source version
+
+| Field | Value |
+|---|---|
+| Operation ID | `reprocess_voice_knowledge_source` |
+| Generated Type | `operations["reprocess_voice_knowledge_source"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `source_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeReprocessRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeSourceProcessResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 268. `GET /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/sources/{source_id}`
+
+Get a knowledge source and its current version
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_knowledge_source` |
+| Generated Type | `operations["get_voice_knowledge_source"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `source_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeSourceResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 269. `DELETE /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/sources/{source_id}`
+
+Archive a mutable knowledge source
+
+| Field | Value |
+|---|---|
+| Operation ID | `archive_voice_knowledge_source` |
+| Generated Type | `operations["archive_voice_knowledge_source"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `source_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `204` | Successful Response | None |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 270. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/test-query`
+
+Run governed hybrid retrieval against draft or published knowledge
+
+| Field | Value |
+|---|---|
+| Operation ID | `test_voice_knowledge_retrieval` |
+| Generated Type | `operations["test_voice_knowledge_retrieval"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeTestQuery"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeTestQueryResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 271. `GET /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/test-cases`
+
+List knowledge evaluation test cases
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_knowledge_test_cases` |
+| Generated Type | `operations["list_voice_knowledge_test_cases"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeCollection_KnowledgeTestCaseResponse_"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 272. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/test-cases`
+
+Create a deterministic knowledge evaluation case
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_knowledge_test_case` |
+| Generated Type | `operations["create_voice_knowledge_test_case"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeTestCaseCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["KnowledgeTestCaseResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 273. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/evaluations`
+
+Evaluate a release against active knowledge test cases
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_knowledge_evaluation` |
+| Generated Type | `operations["create_voice_knowledge_evaluation"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeEvaluationCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["KnowledgeEvaluationResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 274. `GET /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/evaluations/{evaluation_id}`
+
+Get knowledge evaluation results
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_knowledge_evaluation` |
+| Generated Type | `operations["get_voice_knowledge_evaluation"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `evaluation_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeEvaluationResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 275. `GET /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/releases`
+
+List immutable knowledge releases
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_knowledge_releases` |
+| Generated Type | `operations["list_voice_knowledge_releases"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeCollection_KnowledgeReleaseResponse_"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 276. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/releases`
+
+Create an immutable draft knowledge release
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_knowledge_release` |
+| Generated Type | `operations["create_voice_knowledge_release"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.publish` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["KnowledgeReleaseCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["KnowledgeReleaseResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 277. `POST /api/v1/client-portal/voice/knowledge-bases/{knowledge_base_id}/releases/{release_id}/publish`
+
+Publish an evaluated immutable knowledge release
+
+| Field | Value |
+|---|---|
+| Operation ID | `publish_voice_knowledge_release` |
+| Generated Type | `operations["publish_voice_knowledge_release"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.knowledge.publish` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `knowledge_base_id` | path | Yes | `string` | None declared |
+| `release_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["KnowledgeReleaseResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-public
+
+### 278. `GET /api/v1/client-portal/public/voice/widgets/{widget_key}/configuration`
+
+Get public widget configuration
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_public_widget_configuration` |
+| Generated Type | `operations["get_public_widget_configuration"]` |
+| Access | Declared by route security and permissions |
+| Security | Portal session or declared route policy |
+| Permissions | None declared |
+| Code Owner | `voice-public` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_key` | path | Yes | `string` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["PublicWidgetConfiguration"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 279. `POST /api/v1/client-portal/public/voice/widgets/{widget_key}/browser-sessions`
+
+Create a public browser voice session
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_public_browser_session` |
+| Generated Type | `operations["create_public_browser_session"]` |
+| Access | Declared by route security and permissions |
+| Security | Portal session or declared route policy |
+| Permissions | None declared |
+| Code Owner | `voice-public` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_key` | path | Yes | `string` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["PublicBrowserSessionCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["PublicSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 280. `POST /api/v1/client-portal/public/voice/widgets/{widget_key}/callbacks`
+
+Create a public callback request
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_public_callback_request` |
+| Generated Type | `operations["create_public_callback_request"]` |
+| Access | Declared by route security and permissions |
+| Security | Portal session or declared route policy |
+| Permissions | None declared |
+| Code Owner | `voice-public` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_key` | path | Yes | `string` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["PublicCallbackCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["PublicSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 281. `GET /api/v1/client-portal/public/voice/widget-sessions/{public_session_id}`
+
+Get a public widget session status
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_public_widget_session` |
+| Generated Type | `operations["get_public_widget_session"]` |
+| Access | Declared by route security and permissions |
+| Security | Portal session or declared route policy |
+| Permissions | None declared |
+| Code Owner | `voice-public` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `public_session_id` | path | Yes | `string` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["PublicSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 282. `POST /api/v1/client-portal/public/voice/widget-sessions/{public_session_id}/feedback`
+
+Submit feedback for a public widget session
+
+| Field | Value |
+|---|---|
+| Operation ID | `submit_public_widget_feedback` |
+| Generated Type | `operations["submit_public_widget_feedback"]` |
+| Access | Declared by route security and permissions |
+| Security | Portal session or declared route policy |
+| Permissions | None declared |
+| Code Owner | `voice-public` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `public_session_id` | path | Yes | `string` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["PublicFeedbackCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `204` | Successful Response | None |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-recordings
+
+### 283. `POST /api/v1/client-portal/voice/sessions/{session_id}/recording-consent`
+
+Recording Consent Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `capture_voice_recording_consent` |
+| Generated Type | `operations["capture_voice_recording_consent"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | None declared |
+| Code Owner | Not declared |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["RecordingConsentCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["RecordingConsentResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 284. `POST /api/v1/client-portal/voice/sessions/{session_id}/recording`
+
+Start Recording Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `start_voice_recording` |
+| Generated Type | `operations["start_voice_recording"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | None declared |
+| Code Owner | Not declared |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `202` | Successful Response | application/json: `components["schemas"]["RecordingCaptureResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 285. `POST /api/v1/client-portal/voice/providers/twilio/recordings`
+
+Twilio Recording Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `receive_twilio_recording` |
+| Generated Type | `operations["receive_twilio_recording"]` |
+| Access | Declared by route security and permissions |
+| Security | Portal session or declared route policy |
+| Permissions | None declared |
+| Code Owner | Not declared |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-Twilio-Signature` | header | Yes | `string` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["RecordingWebhookResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 286. `POST /api/v1/client-portal/voice/providers/livekit/recordings`
+
+Livekit Recording Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `receive_livekit_recording` |
+| Generated Type | `operations["receive_livekit_recording"]` |
+| Access | Declared by route security and permissions |
+| Security | Portal session or declared route policy |
+| Permissions | None declared |
+| Code Owner | Not declared |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `X-LiveKit-Signature` | header | Yes | `string` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["RecordingWebhookResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-runtime
+
+### 287. `POST /api/v1/client-portal/voice/agents/{agent_id}/browser-sessions`
+
+Start a browser WebRTC voice session
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_browser_session` |
+| Generated Type | `operations["create_voice_browser_session"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.create` |
+| Code Owner | `voice-runtime` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["BrowserSessionCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["BrowserSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 288. `GET /api/v1/client-portal/voice/sessions/{session_id}`
+
+Get a tenant-visible voice session
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_session` |
+| Generated Type | `operations["get_voice_session"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.read` |
+| Code Owner | `voice-runtime` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 289. `POST /api/v1/client-portal/voice/sessions/{session_id}/end`
+
+Deterministically end an active voice session
+
+| Field | Value |
+|---|---|
+| Operation ID | `end_voice_session` |
+| Generated Type | `operations["end_voice_session"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.end` |
+| Code Owner | `voice-runtime` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["SessionEndRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 290. `GET /api/v1/client-portal/voice/sessions/{session_id}/events`
+
+List durable client-visible live session events
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_session_events` |
+| Generated Type | `operations["list_voice_session_events"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.read` |
+| Code Owner | `voice-runtime` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `page_after` | query | No | `integer` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 100; minimum 1; maximum 500 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceSessionEventCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 291. `GET /api/v1/client-portal/voice/sessions/{session_id}/transcript`
+
+Get partial, final and interrupted caption turns
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_session_transcript` |
+| Generated Type | `operations["get_voice_session_transcript"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.transcript.read` |
+| Code Owner | `voice-runtime` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceTranscriptResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 292. `POST /api/v1/client-portal/voice/sessions/{session_id}/feedback`
+
+Attach client feedback to a completed or active session
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_session_feedback` |
+| Generated Type | `operations["create_voice_session_feedback"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.sessions.feedback` |
+| Code Owner | `voice-runtime` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `session_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["VoiceSessionFeedback"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["VoiceSessionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-telephony
+
+### 293. `GET /api/v1/client-portal/voice/channels/phone-numbers`
+
+List Phone Numbers
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_phone_numbers` |
+| Generated Type | `operations["list_voice_phone_numbers"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.read` |
+| Code Owner | `voice-telephony` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `page_after` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["PhoneNumberCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 294. `POST /api/v1/client-portal/voice/channels/phone-numbers`
+
+Create Phone Number
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_phone_number` |
+| Generated Type | `operations["create_voice_phone_number"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.manage` |
+| Code Owner | `voice-telephony` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["PhoneNumberCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["PhoneNumberResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 295. `GET /api/v1/client-portal/voice/channels/phone-numbers/{phone_number_id}`
+
+Get Phone Number
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_phone_number` |
+| Generated Type | `operations["get_voice_phone_number"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.read` |
+| Code Owner | `voice-telephony` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `phone_number_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["PhoneNumberResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 296. `PATCH /api/v1/client-portal/voice/channels/phone-numbers/{phone_number_id}`
+
+Update Phone Number
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_voice_phone_number` |
+| Generated Type | `operations["update_voice_phone_number"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.manage` |
+| Code Owner | `voice-telephony` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `phone_number_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["PhoneNumberPatch"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["PhoneNumberResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 297. `POST /api/v1/client-portal/voice/agents/{agent_id}/callbacks`
+
+Create Callback
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_callback` |
+| Generated Type | `operations["create_voice_callback"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.start` |
+| Code Owner | `voice-telephony` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | minimum length 1; maximum length 200 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CallbackCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["CallbackCreatedResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 298. `GET /api/v1/client-portal/voice/callbacks/{callback_id}`
+
+Get Callback
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_callback` |
+| Generated Type | `operations["get_voice_callback"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.read` |
+| Code Owner | `voice-telephony` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `callback_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CallbackResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 299. `POST /api/v1/client-portal/voice/callbacks/{callback_id}/cancel`
+
+Cancel Callback
+
+| Field | Value |
+|---|---|
+| Operation ID | `cancel_voice_callback` |
+| Generated Type | `operations["cancel_voice_callback"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.start` |
+| Code Owner | `voice-telephony` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `callback_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["CallbackCancelRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["CallbackResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-tools
+
+### 300. `GET /api/v1/client-portal/voice/tools`
+
+List Voice Tools
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_tools` |
+| Generated Type | `operations["list_voice_tools"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `category` | query | No | `string` or `null` | None declared |
+| `page_after` | query | No | `string` or `null` | None declared |
+| `page_size` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["ToolCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 301. `POST /api/v1/client-portal/voice/tools`
+
+Create Voice Tool
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_tool` |
+| Generated Type | `operations["create_voice_tool"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["ToolDefinitionCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["ToolDetailResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 302. `GET /api/v1/client-portal/voice/tools/{tool_id}`
+
+Get Voice Tool
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_tool` |
+| Generated Type | `operations["get_voice_tool"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `tool_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["ToolDetailResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 303. `PATCH /api/v1/client-portal/voice/tools/{tool_id}`
+
+Update Voice Tool
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_voice_tool` |
+| Generated Type | `operations["update_voice_tool"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `tool_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | No | `string` or `null` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["ToolDefinitionUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["ToolDetailResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 304. `POST /api/v1/client-portal/voice/tools/{tool_id}/versions`
+
+Create Voice Tool Version
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_tool_version` |
+| Generated Type | `operations["create_voice_tool_version"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `tool_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["ToolVersionCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["ToolVersionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 305. `POST /api/v1/client-portal/voice/tools/{tool_id}/test`
+
+Test Voice Tool
+
+| Field | Value |
+|---|---|
+| Operation ID | `test_voice_tool` |
+| Generated Type | `operations["test_voice_tool"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.test` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `tool_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["ToolTestRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["ToolExecutionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 306. `GET /api/v1/client-portal/voice/tools/{tool_id}/health`
+
+Get Voice Tool Health
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_tool_health` |
+| Generated Type | `operations["get_voice_tool_health"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `tool_id` | path | Yes | `string` | None declared |
+| `agent_id` | query | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["ToolHealthResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 307. `GET /api/v1/client-portal/voice/agents/{agent_id}/tool-bindings`
+
+List Voice Agent Tool Bindings
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_agent_tool_bindings` |
+| Generated Type | `operations["list_voice_agent_tool_bindings"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.read` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["ToolBindingCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 308. `PUT /api/v1/client-portal/voice/agents/{agent_id}/tool-bindings/{tool_id}`
+
+Put Voice Agent Tool Binding
+
+| Field | Value |
+|---|---|
+| Operation ID | `put_voice_agent_tool_binding` |
+| Generated Type | `operations["put_voice_agent_tool_binding"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `tool_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["ToolBindingUpsert"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["ToolBindingResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 309. `DELETE /api/v1/client-portal/voice/agents/{agent_id}/tool-bindings/{tool_id}`
+
+Delete Voice Agent Tool Binding
+
+| Field | Value |
+|---|---|
+| Operation ID | `delete_voice_agent_tool_binding` |
+| Generated Type | `operations["delete_voice_agent_tool_binding"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.tools.manage` |
+| Code Owner | `voice-platform` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `agent_id` | path | Yes | `string` | None declared |
+| `tool_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `204` | Successful Response | None |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-whatsapp
+
+### 310. `GET /api/v1/client-portal/voice/channels/whatsapp`
+
+List WhatsApp Business senders
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_whatsapp_senders` |
+| Generated Type | `operations["list_whatsapp_senders"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.read` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `status` | query | No | `string` or `null` | None declared |
+| `cursor` | query | No | `string` or `null` | None declared |
+| `limit` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WhatsAppSenderCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 311. `POST /api/v1/client-portal/voice/channels/whatsapp`
+
+Register a WhatsApp Business sender
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_whatsapp_sender` |
+| Generated Type | `operations["create_whatsapp_sender"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.manage` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["WhatsAppSenderCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["WhatsAppSenderResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 312. `GET /api/v1/client-portal/voice/channels/whatsapp/{sender_id}`
+
+Get a WhatsApp Business sender
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_whatsapp_sender` |
+| Generated Type | `operations["get_whatsapp_sender"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.read` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WhatsAppSenderResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 313. `PATCH /api/v1/client-portal/voice/channels/whatsapp/{sender_id}`
+
+Update a WhatsApp Business sender
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_whatsapp_sender` |
+| Generated Type | `operations["update_whatsapp_sender"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.manage` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["WhatsAppSenderUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WhatsAppSenderResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 314. `POST /api/v1/client-portal/voice/channels/whatsapp/{sender_id}/permission-requests`
+
+Request callback permission for a customer
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_whatsapp_permission_request` |
+| Generated Type | `operations["create_whatsapp_permission_request"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.start` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["WhatsAppPermissionRequest"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["WhatsAppPermissionResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 315. `GET /api/v1/client-portal/voice/channels/whatsapp/{sender_id}/eligibility`
+
+Get WhatsApp eligibility for a sender's country
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_whatsapp_eligibility` |
+| Generated Type | `operations["get_whatsapp_eligibility"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.read` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WhatsAppEligibilityResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 316. `GET /api/v1/client-portal/voice/channels/whatsapp/{sender_id}/providers`
+
+List Provider Senders Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_whatsapp_provider_senders` |
+| Generated Type | `operations["list_whatsapp_provider_senders"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.read` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: array of `components["schemas"]["WhatsAppProviderSenderResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 317. `POST /api/v1/client-portal/voice/channels/whatsapp/{sender_id}/providers`
+
+Register Provider Sender Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `register_whatsapp_provider_sender` |
+| Generated Type | `operations["register_whatsapp_provider_sender"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.manage` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["WhatsAppProviderSenderCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["WhatsAppProviderSenderResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 318. `GET /api/v1/client-portal/voice/channels/whatsapp/{sender_id}/messages`
+
+List Messages Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_whatsapp_messages` |
+| Generated Type | `operations["list_whatsapp_messages"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.channel.read` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `cursor` | query | No | `string` or `null` | None declared |
+| `limit` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WhatsAppMessageCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 319. `POST /api/v1/client-portal/voice/channels/whatsapp/{sender_id}/messages`
+
+Send Message Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `send_whatsapp_message` |
+| Generated Type | `operations["send_whatsapp_message"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.start` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["WhatsAppMessageSend"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["WhatsAppMessageResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 320. `POST /api/v1/client-portal/voice/channels/whatsapp/{sender_id}/calls`
+
+Start Call Route
+
+| Field | Value |
+|---|---|
+| Operation ID | `start_whatsapp_call` |
+| Generated Type | `operations["start_whatsapp_call"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.call.start` |
+| Code Owner | `voice-whatsapp` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `sender_id` | path | Yes | `string` | None declared |
+| `Idempotency-Key` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["WhatsAppCallStart"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["WhatsAppCallMappingResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+## voice-widgets
+
+### 321. `GET /api/v1/client-portal/voice/widgets`
+
+List widget configurations
+
+| Field | Value |
+|---|---|
+| Operation ID | `list_voice_widgets` |
+| Generated Type | `operations["list_voice_widgets"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.widgets.read` |
+| Code Owner | `voice-widgets` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `status` | query | No | `string` or `null` | None declared |
+| `cursor` | query | No | `string` or `null` | None declared |
+| `limit` | query | No | `integer` | default 50; minimum 1; maximum 100 |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WidgetConfigCollection"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 322. `POST /api/v1/client-portal/voice/widgets`
+
+Create a new widget configuration
+
+| Field | Value |
+|---|---|
+| Operation ID | `create_voice_widget` |
+| Generated Type | `operations["create_voice_widget"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.widgets.manage` |
+| Code Owner | `voice-widgets` |
+| Mutation Controls | `Idempotency-Key` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `Idempotency-Key` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["WidgetConfigCreate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `201` | Successful Response | application/json: `components["schemas"]["WidgetConfigResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 323. `GET /api/v1/client-portal/voice/widgets/{widget_id}`
+
+Get a widget configuration
+
+| Field | Value |
+|---|---|
+| Operation ID | `get_voice_widget` |
+| Generated Type | `operations["get_voice_widget"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.widgets.read` |
+| Code Owner | `voice-widgets` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WidgetConfigResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 324. `PATCH /api/v1/client-portal/voice/widgets/{widget_id}`
+
+Update a widget configuration
+
+| Field | Value |
+|---|---|
+| Operation ID | `update_voice_widget` |
+| Generated Type | `operations["update_voice_widget"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.widgets.manage` |
+| Code Owner | `voice-widgets` |
+| Mutation Controls | `If-Match` |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_id` | path | Yes | `string` | None declared |
+| `If-Match` | header | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+- Required: **yes**
+- Content: application/json: `components["schemas"]["WidgetConfigUpdate"]`
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WidgetConfigResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 325. `POST /api/v1/client-portal/voice/widgets/{widget_id}/rotate-key`
+
+Rotate the widget's public API key
+
+| Field | Value |
+|---|---|
+| Operation ID | `rotate_voice_widget_key` |
+| Generated Type | `operations["rotate_voice_widget_key"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.widgets.manage` |
+| Code Owner | `voice-widgets` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WidgetKeyRotateResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 326. `POST /api/v1/client-portal/voice/widgets/{widget_id}/pause`
+
+Pause a widget
+
+| Field | Value |
+|---|---|
+| Operation ID | `pause_voice_widget` |
+| Generated Type | `operations["pause_voice_widget"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.widgets.manage` |
+| Code Owner | `voice-widgets` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WidgetPauseResponse"]` |
+| `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |
+
+### 327. `POST /api/v1/client-portal/voice/widgets/{widget_id}/resume`
+
+Resume a paused widget
+
+| Field | Value |
+|---|---|
+| Operation ID | `resume_voice_widget` |
+| Generated Type | `operations["resume_voice_widget"]` |
+| Access | Declared by route security and permissions |
+| Security | `FirebaseIdentityToken` |
+| Permissions | `voice.widgets.manage` |
+| Code Owner | `voice-widgets` |
+| Mutation Controls | None declared |
+
+#### Parameters
+
+| Name | Location | Required | Type | Description / Rules |
+|---|---|---:|---|---|
+| `widget_id` | path | Yes | `string` | None declared |
+| `X-Organization-ID` | header | No | `string` or `null` | None declared |
+| `X-Portal-Host` | header | No | `string` or `null` | None declared |
+
+#### Request Body
+
+No request body.
+
+#### Responses
+
+| Status | Description | Content |
+|---:|---|---|
+| `200` | Successful Response | application/json: `components["schemas"]["WidgetPauseResponse"]` |
 | `422` | Validation Error | application/json: `components["schemas"]["HTTPValidationError"]` |

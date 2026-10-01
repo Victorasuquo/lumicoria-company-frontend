@@ -1,6 +1,6 @@
 import { ArrowRight, EnvelopeSimple, ShieldCheck } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { type FormEvent, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { isPortalApiError } from '../../api/client'
@@ -19,6 +19,8 @@ export function InvitationPage() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<unknown>(null)
   const [accepted, setAccepted] = useState(false)
+  const [mode, setMode] = useState<'sign-in' | 'create'>('sign-in')
+  const [verificationSent, setVerificationSent] = useState(false)
   const invitationQuery = useQuery({
     queryKey: ['portal-invitation', token],
     queryFn: async () => (await inspectInvitation(token!)).data,
@@ -37,7 +39,15 @@ export function InvitationPage() {
     setSubmitting(true)
     setError(null)
     try {
-      const credential = await signInWithEmailAndPassword(portalAuth, email, password)
+      const credential = mode === 'create'
+        ? await createUserWithEmailAndPassword(portalAuth, email, password)
+        : await signInWithEmailAndPassword(portalAuth, email, password)
+      if (mode === 'create' && !credential.user.emailVerified) {
+        await sendEmailVerification(credential.user)
+        await signOut(portalAuth)
+        setVerificationSent(true)
+        return
+      }
       if (!credential.user.emailVerified) {
         throw new Error('Verify your email address before accepting this invitation.')
       }
@@ -74,8 +84,9 @@ export function InvitationPage() {
         <div className="portal-invitation-form">
           <EnvelopeSimple aria-hidden="true" weight="duotone" />
           <h2>Confirm your account</h2>
-          <p>Sign in with the verified email address that received this invitation.</p>
+          <p>{mode === 'create' ? 'Create a login with this invited email, verify it, then return here to join the workspace.' : 'Sign in with the verified email address that received this invitation.'}</p>
           {!isFirebaseConfigured && <div className="portal-config-notice">Identity configuration is required before invitations can be accepted.</div>}
+          {verificationSent && <div className="portal-success-notice">Verification email sent. Verify your address, return to this invitation, switch to sign in, and accept it.</div>}
           {accepted && <div className="portal-success-notice">Invitation accepted. Opening your workspace…</div>}
           {error ? (
             <div className="portal-form-error" role="alert">
@@ -94,10 +105,13 @@ export function InvitationPage() {
               <input type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
             </label>
             <button className="portal-primary-button" type="submit" disabled={!isFirebaseConfigured || submitting || accepted}>
-              {submitting ? 'Confirming…' : 'Accept invitation'}
+              {submitting ? mode === 'create' ? 'Creating account…' : 'Confirming…' : mode === 'create' ? 'Create account' : 'Accept invitation'}
               {!submitting && <ArrowRight aria-hidden="true" />}
             </button>
           </form>
+          <button className="portal-auth-switch" type="button" onClick={() => { setMode(mode === 'create' ? 'sign-in' : 'create'); setError(null); setVerificationSent(false) }}>
+            {mode === 'create' ? 'Already have an account? Sign in' : 'New to the portal? Create an account'}
+          </button>
         </div>
       </section>
     </div>

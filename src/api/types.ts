@@ -5,6 +5,12 @@ export type PortalContext = ApiSchemas['RequestContextResponse']
 export type PortalPermissions = ApiSchemas['PermissionsResponse']
 export type PortalSession = ApiSchemas['PortalSessionResponse']
 export type PortalDestination = ApiSchemas['PortalDestinationResponse']
+export type AdminContext = {
+  principal_id: string
+  email: string
+  role: string
+  scopes: string[]
+}
 export type Organization = ApiSchemas['OrganizationResponse']
 export type Engagement = ApiSchemas['EngagementResponse']
 export type EngagementDashboard = ApiSchemas['EngagementDashboardResponse']
