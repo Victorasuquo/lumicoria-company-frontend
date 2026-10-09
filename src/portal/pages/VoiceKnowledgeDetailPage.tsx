@@ -48,7 +48,7 @@ export function VoiceKnowledgeDetailPage() {
   const [tcConfidence, setTcConfidence] = useState('0.7')
 
   const [testQueryInput, setTestQueryInput] = useState('')
-  const [testQueryScope, setTestQueryScope] = useState<'published' | 'draft'>('published')
+  const [testQueryScope, setTestQueryScope] = useState<'published' | 'draft'>('draft')
   const [testQueryResult, setTestQueryResult] = useState<VoiceKnowledgeTestQueryResponse | null>(null)
 
   const [mutationError, setMutationError] = useState<string | null>(null)
@@ -61,6 +61,14 @@ export function VoiceKnowledgeDetailPage() {
   const sourcesQuery = useVoiceQuery<VoiceCollection<VoiceKnowledgeSource>>(
     ['voice-kb-sources', kbId],
     `/voice/knowledge-bases/${kbId}/sources?page_size=100`,
+    {
+      refetchInterval: (query) => {
+        const items = query.state.data?.items ?? []
+        return items.some((source) => source.status === 'queued' || source.status === 'processing')
+          ? 3000
+          : false
+      },
+    },
   )
 
   const releasesQuery = useVoiceQuery<VoiceCollection<VoiceKnowledgeReleaseResponse>>(
@@ -81,7 +89,19 @@ export function VoiceKnowledgeDetailPage() {
   const createSourceMutation = useMutation({
     mutationFn: async () => {
       const body: Record<string, unknown> = { name: srcName, source_type: srcType }
-      if (srcType === 'text' || srcType === 'faq') body.raw_content = srcContent
+      if (srcType === 'text') body.content = srcContent
+      if (srcType === 'faq') {
+        body.faq_entries = srcContent
+          .split(/\n\s*\n/)
+          .map((entry) => {
+            const [question, ...answer] = entry.split('\n')
+            return {
+              question: question.replace(/^question:\s*/i, '').trim(),
+              answer: answer.join('\n').replace(/^answer:\s*/i, '').trim(),
+            }
+          })
+          .filter((entry) => entry.question && entry.answer)
+      }
       const { data } = await portalFetch<VoiceKnowledgeSourceProcessResponse>(
         `/voice/knowledge-bases/${kbId}/sources`,
         { organizationId: orgId!, method: 'POST', idempotencyKey: createIdempotencyKey(), ...jsonBody(body) },
@@ -208,15 +228,29 @@ export function VoiceKnowledgeDetailPage() {
         title={kb.name}
         description={kb.description ?? undefined}
         action={
-          <span className="portal-voice-detail-meta">
+          <div className="portal-knowledge-header-status">
             <StatusPill value={kb.status} />
-            <span>{kb.source_count} sources</span>
-            {kb.published_release_id
-              ? <span className="portal-voice-published-badge">Published</span>
-              : <span className="portal-voice-draft-badge">Draft</span>}
-          </span>
+            <div>
+              <strong>{kb.published_release_id ? 'Published release' : 'Draft workspace'}</strong>
+              <span>{kb.published_release_id ? 'Available to production agents' : 'No release is live yet'}</span>
+            </div>
+          </div>
         }
       />
+
+      <div className={`portal-knowledge-release-callout ${kb.published_release_id ? 'is-published' : 'is-draft'}`}>
+        <div>
+          <strong>{kb.published_release_id ? 'Your published knowledge is live.' : 'This knowledge base is still in draft.'}</strong>
+          <p>
+            {kb.published_release_id
+              ? 'New source changes stay separate until you create and publish another release.'
+              : 'Processed sources can be tested now. Create and publish a release before using this knowledge in a live agent.'}
+          </p>
+        </div>
+        <span className="portal-knowledge-source-count">
+          {sourcesQuery.isLoading ? 'Loading sources' : `${sources.length} ${sources.length === 1 ? 'source' : 'sources'}`}
+        </span>
+      </div>
 
       {mutationError && <p className="portal-voice-mutation-error">{mutationError}</p>}
 
@@ -314,14 +348,17 @@ export function VoiceKnowledgeDetailPage() {
             rows={3}
           />
           <div className="portal-voice-test-query-controls">
-            <label className="portal-voice-radio">
-              <input type="radio" name="scope" value="published" checked={testQueryScope === 'published'} onChange={() => setTestQueryScope('published')} />
-              Published
-            </label>
-            <label className="portal-voice-radio">
-              <input type="radio" name="scope" value="draft" checked={testQueryScope === 'draft'} onChange={() => setTestQueryScope('draft')} />
-              Draft
-            </label>
+            <fieldset className="portal-knowledge-scope-picker">
+              <legend>Search scope</legend>
+              <label className="portal-voice-radio">
+                <input type="radio" name="scope" value="published" checked={testQueryScope === 'published'} onChange={() => setTestQueryScope('published')} />
+                Published
+              </label>
+              <label className="portal-voice-radio">
+                <input type="radio" name="scope" value="draft" checked={testQueryScope === 'draft'} onChange={() => setTestQueryScope('draft')} />
+                Draft
+              </label>
+            </fieldset>
             <button
               className="portal-primary-button"
               type="button"

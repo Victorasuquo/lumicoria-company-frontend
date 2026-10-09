@@ -6,6 +6,7 @@ import { portalFetch, createIdempotencyKey, jsonBody } from '../../api/client'
 import type { VoiceAgent, VoiceAgentCollection } from '../../api/types'
 import type {
   VoiceToolDetail,
+  VoiceToolBinding,
   VoiceToolHealth,
   VoiceToolExecutionResult,
 } from '../../api/voice-types'
@@ -34,6 +35,7 @@ export function VoiceToolDetailPage() {
   const [bapitInput, setBapitInput] = useState('')
 
   const [testAgentId, setTestAgentId] = useState('')
+  const [bindAgentId, setBindAgentId] = useState('')
   const [testArgs, setTestArgs] = useState('{}')
   const [testResult, setTestResult] = useState<VoiceToolExecutionResult | null>(null)
 
@@ -112,14 +114,49 @@ export function VoiceToolDetailPage() {
     },
   })
 
+  const bindMutation = useMutation({
+    mutationFn: async (agentId: string) => {
+      const { data } = await portalFetch<VoiceToolBinding>(
+        `/voice/agents/${agentId}/tool-bindings/${toolId}`,
+        {
+          organizationId: context!.organization_id,
+          method: 'PUT',
+          ...jsonBody({
+            version_number: toolQuery.data?.latest?.version_number,
+            status: 'enabled',
+            safe_configuration: {},
+            approval_policy: {
+              name: 'Human approval for live actions',
+              confirmation_required: true,
+              minimum_identity_assurance: 'verified_contact',
+              human_approval_required: true,
+              confirmation_fields: [],
+            },
+            execution_policy: {
+              name: 'Default live action policy',
+              enabled: true,
+              requests_per_minute: 30,
+              circuit_failure_threshold: 3,
+            },
+          }),
+        },
+      )
+      return data
+    },
+    onSuccess: (_, agentId) => {
+      setBindAgentId('')
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context!.organization_id, 'voice-agents'] })
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context!.organization_id, 'voice-agent-bindings', agentId] })
+    },
+  })
+
   if (!toolId) return <PortalEmpty title="No tool selected" description="Select a tool to view its details." />
   if (toolQuery.isLoading) return <PortalLoading label="Loading tool" />
   if (toolQuery.error) return <PortalError error={toolQuery.error} onRetry={() => void toolQuery.refetch()} />
 
   const tool = toolQuery.data!
   const agents = agentsQuery.data?.items ?? []
-  const isTenant = tool.ownership === 'tenant'
-  const canManage = hasScope('voice.tools.manage') && isTenant
+  const canManage = hasScope('voice.tools.manage')
   const canTest = hasScope('voice.tools.test')
 
   function startEdit() {
@@ -290,6 +327,28 @@ export function VoiceToolDetailPage() {
           </form>
         )}
       </section>
+
+      {canManage && (
+        <section className="portal-voice-detail-panel">
+          <h3>Bind this tool to an agent</h3>
+          <p className="portal-voice-hint">Binding makes the tool available to an agent. The agent version must also reference the binding before publication.</p>
+          <div className="portal-voice-form-actions">
+            <select aria-label="Agent to bind" value={bindAgentId} onChange={(event) => setBindAgentId(event.target.value)}>
+              <option value="">Select an agent…</option>
+              {agents.map((a: VoiceAgent) => <option key={a.id} value={a.id}>{a.name}</option>)}
+            </select>
+            <button
+              type="button"
+              className="portal-primary-button"
+              onClick={() => bindAgentId && bindMutation.mutate(bindAgentId)}
+              disabled={!bindAgentId || bindMutation.isPending || !tool.latest}
+            >
+              {bindMutation.isPending ? 'Binding…' : 'Bind to agent'}
+            </button>
+          </div>
+          {bindMutation.error && <p className="portal-voice-form-error">{String(bindMutation.error)}</p>}
+        </section>
+      )}
 
       {/* Test panel */}
       {canTest && (

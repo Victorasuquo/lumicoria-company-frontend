@@ -249,4 +249,4 @@ export const researchAreas = [
 export const contactHref =
   'mailto:hello@lumicoria.ai?subject=Lumicoria.com%20Discovery%20Call&body=Hello%20Lumicoria%20team%2C%0A%0AI%20would%20like%20to%20discuss%20a%20workflow%20for%20automation.%0A%0ACompany%3A%0AWorkflow%3A%0ACurrent%20team%20or%20hours%20involved%3A%0ATimeline%3A'
 
-export const salesFormHref = 'https://forms.gle/JpJDuSzAEVJH8Md19'
+export const salesFormHref = '/portal/request-access'

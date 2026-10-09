@@ -1,7 +1,7 @@
 import { QueryClientProvider } from '@tanstack/react-query'
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, type ReactNode } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { AuthProvider } from '../auth/AuthProvider'
+import { AuthProvider, usePortalAuth } from '../auth/AuthProvider'
 import { RequirePortalSession } from '../auth/RequirePortalSession'
 import { RequireAdminSession } from '../auth/RequireAdminSession'
 import { AdminLayout } from './AdminLayout'
@@ -55,6 +55,9 @@ const SupportIntegrationsPage = lazy(() => import('./pages/SupportPages').then((
 const SupportWorkflowsPage = lazy(() => import('./pages/SupportPages').then(({ SupportWorkflowsPage: Page }) => ({ default: Page })))
 const SupportWorkflowDetailPage = lazy(() => import('./pages/SupportPages').then(({ SupportWorkflowDetailPage: Page }) => ({ default: Page })))
 const SupportSettingsPage = lazy(() => import('./pages/SupportPages').then(({ SupportSettingsPage: Page }) => ({ default: Page })))
+const MetaConnectionsPage = lazy(() => import('./pages/MetaSocialPages').then(({ MetaConnectionsPage: Page }) => ({ default: Page })))
+const MetaConnectionDetailPage = lazy(() => import('./pages/MetaSocialPages').then(({ MetaConnectionDetailPage: Page }) => ({ default: Page })))
+const MetaConversationPage = lazy(() => import('./pages/MetaSocialPages').then(({ MetaConversationPage: Page }) => ({ default: Page })))
 const HospitalityWorkspacePage = lazy(() => import('./pages/HospitalityWorkspacePage').then(({ HospitalityWorkspacePage: Page }) => ({ default: Page })))
 const LogisticsWorkspacePage = lazy(() => import('./pages/LogisticsWorkspacePage').then(({ LogisticsWorkspacePage: Page }) => ({ default: Page })))
 const EcommerceWorkspacePage = lazy(() => import('./pages/EcommerceWorkspacePage').then(({ EcommerceWorkspacePage: Page }) => ({ default: Page })))
@@ -75,10 +78,26 @@ const AdminCommunicationsPage = lazy(() => import('./pages/AdminPages').then(({ 
 const AdminAdministratorsPage = lazy(() => import('./pages/AdminPages').then(({ AdminAdministratorsPage: Page }) => ({ default: Page })))
 const AdminAuditPage = lazy(() => import('./pages/AdminPages').then(({ AdminAuditPage: Page }) => ({ default: Page })))
 const AdminSettingsPage = lazy(() => import('./pages/AdminPages').then(({ AdminSettingsPage: Page }) => ({ default: Page })))
+const AdminHospitalityPage = lazy(() => import('./pages/AdminHospitalityPage').then(({ AdminHospitalityPage: Page }) => ({ default: Page })))
 const AdminIdentityPage = lazy(() => import('./pages/AdminPages').then(({ AdminIdentityPage: Page }) => ({ default: Page })))
 const AdminOperationsPage = lazy(() => import('./pages/AdminPages').then(({ AdminOperationsPage: Page }) => ({ default: Page })))
+const AdminAccessRequestsPage = lazy(() => import('./pages/AccessRequestPages').then(({ AdminAccessRequestsPage: Page }) => ({ default: Page })))
+const RequestAccessPage = lazy(() => import('./pages/AccessRequestPages').then(({ RequestAccessPage: Page }) => ({ default: Page })))
+const AccessRequestStatusPage = lazy(() => import('./pages/AccessRequestPages').then(({ AccessRequestStatusPage: Page }) => ({ default: Page })))
 const ClientCommunicationsPage = lazy(() => import('./pages/AdminPages').then(({ ClientCommunicationsPage: Page }) => ({ default: Page })))
 const ClientCommunicationThreadPage = lazy(() => import('./pages/AdminPages').then(({ ClientCommunicationThreadPage: Page }) => ({ default: Page })))
+const BillingPage = lazy(() => import('./pages/BillingPages').then(({ BillingPage: Page }) => ({ default: Page })))
+const BillingInvoicesPage = lazy(() => import('./pages/BillingPages').then(({ BillingInvoicesPage: Page }) => ({ default: Page })))
+const BillingCreditsPage = lazy(() => import('./pages/BillingPages').then(({ BillingCreditsPage: Page }) => ({ default: Page })))
+const BillingUsagePage = lazy(() => import('./pages/BillingPages').then(({ BillingUsagePage: Page }) => ({ default: Page })))
+const BillingCheckoutPage = lazy(() => import('./pages/BillingPages').then(({ BillingCheckoutPage: Page }) => ({ default: Page })))
+const AdminBillingPage = lazy(() => import('./pages/BillingPages').then(({ AdminBillingPage: Page }) => ({ default: Page })))
+
+function AssignedVerticalRoute({ vertical, children }: { vertical: string; children: ReactNode }) {
+  const { context } = usePortalAuth()
+  const allowed = context?.vertical === 'all' || context?.vertical === vertical
+  return allowed ? <>{children}</> : <Navigate to="/portal/support" replace />
+}
 
 export function PortalApp() {
   useEffect(() => {
@@ -112,6 +131,8 @@ export function PortalApp() {
           <Suspense fallback={<PortalLoading />}>
             <Routes>
               <Route path="/portal/login" element={<LoginPage />} />
+              <Route path="/portal/request-access" element={<RequestAccessPage />} />
+              <Route path="/portal/request-access/:requestId" element={<AccessRequestStatusPage />} />
               <Route path="/portal/invitations/:token" element={<InvitationPage />} />
               <Route path="/portal/organizations" element={<OrganizationPickerPage />} />
               <Route element={<RequireAdminSession />}>
@@ -123,12 +144,15 @@ export function PortalApp() {
                   <Route path="/portal/admin/onboarding/drafts" element={<AdminDraftsPage />} />
                   <Route path="/portal/admin/onboarding/drafts/:draftId" element={<AdminOnboardingDraftPage />} />
                   <Route path="/portal/admin/templates" element={<AdminTemplatesPage />} />
+                  <Route path="/portal/admin/hospitality" element={<AdminHospitalityPage />} />
                   <Route path="/portal/admin/communications" element={<AdminCommunicationsPage />} />
                   <Route path="/portal/admin/administrators" element={<AdminAdministratorsPage />} />
                   <Route path="/portal/admin/audit" element={<AdminAuditPage />} />
                   <Route path="/portal/admin/operations" element={<AdminOperationsPage />} />
+                  <Route path="/portal/admin/access-requests" element={<AdminAccessRequestsPage />} />
                   <Route path="/portal/admin/settings" element={<AdminSettingsPage />} />
                   <Route path="/portal/admin/identity" element={<AdminIdentityPage />} />
+                  <Route path="/portal/admin/billing" element={<AdminBillingPage />} />
                 </Route>
               </Route>
               <Route element={<RequirePortalSession />}>
@@ -145,6 +169,12 @@ export function PortalApp() {
                   <Route path="/portal/team" element={<TeamPage />} />
                   <Route path="/portal/settings" element={<SettingsPage />} />
                   <Route path="/portal/audit" element={<AuditPage />} />
+                  <Route path="/portal/billing" element={<BillingPage />} />
+                  <Route path="/portal/billing/invoices" element={<BillingInvoicesPage />} />
+                  <Route path="/portal/billing/credits" element={<BillingCreditsPage />} />
+                  <Route path="/portal/billing/usage" element={<BillingUsagePage />} />
+                  <Route path="/portal/billing/subscription" element={<BillingPage />} />
+                  <Route path="/portal/billing/checkout" element={<BillingCheckoutPage />} />
                   <Route path="/portal/voice/agents" element={<VoiceAgentsPage />} />
                   <Route path="/portal/voice/agents/:agentId" element={<VoiceAgentDetailPage />} />
                   <Route path="/portal/voice/knowledge" element={<VoiceKnowledgePage />} />
@@ -162,23 +192,27 @@ export function PortalApp() {
                   <Route path="/portal/voice/playground" element={<VoicePlaygroundPage />} />
                   <Route path="/portal/voice/compliance" element={<VoiceCompliancePage />} />
                   <Route path="/portal/support" element={<SupportOverviewPage />} />
-                  <Route path="/portal/support/hospitality" element={<HospitalityWorkspacePage />} />
-                  <Route path="/portal/support/logistics" element={<LogisticsWorkspacePage />} />
-                  <Route path="/portal/support/ecommerce" element={<EcommerceWorkspacePage />} />
-                  <Route path="/portal/support/telecom" element={<TelecomWorkspacePage />} />
-                  <Route path="/portal/support/education" element={<EducationWorkspacePage />} />
-                  <Route path="/portal/support/saas" element={<SaasWorkspacePage />} />
-                  <Route path="/portal/support/appointments" element={<AppointmentsWorkspacePage />} />
-                  <Route path="/portal/support/healthcare" element={<HealthcareAdministrationWorkspacePage />} />
-                  <Route path="/portal/support/professional-services" element={<ProfessionalServicesWorkspacePage />} />
+                  <Route path="/portal/support/hospitality" element={<AssignedVerticalRoute vertical="hospitality"><HospitalityWorkspacePage /></AssignedVerticalRoute>} />
+                  <Route path="/portal/support/logistics" element={<AssignedVerticalRoute vertical="logistics"><LogisticsWorkspacePage /></AssignedVerticalRoute>} />
+                  <Route path="/portal/support/ecommerce" element={<AssignedVerticalRoute vertical="ecommerce"><EcommerceWorkspacePage /></AssignedVerticalRoute>} />
+                  <Route path="/portal/support/telecom" element={<AssignedVerticalRoute vertical="telecom"><TelecomWorkspacePage /></AssignedVerticalRoute>} />
+                  <Route path="/portal/support/education" element={<AssignedVerticalRoute vertical="education"><EducationWorkspacePage /></AssignedVerticalRoute>} />
+                  <Route path="/portal/support/saas" element={<AssignedVerticalRoute vertical="saas"><SaasWorkspacePage /></AssignedVerticalRoute>} />
+                  <Route path="/portal/support/appointments" element={<AssignedVerticalRoute vertical="appointments"><AppointmentsWorkspacePage /></AssignedVerticalRoute>} />
+                  <Route path="/portal/support/healthcare" element={<AssignedVerticalRoute vertical="healthcare"><HealthcareAdministrationWorkspacePage /></AssignedVerticalRoute>} />
+                  <Route path="/portal/support/professional-services" element={<AssignedVerticalRoute vertical="professional_services"><ProfessionalServicesWorkspacePage /></AssignedVerticalRoute>} />
                   <Route path="/portal/support/inbox" element={<SupportInboxPage />} />
                   <Route path="/portal/support/tickets" element={<SupportTicketsPage />} />
                   <Route path="/portal/support/tickets/:ticketId" element={<SupportTicketDetailPage />} />
                   <Route path="/portal/support/customers" element={<SupportCustomersPage />} />
                   <Route path="/portal/support/customers/:customerId" element={<SupportCustomerDetailPage />} />
                   <Route path="/portal/support/conversations" element={<SupportConversationsPage />} />
+                  <Route path="/portal/support/conversations/:conversationId" element={<MetaConversationPage />} />
                   <Route path="/portal/support/calls" element={<SupportCallsPage />} />
                   <Route path="/portal/support/channels" element={<ChannelsWorkspacePage />} />
+                  <Route path="/portal/support/channels/meta" element={<MetaConnectionsPage />} />
+                  <Route path="/portal/support/channels/meta/connect" element={<MetaConnectionsPage />} />
+                  <Route path="/portal/support/channels/meta/:connectionId" element={<MetaConnectionDetailPage />} />
                   <Route path="/portal/support/notifications" element={<SupportNotificationsPage />} />
                   <Route path="/portal/support/queues" element={<SupportQueuesPage />} />
                   <Route path="/portal/support/analytics" element={<SupportAnalyticsPage />} />

@@ -1,8 +1,8 @@
-import { Code, Copy, Plus, Warning } from '@phosphor-icons/react'
+import { Code, Copy, Plus } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { createIdempotencyKey, jsonBody, portalFetch } from '../../api/client'
+import { createIdempotencyKey, jsonBody, portalApiOrigin, portalFetch } from '../../api/client'
 import type { VoiceAgentCollection } from '../../api/types'
 import type { VoiceCollection, VoiceWidgetConfig } from '../../api/voice-types'
 import { usePortalAuth } from '../../auth/AuthProvider'
@@ -18,7 +18,7 @@ import {
   StatusPill,
 } from '../components/PortalState'
 
-type WidgetCreateResponse = VoiceWidgetConfig & { plain_key?: string }
+type WidgetCreateResponse = VoiceWidgetConfig
 
 export function VoiceWidgetsPage() {
   const { context, hasScope } = usePortalAuth()
@@ -26,10 +26,11 @@ export function VoiceWidgetsPage() {
   const [agentId, setAgentId] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [channels, setChannels] = useState<string[]>(['browser'])
-  const [origins, setOrigins] = useState('')
+  const [origins, setOrigins] = useState(() => window.location.origin)
   const [captcha, setCaptcha] = useState(false)
-  const [plainKey, setPlainKey] = useState<string | null>(null)
-  const [copied, setCopied] = useState(false)
+  const [createdWidgetId, setCreatedWidgetId] = useState<string | null>(null)
+  const [urlCopied, setUrlCopied] = useState(false)
+  const [snippetCopied, setSnippetCopied] = useState(false)
 
   const widgetsQuery = useVoiceQuery<VoiceCollection<VoiceWidgetConfig>>(
     ['voice-widgets'],
@@ -69,14 +70,12 @@ export function VoiceWidgetsPage() {
     },
     onSuccess: (data) => {
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-widgets'] })
-      if (data.plain_key) {
-        setPlainKey(data.plain_key)
-      }
+      setCreatedWidgetId(data.id)
       setShowCreate(false)
       setAgentId('')
       setDisplayName('')
       setChannels(['browser'])
-      setOrigins('')
+      setOrigins(window.location.origin)
       setCaptcha(false)
     },
   })
@@ -87,11 +86,28 @@ export function VoiceWidgetsPage() {
     )
   }
 
-  async function copyKey() {
-    if (!plainKey) return
-    await navigator.clipboard.writeText(plainKey)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  function publicWidgetUrl(widgetId: string): string {
+    return `${window.location.origin}/chat/${encodeURIComponent(widgetId)}`
+  }
+
+  function embedSnippet(widgetId: string): string {
+    const publicOrigin = window.location.origin
+    const apiOrigin = portalApiOrigin || publicOrigin
+    return `<script src="${publicOrigin}/lumicoria-widget.js" data-widget-id="${widgetId}" data-public-url="${publicOrigin}" data-api-origin="${apiOrigin}" defer></script>`
+  }
+
+  async function copyPublicUrl() {
+    if (!createdWidgetId) return
+    await navigator.clipboard.writeText(publicWidgetUrl(createdWidgetId))
+    setUrlCopied(true)
+    setTimeout(() => setUrlCopied(false), 2000)
+  }
+
+  async function copySnippet() {
+    if (!createdWidgetId) return
+    await navigator.clipboard.writeText(embedSnippet(createdWidgetId))
+    setSnippetCopied(true)
+    setTimeout(() => setSnippetCopied(false), 2000)
   }
 
   if (widgetsQuery.isLoading) return <PortalLoading label="Loading widgets" />
@@ -104,7 +120,7 @@ export function VoiceWidgetsPage() {
       <PortalPageHeader
         eyebrow="Voice embeds"
         title="Widgets"
-        description="Embed voice agents on your website with secure, key-authenticated widgets."
+        description="Give customers a public support page or embed one on your website."
         action={
           hasScope('voice.widgets.manage') ? (
             <button className="portal-primary-button" type="button" onClick={() => setShowCreate(true)}>
@@ -114,18 +130,31 @@ export function VoiceWidgetsPage() {
         }
       />
 
-      {plainKey && (
+      {createdWidgetId && (
         <div className="portal-voice-key-banner">
-          <Warning aria-hidden="true" weight="duotone" />
+          <Code aria-hidden="true" weight="duotone" />
           <div>
-            <strong>Widget API key created</strong>
-            <p>Copy this key now — it will not be shown again.</p>
-            <code className="portal-voice-key-value">{plainKey}</code>
+            <strong>Public support page ready</strong>
+            <p>Share this URL with customers, or copy the embed snippet into the website.</p>
+            <code className="portal-voice-key-value">{publicWidgetUrl(createdWidgetId)}</code>
+            <textarea
+              className="portal-voice-embed-snippet"
+              value={embedSnippet(createdWidgetId)}
+              readOnly
+              rows={3}
+              aria-label="Widget embed snippet"
+              onFocus={(event) => event.currentTarget.select()}
+            />
           </div>
-          <button className="portal-secondary-button" type="button" onClick={() => void copyKey()}>
-            <Copy aria-hidden="true" /> {copied ? 'Copied' : 'Copy'}
-          </button>
-          <button className="portal-secondary-button" type="button" onClick={() => setPlainKey(null)}>
+          <div className="portal-voice-key-actions">
+            <button className="portal-secondary-button" type="button" onClick={() => void copyPublicUrl()}>
+              <Copy aria-hidden="true" /> {urlCopied ? 'URL copied' : 'Copy public URL'}
+            </button>
+            <button className="portal-secondary-button" type="button" onClick={() => void copySnippet()}>
+              <Code aria-hidden="true" /> {snippetCopied ? 'Snippet copied' : 'Copy snippet'}
+            </button>
+          </div>
+          <button className="portal-secondary-button" type="button" onClick={() => setCreatedWidgetId(null)}>
             Dismiss
           </button>
         </div>
@@ -208,9 +237,6 @@ export function VoiceWidgetsPage() {
                 ))}
                 <span className="portal-voice-card-badge">{w.origins.length} origin{w.origins.length !== 1 ? 's' : ''}</span>
               </div>
-              {w.key_prefix && (
-                <p className="portal-voice-mono portal-voice-muted">Key: {w.key_prefix}…</p>
-              )}
               <time className="portal-voice-muted">{formatPortalDate(w.updated_at)}</time>
             </Link>
           ))}

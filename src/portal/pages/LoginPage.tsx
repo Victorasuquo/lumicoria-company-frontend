@@ -170,7 +170,7 @@ export function LoginPage() {
               {!submitting && <ArrowRight aria-hidden="true" weight="bold" />}
             </button>
           </form>
-          <p className="portal-auth-help">Access is invitation-only. Contact your Lumicoria engagement lead if you need an account.</p>
+          <p className="portal-auth-help">Access is invitation-only. <a href="/portal/request-access">Request a company workspace</a> or contact your Lumicoria engagement lead.</p>
         </div>
       </section>
       <footer className="portal-auth-footer">

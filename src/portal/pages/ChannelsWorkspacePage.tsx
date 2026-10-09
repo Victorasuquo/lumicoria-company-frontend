@@ -157,7 +157,7 @@ export function ChannelsWorkspacePage() {
             description="Signed Meta webhooks are implemented for messages, comments, and page events."
             state="server_setup"
             detail="A page connection and webhook credentials must be configured by an administrator before this is live."
-            action={{ label: 'Review setup', to: '/portal/support/integrations' }}
+            action={{ label: 'Connect Meta', to: '/portal/support/channels/meta' }}
           />
           <ChannelCard
             icon={InstagramLogo}
@@ -166,7 +166,7 @@ export function ChannelsWorkspacePage() {
             description="Instagram requests can follow the same conversation and ticket path as other customer messages."
             state="server_setup"
             detail="The backend route is ready, but no live page connection is claimed here."
-            action={{ label: 'Review setup', to: '/portal/support/integrations' }}
+            action={{ label: 'Connect Meta', to: '/portal/support/channels/meta' }}
           />
           <ChannelCard
             icon={EnvelopeSimple}

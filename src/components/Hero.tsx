@@ -75,7 +75,7 @@ export function Hero() {
             </motion.p>
 
             <motion.div className="hero-actions" {...enter(0.3)}>
-              <a className="button button-white" href={salesFormHref} target="_blank" rel="noreferrer">
+              <a className="button button-white" href={salesFormHref}>
                 Talk to our team
                 <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>

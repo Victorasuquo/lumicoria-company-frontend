@@ -37,7 +37,7 @@ export function Nav() {
           <a href="/portal/login">Client portal</a>
         </div>
 
-        <a className="nav-cta" href={salesFormHref} target="_blank" rel="noreferrer">
+        <a className="nav-cta" href={salesFormHref}>
           Talk to our team
           <ArrowUpRight aria-hidden="true" weight="bold" />
         </a>
@@ -85,7 +85,7 @@ export function Nav() {
                 Client portal
               </motion.a>
             </div>
-            <a className="button button-primary button-block" href={salesFormHref} target="_blank" rel="noreferrer">
+            <a className="button button-primary button-block" href={salesFormHref}>
               Talk to our team
               <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>

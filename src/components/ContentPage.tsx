@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowUpRight, CheckCircle, EnvelopeSimple } from '@phosphor-icons/react'
 import { useEffect } from 'react'
-import { contactHref, engagements, outcomes } from '../data/site'
+import { contactHref, engagements, outcomes, salesFormHref } from '../data/site'
 import { Reveal } from './Reveal'
 
 type PageSection = {
@@ -264,7 +264,7 @@ export function ContentPage({ path }: { path: string }) {
             <div className="content-page-lede">
               {page.status && <span>{page.status}</span>}
               <p>{page.lede}</p>
-              <a className="button button-primary" href={contactHref}>
+              <a className="button button-primary" href={salesFormHref}>
                 Talk to our team <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>
             </div>

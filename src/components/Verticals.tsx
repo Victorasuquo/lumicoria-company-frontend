@@ -96,7 +96,7 @@ export function Verticals() {
             We begin with businesses where missed calls become lost orders, delayed bookings, or unresolved customer issues. The workflow changes by industry, but the outcome stays clear.
           </p>
           <div className="verticals-intro-actions">
-            <a className="button button-primary" href={salesFormHref} target="_blank" rel="noreferrer">
+            <a className="button button-primary" href={salesFormHref}>
               Talk to our team <ArrowRight aria-hidden="true" weight="bold" />
             </a>
             <a className="text-link" href="/industries">

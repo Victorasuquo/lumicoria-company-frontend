@@ -1,9 +1,9 @@
-import { ArrowLeft, Copy, PencilSimple, Pause, Play, ShieldWarning, Warning } from '@phosphor-icons/react'
+import { ArrowLeft, Code, Copy, PencilSimple, Pause, Play } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { jsonBody, portalFetch } from '../../api/client'
-import type { VoiceWidgetConfig, VoiceWidgetKeyRotation, VoiceWidgetPause } from '../../api/voice-types'
+import { jsonBody, portalApiOrigin, portalFetch } from '../../api/client'
+import type { VoiceWidgetConfig, VoiceWidgetPause } from '../../api/voice-types'
 import { usePortalAuth } from '../../auth/AuthProvider'
 import { useVoiceQuery } from '../hooks'
 import { portalQueryClient } from '../query'
@@ -24,9 +24,10 @@ export function VoiceWidgetDetailPage() {
   const [editChannels, setEditChannels] = useState<string[]>([])
   const [editCaptcha, setEditCaptcha] = useState(false)
   const [editContext, setEditContext] = useState(false)
-  const [plainKey, setPlainKey] = useState<string | null>(null)
-  const [copied, setCopied] = useState(false)
-  const [confirmRotate, setConfirmRotate] = useState(false)
+  const [editingOrigins, setEditingOrigins] = useState(false)
+  const [editOrigins, setEditOrigins] = useState('')
+  const [urlCopied, setUrlCopied] = useState(false)
+  const [snippetCopied, setSnippetCopied] = useState(false)
 
   const widgetQuery = useVoiceQuery<VoiceWidgetConfig>(
     ['voice-widget', widgetId],
@@ -57,25 +58,6 @@ export function VoiceWidgetDetailPage() {
     onSuccess: () => {
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-widget', widgetId] })
       setEditing(false)
-    },
-  })
-
-  const rotateMutation = useMutation({
-    mutationFn: async () => {
-      if (!context) throw new Error('Context unavailable.')
-      const { data } = await portalFetch<VoiceWidgetKeyRotation>(
-        `/voice/widgets/${widgetId}/rotate-key`,
-        {
-          organizationId: context.organization_id,
-          method: 'POST',
-        },
-      )
-      return data
-    },
-    onSuccess: (data) => {
-      setPlainKey(data.plain_key)
-      setConfirmRotate(false)
-      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-widget', widgetId] })
     },
   })
 
@@ -113,6 +95,32 @@ export function VoiceWidgetDetailPage() {
     },
   })
 
+  const originsMutation = useMutation({
+    mutationFn: async () => {
+      if (!context || !widget) throw new Error('Context unavailable.')
+      const origins = editOrigins
+        .split('\n')
+        .map((origin) => origin.trim())
+        .filter(Boolean)
+        .map((origin) => ({ origin }))
+      if (!origins.length) throw new Error('At least one allowed origin is required.')
+      const { data } = await portalFetch<VoiceWidgetConfig>(
+        `/voice/widgets/${widgetId}/origins`,
+        {
+          organizationId: context.organization_id,
+          method: 'PUT',
+          ifMatch: `"v${widget.version}"`,
+          ...jsonBody({ origins }),
+        },
+      )
+      return data
+    },
+    onSuccess: () => {
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-widget', widgetId] })
+      setEditingOrigins(false)
+    },
+  })
+
   if (widgetQuery.isLoading) return <PortalLoading label="Loading widget" />
   if (widgetQuery.error) return <PortalError error={widgetQuery.error} onRetry={() => void widgetQuery.refetch()} />
   if (!widget) return <PortalError error={new Error('Widget not found.')} title="Not found" />
@@ -132,11 +140,26 @@ export function VoiceWidgetDetailPage() {
     )
   }
 
-  async function copyKey() {
-    if (!plainKey) return
-    await navigator.clipboard.writeText(plainKey)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  function publicWidgetUrl(): string {
+    return `${window.location.origin}/chat/${encodeURIComponent(widget?.id ?? '')}`
+  }
+
+  function embedSnippet(): string {
+    const publicOrigin = window.location.origin
+    const apiOrigin = portalApiOrigin || publicOrigin
+    return `<script src="${publicOrigin}/lumicoria-widget.js" data-widget-id="${widget?.id ?? 'YOUR_WIDGET_ID'}" data-public-url="${publicOrigin}" data-api-origin="${apiOrigin}" defer></script>`
+  }
+
+  async function copyPublicUrl() {
+    await navigator.clipboard.writeText(publicWidgetUrl())
+    setUrlCopied(true)
+    setTimeout(() => setUrlCopied(false), 2000)
+  }
+
+  async function copySnippet() {
+    await navigator.clipboard.writeText(embedSnippet())
+    setSnippetCopied(true)
+    setTimeout(() => setSnippetCopied(false), 2000)
   }
 
   const canManage = hasScope('voice.widgets.manage')
@@ -160,28 +183,11 @@ export function VoiceWidgetDetailPage() {
         }
       />
 
-      {(updateMutation.error || rotateMutation.error || pauseMutation.error || resumeMutation.error) && (
+      {(updateMutation.error || pauseMutation.error || resumeMutation.error || originsMutation.error) && (
         <PortalError
-          error={updateMutation.error ?? rotateMutation.error ?? pauseMutation.error ?? resumeMutation.error}
+          error={updateMutation.error ?? pauseMutation.error ?? resumeMutation.error ?? originsMutation.error}
           title="Operation failed"
         />
-      )}
-
-      {plainKey && (
-        <div className="portal-voice-key-banner">
-          <Warning aria-hidden="true" weight="duotone" />
-          <div>
-            <strong>New API key generated</strong>
-            <p>Copy this key now — it will not be shown again. The previous key has been revoked.</p>
-            <code className="portal-voice-key-value">{plainKey}</code>
-          </div>
-          <button className="portal-secondary-button" type="button" onClick={() => void copyKey()}>
-            <Copy aria-hidden="true" /> {copied ? 'Copied' : 'Copy'}
-          </button>
-          <button className="portal-secondary-button" type="button" onClick={() => setPlainKey(null)}>
-            Dismiss
-          </button>
-        </div>
       )}
 
       <section className="portal-voice-detail-panel">
@@ -237,8 +243,6 @@ export function VoiceWidgetDetailPage() {
             <dd>{widget.captcha_enabled ? 'Enabled' : 'Disabled'}</dd>
             <dt>Customer context</dt>
             <dd>{widget.customer_context_required ? 'Required' : 'Optional'}</dd>
-            <dt>Key prefix</dt>
-            <dd className="portal-voice-mono">{widget.key_prefix ?? '—'}</dd>
             <dt>Updated</dt>
             <dd>{formatPortalDate(widget.updated_at)}</dd>
           </dl>
@@ -247,7 +251,23 @@ export function VoiceWidgetDetailPage() {
 
       <section className="portal-voice-detail-panel">
         <h3>Allowed Origins</h3>
-        {widget.origins.length > 0 ? (
+        {editingOrigins ? (
+          <div className="portal-voice-form">
+            <p className="portal-voice-hint">Add the exact website origins that may load this widget. Use one origin per line, without a page path.</p>
+            <textarea
+              rows={4}
+              value={editOrigins}
+              onChange={(event) => setEditOrigins(event.target.value)}
+              placeholder="http://127.0.0.1:5173\nhttps://your-company.com"
+            />
+            <div className="portal-voice-form-actions">
+              <button className="portal-secondary-button" type="button" onClick={() => setEditingOrigins(false)}>Cancel</button>
+              <button className="portal-primary-button" type="button" onClick={() => originsMutation.mutate()} disabled={originsMutation.isPending}>
+                {originsMutation.isPending ? 'Saving…' : 'Save origins'}
+              </button>
+            </div>
+          </div>
+        ) : widget.origins.length > 0 ? (
           <ul className="portal-voice-origin-list">
             {widget.origins.map((o) => (
               <li key={o.id}>
@@ -259,6 +279,33 @@ export function VoiceWidgetDetailPage() {
         ) : (
           <p className="portal-voice-hint">No origins configured.</p>
         )}
+        {canManage && !editingOrigins && (
+          <button
+            className="portal-secondary-button"
+            type="button"
+            onClick={() => {
+              setEditOrigins(widget.origins.filter((origin) => origin.status === 'active').map((origin) => origin.origin).join('\n'))
+              setEditingOrigins(true)
+            }}
+          >
+            <PencilSimple aria-hidden="true" /> Edit origins
+          </button>
+        )}
+      </section>
+
+      <section className="portal-voice-detail-panel">
+        <h3>Public support page</h3>
+        <p className="portal-voice-hint">Open this page to test the customer experience, or embed it on a customer website after copying the key from creation or key rotation.</p>
+        <code className="portal-voice-embed-url">{publicWidgetUrl()}</code>
+        <pre className="portal-voice-embed-code"><code>{embedSnippet()}</code></pre>
+        <div className="portal-voice-key-actions">
+          <button className="portal-secondary-button" type="button" onClick={() => void copyPublicUrl()}>
+            <Copy aria-hidden="true" /> {urlCopied ? 'URL copied' : 'Copy public URL'}
+          </button>
+          <button className="portal-secondary-button" type="button" onClick={() => void copySnippet()}>
+            <Code aria-hidden="true" /> {snippetCopied ? 'Snippet copied' : 'Copy snippet'}
+          </button>
+        </div>
       </section>
 
       {canManage && (
@@ -285,27 +332,6 @@ export function VoiceWidgetDetailPage() {
               </button>
             ) : null}
 
-            {confirmRotate ? (
-              <div className="portal-voice-stepup-notice-inline">
-                <ShieldWarning aria-hidden="true" weight="duotone" />
-                <span>Rotating the key revokes the current key immediately.</span>
-                <button
-                  className="portal-primary-button"
-                  type="button"
-                  onClick={() => rotateMutation.mutate()}
-                  disabled={rotateMutation.isPending}
-                >
-                  {rotateMutation.isPending ? 'Rotating…' : 'Confirm rotate'}
-                </button>
-                <button className="portal-secondary-button" type="button" onClick={() => setConfirmRotate(false)}>
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <button className="portal-secondary-button" type="button" onClick={() => setConfirmRotate(true)}>
-                Rotate API key
-              </button>
-            )}
           </div>
         </section>
       )}

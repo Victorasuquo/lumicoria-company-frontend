@@ -36,7 +36,7 @@ export function Engagements() {
                   <li key={item}><Check aria-hidden="true" weight="bold" />{item}</li>
                 ))}
               </ul>
-              <a className={engagement.featured ? 'button button-primary button-block' : 'button button-outline button-block'} href={salesFormHref} target="_blank" rel="noreferrer">
+              <a className={engagement.featured ? 'button button-primary button-block' : 'button button-outline button-block'} href={salesFormHref}>
                 {engagement.cta}
                 <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>

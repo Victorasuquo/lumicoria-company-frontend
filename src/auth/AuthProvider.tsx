@@ -1,5 +1,7 @@
 import {
+  EmailAuthProvider,
   onAuthStateChanged,
+  reauthenticateWithCredential,
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
   type User,
@@ -20,6 +22,7 @@ import {
   getPortalContext,
   getPortalPermissions,
   getPortalSession,
+  stepUpPortalSession,
   switchPortalContext,
 } from '../api/resources'
 import { isPortalApiError } from '../api/client'
@@ -51,6 +54,7 @@ type AuthContextValue = {
   selectedEngagementId: string | null
   firebaseConfigured: boolean
   signIn: (email: string, password: string, rememberMe: boolean) => Promise<SignInResult>
+  stepUp: (password: string) => Promise<void>
   chooseOrganization: (organizationId: string) => Promise<void>
   switchOrganization: (organizationId: string) => Promise<void>
   selectEngagement: (engagementId: string | null) => void
@@ -75,6 +79,7 @@ function engagementStorageKey(organizationId: string) {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<AuthStatus>('loading')
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null)
+  const [authInitialized, setAuthInitialized] = useState(!portalAuth)
   const [session, setSession] = useState<PortalSession | null>(null)
   const [context, setContext] = useState<PortalContext | null>(null)
   const [adminContext, setAdminContext] = useState<AdminContext | null>(null)
@@ -86,7 +91,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!portalAuth) return
-    return onAuthStateChanged(portalAuth, setFirebaseUser)
+    return onAuthStateChanged(portalAuth, (user) => {
+      setFirebaseUser(user)
+      setAuthInitialized(true)
+    })
   }, [])
 
   const applyContext = useCallback(async (
@@ -114,23 +122,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const restore = useCallback(async () => {
+    if (!authInitialized) return
     setStatus('loading')
     try {
+      if (!firebaseUser) throw new Error('No Firebase user is available.')
       const { data: restoredSession } = await getPortalSession()
-      const organizationId = localStorage.getItem(organizationStorageKey)
-        || restoredSession.organization_id
-      await applyContext(restoredSession, organizationId)
+      if (restoredSession.principal_id !== firebaseUser.uid) {
+        await deletePortalSession()
+        throw new Error('The portal session belongs to another identity.')
+      }
+      await applyContext(restoredSession, restoredSession.organization_id)
     } catch {
       try {
         if (!firebaseUser) throw new Error('No Firebase user is available.')
         const identityToken = await firebaseUser.getIdToken()
-        const { data: restoredAdminContext } = await getAdminContext({ identityToken })
-        setSession(null)
-        setContext(null)
-        setPermissions(null)
-        setDestinations([])
-        setAdminContext(restoredAdminContext)
-        setStatus('authenticated')
+        try {
+          const { data: restoredAdminContext } = await getAdminContext({ identityToken })
+          setSession(null)
+          setContext(null)
+          setPermissions(null)
+          setDestinations([])
+          setAdminContext(restoredAdminContext)
+          setStatus('authenticated')
+        } catch {
+          const { data: discoveredContext } = await getPortalContext({ identityToken })
+          const availableDestinations = discoveredContext.destinations ?? []
+          const storedOrganizationId = localStorage.getItem(organizationStorageKey)
+          const organizationId = availableDestinations.find(
+            (destination) => destination.organization_id === storedOrganizationId,
+          )?.organization_id
+            || availableDestinations[0]?.organization_id
+            || discoveredContext.organization_id
+          if (!organizationId) throw new Error('No organisation is available for this identity.')
+          const { data: nextSession } = await createPortalSession(identityToken, organizationId, true)
+          await applyContext(nextSession, organizationId)
+        }
       } catch {
         setSession(null)
         setContext(null)
@@ -140,7 +166,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setStatus('unauthenticated')
       }
     }
-  }, [applyContext, firebaseUser])
+  }, [applyContext, authInitialized, firebaseUser])
 
   useEffect(() => {
     void restore()
@@ -224,6 +250,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await applyContext(nextSession, organizationId)
   }, [applyContext, pendingIdentityToken, pendingRememberMe])
 
+  const stepUp = useCallback(async (password: string) => {
+    if (!portalAuth || !firebaseUser?.email) {
+      throw new Error('Sign in again before confirming your identity.')
+    }
+    const credential = EmailAuthProvider.credential(firebaseUser.email, password)
+    await reauthenticateWithCredential(firebaseUser, credential)
+    let identityToken = await firebaseUser.getIdToken(true)
+    const waitForFirebaseClock = () => new Promise((resolve) => setTimeout(resolve, 1200))
+
+    const completeStepUp = async () => {
+      const { data: steppedUpSession } = await stepUpPortalSession(identityToken)
+      setSession(steppedUpSession)
+    }
+
+    try {
+      await completeStepUp()
+      return
+    } catch (error) {
+      if (isInvalidIdentityToken(error)) {
+        await waitForFirebaseClock()
+        identityToken = await firebaseUser.getIdToken(true)
+      } else if (isPortalApiError(error) && error.problem.code === 'PORTAL_SESSION_REQUIRED' && context?.organization_id) {
+        const { data: restoredSession } = await createPortalSession(
+          identityToken,
+          context.organization_id,
+          true,
+        )
+        setSession(restoredSession)
+      } else {
+        throw error
+      }
+    }
+
+    await completeStepUp()
+  }, [context?.organization_id, firebaseUser])
+
   const switchOrganization = useCallback(async (organizationId: string) => {
     if (!session) return
     await switchPortalContext(organizationId)
@@ -257,6 +319,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setDestinations([])
       setAdminContext(null)
       setSelectedEngagementId(null)
+      localStorage.removeItem(organizationStorageKey)
       setStatus('unauthenticated')
     }
   }, [])
@@ -281,6 +344,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     selectedEngagementId,
     firebaseConfigured: isFirebaseConfigured,
     signIn,
+    stepUp,
     chooseOrganization,
     switchOrganization,
     selectEngagement,

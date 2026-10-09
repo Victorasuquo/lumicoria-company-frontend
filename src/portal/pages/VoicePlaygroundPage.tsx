@@ -180,12 +180,12 @@ export function VoicePlaygroundPage() {
       )
       return data
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       disconnectRoom()
-      if (session) {
+      if (session && data?.session) {
         setSession({
           ...session,
-          session: { ...session.session, status: 'ended' },
+          session: data.session,
         })
       }
       void pollSession()
@@ -342,6 +342,11 @@ export function VoicePlaygroundPage() {
 
             {startMutation.error && (
               <p className="portal-voice-mutation-error">{String(startMutation.error.message)}</p>
+            )}
+            {endMutation.error && (
+              <p className="portal-voice-mutation-error" role="alert">
+                {String(endMutation.error.message)} Session is still active; try ending it again.
+              </p>
             )}
           </div>
 

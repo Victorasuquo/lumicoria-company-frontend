@@ -1,10 +1,16 @@
-import { ArrowLeft, Plus, Warning } from '@phosphor-icons/react'
+import { ArrowLeft, Plus } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { createIdempotencyKey, jsonBody, portalFetch } from '../../api/client'
-import type { VoiceAgent, VoiceAgentVersion, VoiceAgentVersionCollection } from '../../api/types'
+import type {
+  VoiceAgent,
+  VoiceAgentReadiness,
+  VoiceAgentVersion,
+  VoiceAgentVersionCollection,
+} from '../../api/types'
 import type { VoiceCollection, VoiceToolBinding } from '../../api/voice-types'
+import type { VoiceKnowledgeBase } from '../../api/voice-types'
 import { usePortalAuth } from '../../auth/AuthProvider'
 import {
   formatPortalDate,
@@ -26,6 +32,7 @@ export function VoiceAgentDetailPage() {
   const [editDescription, setEditDescription] = useState('')
   const [editLanguage, setEditLanguage] = useState('')
   const [editSupported, setEditSupported] = useState('')
+  const [selectedKnowledgeBaseId, setSelectedKnowledgeBaseId] = useState('')
   const [mutationError, setMutationError] = useState<string | null>(null)
 
   const agentQuery = useVoiceQuery<VoiceAgent>(
@@ -42,6 +49,18 @@ export function VoiceAgentDetailPage() {
     ['voice-agent-bindings', agentId],
     agentId ? `/voice/agents/${agentId}/tool-bindings` : null,
     { enabled: hasScope('voice.tools.read') },
+  )
+
+  const readinessQuery = useVoiceQuery<VoiceAgentReadiness>(
+    ['voice-agent-readiness', agentId],
+    agentId ? `/voice/agents/${agentId}/readiness` : null,
+    { enabled: hasScope('voice.agents.read') },
+  )
+
+  const knowledgeBasesQuery = useVoiceQuery<VoiceCollection<VoiceKnowledgeBase>>(
+    ['voice-agent-knowledge-bases'],
+    '/voice/knowledge-bases?page_size=100',
+    { enabled: hasScope('voice.knowledge.read') },
   )
 
   const updateMutation = useMutation({
@@ -75,6 +94,64 @@ export function VoiceAgentDetailPage() {
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent', agentId] })
     },
     onError: (err) => setMutationError(err instanceof Error ? err.message : 'Failed to create version'),
+  })
+
+  const configureKnowledgeMutation = useMutation({
+    mutationFn: async ({ version, knowledgeBase }: { version: VoiceAgentVersion; knowledgeBase: VoiceKnowledgeBase }) => {
+      const document = JSON.parse(JSON.stringify(version.vtl_document)) as Record<string, any>
+      document.knowledge = {
+        ...document.knowledge,
+        knowledge_base_ids: [knowledgeBase.id],
+        release_bindings: [
+          {
+            knowledge_base_id: knowledgeBase.id,
+            release_id: knowledgeBase.published_release_id,
+            required: true,
+          },
+        ],
+      }
+      const { data } = await portalFetch<VoiceAgentVersion>(
+        `/voice/agents/${agentId}/versions`,
+        {
+          organizationId: context!.organization_id,
+          method: 'POST',
+          idempotencyKey: createIdempotencyKey(),
+          ...jsonBody({ vtl_document: document }),
+        },
+      )
+      return data
+    },
+    onSuccess: () => {
+      setMutationError(null)
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-versions', agentId] })
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-readiness', agentId] })
+    },
+    onError: (err) => setMutationError(err instanceof Error ? err.message : 'Failed to configure knowledge'),
+  })
+
+  const evaluationsMutation = useMutation({
+    mutationFn: async (version: VoiceAgentVersion) => {
+      const evaluation = version.vtl_document.evaluation as { critical_suite_keys?: unknown } | undefined
+      const suiteKeys = Array.isArray(evaluation?.critical_suite_keys)
+        ? evaluation.critical_suite_keys.filter((suiteKey): suiteKey is string => typeof suiteKey === 'string')
+        : []
+      for (const suiteKey of suiteKeys) {
+        await portalFetch(
+          `/voice/agents/${agentId}/evaluations`,
+          {
+            organizationId: context!.organization_id,
+            method: 'POST',
+            idempotencyKey: createIdempotencyKey(),
+            ...jsonBody({ version_id: version.id, suite_key: suiteKey }),
+          },
+        )
+      }
+    },
+    onSuccess: () => {
+      setMutationError(null)
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-readiness', agentId] })
+    },
+    onError: (err) => setMutationError(err instanceof Error ? err.message : 'Required checks failed'),
   })
 
   const publishMutation = useMutation({
@@ -133,6 +210,15 @@ export function VoiceAgentDetailPage() {
   const agent = agentQuery.data
   const versions = versionsQuery.data?.items ?? []
   const bindings = bindingsQuery.data?.items ?? []
+  const latestVersion = [...versions].sort((a, b) => b.version_number - a.version_number)[0] ?? null
+  const publishedKnowledgeBases = (knowledgeBasesQuery.data?.items ?? []).filter(
+    (knowledgeBase) => knowledgeBase.status === 'active' && Boolean(knowledgeBase.published_release_id),
+  )
+  const selectedKnowledgeBase = publishedKnowledgeBases.find(
+    (knowledgeBase) => knowledgeBase.id === selectedKnowledgeBaseId,
+  ) ?? publishedKnowledgeBases[0] ?? null
+  const blockingIssues = readinessQuery.data?.issues.filter((issue) => issue.blocking) ?? []
+  const hasMissingEvaluation = blockingIssues.some((issue) => issue.code === 'CRITICAL_EVALUATION_MISSING' || issue.code === 'CRITICAL_EVALUATION_FAILED')
 
   function enterEditMode() {
     setEditName(agent.name)
@@ -154,7 +240,10 @@ export function VoiceAgentDetailPage() {
     })
   }
 
-  const latestVersion = versions.length ? versions[0] : null
+  function requestPublish(versionId: string) {
+    publishMutation.mutate(versionId)
+  }
+
   const actionBusy = publishMutation.isPending || pauseMutation.isPending || resumeMutation.isPending
 
   return (
@@ -177,6 +266,68 @@ export function VoiceAgentDetailPage() {
       </div>
 
       {mutationError && <p className="portal-voice-mutation-error">{mutationError}</p>}
+
+      <section className={`portal-voice-readiness-panel ${readinessQuery.data?.ready ? 'is-ready' : 'is-blocked'}`}>
+        <div className="portal-voice-readiness-header">
+          <div>
+            <span className="portal-voice-card-category">Publication readiness</span>
+            <h3>{readinessQuery.isLoading ? 'Checking configuration…' : readinessQuery.data?.ready ? 'Ready to publish' : 'Publication is blocked'}</h3>
+            <p>Every blocker below must be cleared before this version can become live.</p>
+          </div>
+          {readinessQuery.data && <StatusPill value={readinessQuery.data.ready ? 'ready' : 'blocked'} />}
+        </div>
+        {readinessQuery.error && <PortalError error={readinessQuery.error} onRetry={() => void readinessQuery.refetch()} />}
+        {blockingIssues.length > 0 && (
+          <ul className="portal-voice-readiness-issues">
+            {blockingIssues.map((issue) => (
+              <li key={`${issue.code}-${issue.path}`}>
+                <div><strong>{humanize(issue.code)}</strong><span>{issue.message}</span></div>
+                {issue.code === 'KNOWLEDGE_RELEASE_REQUIRED' && hasScope('voice.agents.manage') && (
+                  <div className="portal-voice-readiness-action">
+                    {publishedKnowledgeBases.length > 0 ? (
+                      <>
+                        <select
+                          aria-label="Published knowledge base"
+                          value={selectedKnowledgeBase?.id ?? ''}
+                          onChange={(event) => setSelectedKnowledgeBaseId(event.target.value)}
+                        >
+                          {publishedKnowledgeBases.map((knowledgeBase) => <option key={knowledgeBase.id} value={knowledgeBase.id}>{knowledgeBase.name}</option>)}
+                        </select>
+                        <button
+                          className="portal-secondary-button"
+                          type="button"
+                          onClick={() => latestVersion && selectedKnowledgeBase && configureKnowledgeMutation.mutate({ version: latestVersion, knowledgeBase: selectedKnowledgeBase })}
+                          disabled={!latestVersion || !selectedKnowledgeBase || configureKnowledgeMutation.isPending}
+                        >
+                          {configureKnowledgeMutation.isPending ? 'Creating version…' : 'Bind published knowledge'}
+                        </button>
+                      </>
+                    ) : (
+                      <Link className="portal-secondary-button" to="/portal/voice/knowledge">Publish knowledge first</Link>
+                    )}
+                  </div>
+                )}
+                {issue.code === 'CRITICAL_EVALUATION_MISSING' && latestVersion && hasScope('voice.agents.manage') && (
+                  <span className="portal-voice-readiness-action-note">Run the required checks below.</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        {hasMissingEvaluation && latestVersion && hasScope('voice.agents.manage') && (
+          <button
+            className="portal-primary-button"
+            type="button"
+            onClick={() => evaluationsMutation.mutate(latestVersion)}
+            disabled={evaluationsMutation.isPending}
+          >
+            {evaluationsMutation.isPending ? 'Running required checks…' : 'Run required checks'}
+          </button>
+        )}
+        {readinessQuery.data?.issues.some((issue) => issue.code === 'TOOL_BINDING_UNHEALTHY') && (
+          <Link className="portal-secondary-button" to="/portal/voice/tools">Review tool bindings</Link>
+        )}
+      </section>
 
       {/* Configuration panel */}
       <section className="portal-voice-detail-panel">
@@ -253,7 +404,7 @@ export function VoiceAgentDetailPage() {
                   <button
                     className="portal-secondary-button"
                     type="button"
-                    onClick={() => publishMutation.mutate(v.id)}
+                    onClick={() => requestPublish(v.id)}
                     disabled={actionBusy}
                   >
                     Publish
@@ -286,7 +437,7 @@ export function VoiceAgentDetailPage() {
               ))}
             </ul>
           ) : (
-            <PortalEmpty title="No tool bindings" description="Tools will appear here once bound to this agent." />
+            <PortalEmpty title="No tool bindings" description="This version does not require any tools. Bind a tool from Tool Definitions only when the workflow needs a live action." />
           )}
         </section>
       )}
@@ -295,12 +446,11 @@ export function VoiceAgentDetailPage() {
       <section className="portal-voice-action-bar">
         {hasScope('voice.agents.publish') && (agent.status === 'draft' || agent.status === 'test_ready') && latestVersion && (
           <div className="portal-voice-action-group">
-            <p className="portal-voice-step-up-warning"><Warning size={16} /> Publishing requires elevated authentication.</p>
-            <button
-              className="portal-primary-button"
-              type="button"
-              onClick={() => publishMutation.mutate(latestVersion.id)}
-              disabled={actionBusy}
+              <button
+                className="portal-primary-button"
+                type="button"
+                onClick={() => requestPublish(latestVersion.id)}
+                disabled={actionBusy}
             >
               {publishMutation.isPending ? 'Publishing…' : 'Publish agent'}
             </button>
@@ -327,6 +477,7 @@ export function VoiceAgentDetailPage() {
           </button>
         )}
       </section>
+
     </div>
   )
 }
