@@ -1,7 +1,9 @@
 import {
   Buildings,
+  Bed,
   ChartLine,
   ClipboardText,
+  CreditCard,
   FileText,
   Fingerprint,
   GearSix,
@@ -12,6 +14,7 @@ import {
   SquaresFour,
   SignOut,
   UsersThree,
+  UserPlus,
 } from '@phosphor-icons/react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { usePortalAuth } from '../auth/AuthProvider'
@@ -20,14 +23,17 @@ const navigation = [
   { label: 'Overview', to: '/portal/admin', icon: SquaresFour, scope: 'admin.portal.read', end: true },
   { label: 'Organizations', to: '/portal/admin/organizations', icon: Buildings, scope: 'admin.organizations.read' },
   { label: 'Onboarding', to: '/portal/admin/onboarding/new', icon: ListChecks, scope: 'admin.onboarding.manage' },
+  { label: 'Access requests', to: '/portal/admin/access-requests', icon: UserPlus, scope: 'admin.onboarding.manage' },
   { label: 'Drafts', to: '/portal/admin/onboarding/drafts', icon: FileText, scope: 'admin.onboarding.manage' },
   { label: 'Templates', to: '/portal/admin/templates', icon: ClipboardText, scope: 'admin.templates.read' },
+  { label: 'Hospitality', to: '/portal/admin/hospitality', icon: Bed, scope: 'admin.organizations.read' },
   { label: 'Communications', to: '/portal/admin/communications', icon: Megaphone, scope: 'admin.communications.read' },
   { label: 'Administrators', to: '/portal/admin/administrators', icon: UsersThree, scope: 'admin.administrators.manage' },
   { label: 'Audit', to: '/portal/admin/audit', icon: ShieldCheck, scope: 'admin.audit.read' },
   { label: 'Provisioning', to: '/portal/admin/operations', icon: Pulse, scope: 'admin.portal.read' },
   { label: 'Firebase identity', to: '/portal/admin/identity', icon: Fingerprint, scope: 'admin.portal.read' },
   { label: 'Settings', to: '/portal/admin/settings', icon: GearSix, scope: 'admin.portal.read' },
+  { label: 'Billing', to: '/portal/admin/billing', icon: CreditCard, scope: 'admin.billing.read' },
 ]
 
 export function AdminLayout() {

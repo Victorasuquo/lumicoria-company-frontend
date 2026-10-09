@@ -1,4 +1,4 @@
-import { ChartLine, Export } from '@phosphor-icons/react'
+import { ArrowUpRight, Export } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -46,16 +46,19 @@ export function VoiceAnalyticsPage() {
   const summaryQuery = useVoiceQuery<VoiceAnalyticsSummary>(
     ['voice-analytics-summary', fromDate, toDate],
     `/voice/analytics/summary?${dateParams}`,
+    { refetchInterval: 30_000, refetchIntervalInBackground: true },
   )
 
   const timeseriesQuery = useVoiceQuery<VoiceAnalyticsTimeseries>(
     ['voice-analytics-timeseries', fromDate, toDate],
     `/voice/analytics/timeseries?${dateParams}`,
+    { refetchInterval: 30_000, refetchIntervalInBackground: true },
   )
 
   const dispositionsQuery = useVoiceQuery<VoiceAnalyticsDispositions>(
     ['voice-analytics-dispositions', fromDate, toDate],
     `/voice/analytics/dispositions?${dateParams}`,
+    { refetchInterval: 30_000, refetchIntervalInBackground: true },
   )
 
   const callsQuery = useVoiceQuery<VoiceCollection<VoiceCallRecord>>(
@@ -63,7 +66,11 @@ export function VoiceAnalyticsPage() {
     hasScope('voice.call.read')
       ? `/voice/calls?page_size=50&${dateParams}`
       : null,
-    { enabled: hasScope('voice.call.read') },
+    {
+      enabled: hasScope('voice.call.read'),
+      refetchInterval: 30_000,
+      refetchIntervalInBackground: true,
+    },
   )
 
   const exportMutation = useMutation({
@@ -89,6 +96,18 @@ export function VoiceAnalyticsPage() {
   const points = timeseriesQuery.data?.points ?? []
   const dispositions = dispositionsQuery.data?.items ?? []
   const calls = callsQuery.data?.items ?? []
+  const generatedAt = [
+    summary?.meta.generated_at,
+    timeseriesQuery.data?.meta.generated_at,
+    dispositionsQuery.data?.meta.generated_at,
+    callsQuery.data?.meta.generated_at,
+  ]
+    .filter((value): value is string => Boolean(value))
+    .sort()
+    .at(-1)
+  const isRefreshing = [summaryQuery, timeseriesQuery, dispositionsQuery, callsQuery].some(
+    (query) => query.isFetching,
+  )
 
   return (
     <div className="portal-page">
@@ -121,6 +140,18 @@ export function VoiceAnalyticsPage() {
         </label>
       </section>
 
+      {summary && (
+        <div className="portal-voice-analytics-meta" aria-live="polite">
+          <span className="portal-voice-live-status">
+            <span className="portal-voice-live-dot" aria-hidden="true" />
+            {isRefreshing ? 'Refreshing live data' : 'Live workspace data'}
+          </span>
+          <span>{generatedAt ? `Updated ${formatPortalDate(generatedAt, true)}` : 'Updated from server'}</span>
+          <span>{summary.timezone}</span>
+          <span>{summary.from_date} to {summary.to_date}</span>
+        </div>
+      )}
+
       {exportMutation.error && <PortalError error={exportMutation.error} title="Export failed" />}
       {exportMutation.isSuccess && (
         <section className="portal-panel portal-voice-export-notice">
@@ -130,38 +161,52 @@ export function VoiceAnalyticsPage() {
 
       {summary && (
         <section className="portal-voice-metric-grid">
-          <article>
+          <article className="portal-voice-metric-card portal-voice-metric-card--violet">
             <span>Total Calls</span>
             <strong>{summary.total_calls.toLocaleString()}</strong>
+            <small>{summary.completed_calls.toLocaleString()} completed</small>
           </article>
-          <article>
+          <article className="portal-voice-metric-card portal-voice-metric-card--blue">
             <span>Completed</span>
             <strong>{summary.completed_calls.toLocaleString()}</strong>
+            <small>{summary.total_calls.toLocaleString()} total in range</small>
           </article>
-          <article>
+          <article className="portal-voice-metric-card portal-voice-metric-card--green">
             <span>Resolved</span>
             <strong>{summary.resolved_calls.toLocaleString()}</strong>
+            <small>{summary.resolved_calls.toLocaleString()} closed outcomes</small>
           </article>
-          <article>
+          <article className="portal-voice-metric-card portal-voice-metric-card--gold">
             <span>Resolution Rate</span>
             <strong>{pct(summary.resolution_rate).toFixed(1)}%</strong>
+            <small>{summary.resolved_calls} of {summary.total_calls} calls</small>
           </article>
-          <article>
+          <article className="portal-voice-metric-card portal-voice-metric-card--slate">
             <span>Avg Duration</span>
             <strong>{formatDuration(summary.average_duration_seconds)}</strong>
+            <small>{formatDuration(summary.total_duration_seconds)} total talk time</small>
           </article>
-          <article>
+          <article className="portal-voice-metric-card portal-voice-metric-card--cyan">
             <span>Cost</span>
-            <strong>${(summary.total_cost_micros / 1_000_000).toFixed(2)}</strong>
+            <strong>{formatCurrencyMicros(summary.total_cost_micros, summary.currency)}</strong>
+            <small>{summary.processing_failures} processing failures</small>
           </article>
         </section>
       )}
 
       {points.length > 0 && (
         <section className="portal-panel portal-voice-chart">
-          <header>
-            <ChartLine aria-hidden="true" weight="duotone" />
-            <h2>Call Volume</h2>
+          <header className="portal-voice-chart-heading">
+            <div>
+              <span className="portal-voice-section-kicker">Activity over time</span>
+              <h2>Call activity</h2>
+              <p>Volume and resolved outcomes from the selected live data window.</p>
+            </div>
+            <div className="portal-voice-chart-summary">
+              <span><i className="portal-voice-legend-swatch portal-voice-legend-swatch--violet" /> {summary?.total_calls ?? 0} calls</span>
+              <span><i className="portal-voice-legend-swatch portal-voice-legend-swatch--green" /> {summary?.resolved_calls ?? 0} resolved</span>
+              <small>{points.length} days</small>
+            </div>
           </header>
           <TimeseriesChart points={points} />
         </section>
@@ -169,7 +214,13 @@ export function VoiceAnalyticsPage() {
 
       {dispositions.length > 0 && (
         <section className="portal-panel portal-voice-dispositions">
-          <header><h2>Dispositions</h2></header>
+          <header className="portal-voice-section-heading">
+            <div>
+              <span className="portal-voice-section-kicker">Outcome mix</span>
+              <h2>Disposition breakdown</h2>
+            </div>
+            <strong>{dispositionsQuery.data?.total ?? 0} calls</strong>
+          </header>
           {dispositions.map((d) => {
             const p = pct(d.percentage)
             return (
@@ -187,26 +238,52 @@ export function VoiceAnalyticsPage() {
 
       {hasScope('voice.call.read') && (
         <>
-          <h2 className="portal-voice-section-title">Recent Calls</h2>
+          <div className="portal-voice-section-heading portal-voice-recent-heading">
+            <div>
+              <span className="portal-voice-section-kicker">Live activity</span>
+              <h2>Recent calls</h2>
+              <p>Open a call to inspect the full transcript, timeline, and outcome.</p>
+            </div>
+            <span className="portal-voice-recent-count">{calls.length} shown</span>
+          </div>
           {calls.length ? (
-            <section className="portal-panel">
+            <section className="portal-panel portal-voice-recent-panel">
               <div className="portal-voice-call-table">
                 <div className="portal-voice-call-table-header">
-                  <span>Started</span>
+                  <span>Call</span>
                   <span>Agent</span>
-                  <span>Direction</span>
+                  <span>Channel</span>
                   <span>Status</span>
                   <span>Duration</span>
-                  <span>Disposition</span>
+                  <span>Outcome</span>
                 </div>
                 {calls.map((call) => (
                   <Link key={call.id} to={`/portal/voice/calls/${call.id}`} className="portal-voice-call-table-row">
-                    <span>{formatPortalDate(call.started_at, true)}</span>
-                    <span className="portal-voice-truncated">{call.agent_id.slice(0, 12)}</span>
-                    <span><StatusPill value={call.direction} /></span>
-                    <span><StatusPill value={call.status} /></span>
-                    <span>{formatDuration(call.duration_seconds)}</span>
-                    <span>{call.disposition ? humanize(call.disposition) : '—'}</span>
+                    <span className="portal-voice-call-main">
+                      <strong>{call.summary || (call.primary_intent ? humanize(call.primary_intent) : `Call ${shortId(call.id)}`)}</strong>
+                      <small>{formatPortalDate(call.started_at, true)} · {call.provider}</small>
+                    </span>
+                    <span className="portal-voice-call-agent">
+                      <small>Agent</small>
+                      <strong title={call.agent_id}>{shortId(call.agent_id)}</strong>
+                    </span>
+                    <span className="portal-voice-call-channel">
+                      <StatusPill value={call.direction} />
+                      <small>{call.language}</small>
+                    </span>
+                    <span className="portal-voice-call-status">
+                      <StatusPill value={call.status} />
+                      <small>{humanize(call.processing_status)}</small>
+                    </span>
+                    <span className="portal-voice-call-duration">
+                      <strong>{formatDuration(call.duration_seconds)}</strong>
+                      <small>duration</small>
+                    </span>
+                    <span className="portal-voice-call-outcome">
+                      <strong>{call.disposition ? humanize(call.disposition) : 'No disposition'}</strong>
+                      <small>{call.resolution_status ? humanize(call.resolution_status) : 'Awaiting outcome'}</small>
+                      <ArrowUpRight aria-hidden="true" />
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -227,6 +304,23 @@ function formatDuration(seconds: number): string {
   return s > 0 ? `${m}m ${s}s` : `${m}m`
 }
 
+function formatCurrencyMicros(value: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency: currency || 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value / 1_000_000)
+  } catch {
+    return `${currency || 'USD'} ${(value / 1_000_000).toFixed(2)}`
+  }
+}
+
+function shortId(value: string): string {
+  return value.length > 14 ? `${value.slice(0, 8)}…${value.slice(-4)}` : value
+}
+
 function TimeseriesChart({ points }: { points: VoiceAnalyticsTimeseries['points'] }) {
   if (!points.length) return null
 
@@ -234,10 +328,11 @@ function TimeseriesChart({ points }: { points: VoiceAnalyticsTimeseries['points'
   const yTicks = computeYTicks(maxCalls)
   const yMax = yTicks[yTicks.length - 1] || maxCalls
 
-  const padding = { top: 12, right: 16, bottom: 40, left: 40 }
-  const barPadding = 2
-  const barWidth = Math.max(8, Math.min(40, (700 - points.length * barPadding) / points.length))
-  const plotWidth = points.length * (barWidth + barPadding)
+  const padding = { top: 16, right: 20, bottom: 44, left: 44 }
+  const chartWidth = 760
+  const plotWidth = chartWidth - padding.left - padding.right
+  const slotWidth = plotWidth / Math.max(points.length, 1)
+  const barWidth = Math.max(10, Math.min(44, slotWidth * 0.62))
   const plotHeight = 200
   const svgWidth = padding.left + plotWidth + padding.right
   const svgHeight = padding.top + plotHeight + padding.bottom
@@ -247,7 +342,11 @@ function TimeseriesChart({ points }: { points: VoiceAnalyticsTimeseries['points'
       viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       className="portal-voice-chart-svg"
       preserveAspectRatio="xMidYMid meet"
+      role="img"
+      aria-label="Call activity by day showing total and resolved calls"
     >
+      <title>Call activity</title>
+      <desc>Total calls and resolved calls for each day in the selected date range.</desc>
       {yTicks.map((tick) => {
         const y = padding.top + plotHeight - (tick / yMax) * plotHeight
         return (
@@ -275,7 +374,7 @@ function TimeseriesChart({ points }: { points: VoiceAnalyticsTimeseries['points'
 
       {points.map((point, i) => {
         const height = (point.total_calls / yMax) * plotHeight
-        const x = padding.left + i * (barWidth + barPadding)
+        const x = padding.left + i * slotWidth + (slotWidth - barWidth) / 2
         const y = padding.top + plotHeight - height
         const resolvedHeight = (point.resolved_calls / yMax) * plotHeight
         const resolvedY = padding.top + plotHeight - resolvedHeight

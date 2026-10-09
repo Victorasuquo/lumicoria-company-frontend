@@ -240,6 +240,24 @@ export type VoiceBrowserSessionResponse = {
   connection: VoiceBrowserConnectionGrant
 }
 
+export type PublicWidgetConfiguration = {
+  widget_id: string
+  display_name: string
+  theme_json: Record<string, unknown>
+  channels: string[]
+  captcha_enabled: boolean
+  customer_context_required: boolean
+}
+
+export type PublicWidgetSessionResponse = {
+  session_id: string
+  status: string
+  channel: string
+  expires_at: string
+  session: VoiceSession
+  connection: VoiceBrowserConnectionGrant
+}
+
 export type VoiceSessionEvent = {
   id: string
   session_id: string

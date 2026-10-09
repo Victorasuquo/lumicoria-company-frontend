@@ -36,6 +36,14 @@ export function deletePortalSession() {
   return portalFetch<void>('/auth/session', { method: 'DELETE' })
 }
 
+export function stepUpPortalSession(identityToken: string) {
+  return portalFetch<PortalSession>('/auth/session/step-up', {
+    method: 'POST',
+    identityToken,
+    ...jsonBody({ identity_token: identityToken }),
+  })
+}
+
 export function getPortalContext(options: {
   organizationId?: string | null
   identityToken?: string

@@ -17,11 +17,25 @@ import { Verticals } from './components/Verticals'
 const PortalApp = lazy(() => import('./portal/PortalApp').then(({ PortalApp: Portal }) => ({
   default: Portal,
 })))
+const PublicWidgetPage = lazy(() => import('./public/PublicWidgetPage').then(({ PublicWidgetPage: Page }) => ({
+  default: Page,
+})))
+const PublicSupportPage = lazy(() => import('./public/PublicSupportPage').then(({ PublicSupportPage: Page }) => ({
+  default: Page,
+})))
 
 function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
   const isHome = path === '/'
   const isPortal = path === '/portal' || path.startsWith('/portal/')
+  const isPublicWidget = path.startsWith('/chat/') || path.startsWith('/widget/') || path.startsWith('/voice/widget/')
+  const widgetKey = isPublicWidget ? decodeURIComponent(path.split('/').filter(Boolean).at(-1) ?? '') : ''
+  const supportSegments = path.split('/').filter(Boolean)
+  const isPublicSupport = supportSegments[0] === 'support' && Boolean(supportSegments[1])
+  const supportSlug = isPublicSupport ? decodeURIComponent(supportSegments[1]) : ''
+  const supportView = isPublicSupport ? supportSegments[2] : undefined
+  const supportArticleSlug = supportView === 'help' && supportSegments[3] ? decodeURIComponent(supportSegments[3]) : undefined
+  const supportTicketId = supportView === 'status' && supportSegments[3] ? decodeURIComponent(supportSegments[3]) : undefined
 
   useEffect(() => {
     if (!isHome || !window.location.hash) return
@@ -36,6 +50,22 @@ function App() {
     return (
       <Suspense fallback={<div className="portal-route-loader">Loading client portal…</div>}>
         <PortalApp />
+      </Suspense>
+    )
+  }
+
+  if (isPublicWidget && widgetKey) {
+    return (
+      <Suspense fallback={<div className="public-widget-loader">Loading support…</div>}>
+        <PublicWidgetPage widgetKey={widgetKey} />
+      </Suspense>
+    )
+  }
+
+  if (isPublicSupport) {
+    return (
+      <Suspense fallback={<div className="public-widget-loader">Loading support…</div>}>
+        <PublicSupportPage slug={supportSlug} view={supportView} articleSlug={supportArticleSlug} ticketId={supportTicketId} />
       </Suspense>
     )
   }

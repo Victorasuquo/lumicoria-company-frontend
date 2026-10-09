@@ -38,7 +38,7 @@ export function Governance() {
             <p>
               We help teams keep their answers current, review what customers ask, and improve the support workflow as the business changes.
             </p>
-            <a className="text-link" href={salesFormHref} target="_blank" rel="noreferrer">
+            <a className="text-link" href={salesFormHref}>
               Talk to our team <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
           </div>

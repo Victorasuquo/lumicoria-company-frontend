@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   CalendarBlank,
+  CheckCircle,
+  EnvelopeSimple,
   Phone,
   Plus,
   TrendUp,
@@ -19,6 +21,7 @@ import {
   type CRMTicket,
   type CRMQueue,
 } from '../../api/crm'
+import type { HospitalityChannelCollection, HospitalityConfiguration, HospitalityHealth, HospitalityIntentCollection } from '../../api/hospitality'
 import { usePortalAuth } from '../../auth/AuthProvider'
 import { usePortalQuery } from '../hooks'
 import {
@@ -102,6 +105,22 @@ export function HospitalityWorkspacePage() {
     hasScope(crmScopes.workflowsRead) ? '/crm/workflows/catalog' : null,
     { enabled: hasScope(crmScopes.workflowsRead) },
   )
+  const configuration = usePortalQuery<HospitalityConfiguration>(
+    ['hospitality', 'configuration'],
+    '/hospitality/configuration',
+  )
+  const channels = usePortalQuery<HospitalityChannelCollection>(
+    ['hospitality', 'channels'],
+    '/hospitality/channels',
+  )
+  const intents = usePortalQuery<HospitalityIntentCollection>(
+    ['hospitality', 'intents'],
+    '/hospitality/intents',
+  )
+  const health = usePortalQuery<HospitalityHealth>(
+    ['hospitality', 'health'],
+    '/hospitality/health',
+  )
 
   const hospitalityTickets = useMemo(
     () => (tickets.data?.items ?? []).filter(isHospitalityTicket),
@@ -147,12 +166,12 @@ export function HospitalityWorkspacePage() {
     },
   })
 
-  if (report.isLoading || tickets.isLoading || workflows.isLoading) return <PortalLoading label="Loading hospitality workspace" />
+  if (report.isLoading || tickets.isLoading || workflows.isLoading || configuration.isLoading || intents.isLoading) return <PortalLoading label="Loading hospitality workspace" />
   if (report.error && !tickets.data) return <PortalError error={report.error} onRetry={() => void report.refetch()} />
 
   return <div className="portal-page support-page hospitality-page">
     <PortalPageHeader
-      eyebrow="Hospitality operations"
+      eyebrow={configuration.data?.hotel_name ? `${configuration.data.hotel_name} · Hospitality operations` : 'Hospitality operations'}
       title="Keep every guest request moving"
       description="Handle booking enquiries, guest requests, and follow-up in one working view while availability, pricing, and sensitive decisions stay with your team."
       action={hasScope(crmScopes.ticketsManage) ? <button className="portal-primary-button" type="button" onClick={() => setShowCreate((current) => !current)}><Plus aria-hidden="true" /> New hospitality request</button> : undefined}
@@ -160,7 +179,7 @@ export function HospitalityWorkspacePage() {
 
     <section className="hospitality-context-bar">
       <div><CalendarBlank aria-hidden="true" weight="duotone" /><label>Reporting from<input type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} /></label></div>
-      <span>Showing requests tagged for hospitality or matched to the booking workflow. Other support work remains in the main Inbox.</span>
+      <span>{configuration.data ? `${configuration.data.timezone} · ${configuration.data.currency} · ` : ''}Showing requests tagged for hospitality or matched to the booking workflow. Other support work remains in the main Inbox.</span>
     </section>
 
     {showCreate && hasScope(crmScopes.ticketsManage) && <form className="portal-panel support-create-form hospitality-request-form" onSubmit={(event) => { event.preventDefault(); createRequest.mutate() }}>
@@ -183,6 +202,17 @@ export function HospitalityWorkspacePage() {
         <section className="portal-panel support-panel">
           <header><div><span className="support-panel-kicker">Reservations and guest care</span><h2>Requests that need attention</h2><p>Use the ticket record to preserve the guest context and the next action.</p></div><Link className="portal-secondary-button" to="/portal/support/inbox">Open main Inbox <ArrowRight aria-hidden="true" /></Link></header>
           {tickets.error ? <PortalError error={tickets.error} onRetry={() => void tickets.refetch()} /> : hospitalityTickets.length ? <div className="hospitality-request-list">{hospitalityTickets.slice(0, 12).map((ticket) => <Link className="hospitality-request-row" to={`/portal/support/tickets/${ticket.id}`} key={ticket.id}><span className={`support-priority support-priority-${ticket.priority}`} aria-label={`${ticket.priority} priority`} /><div><strong>{ticket.subject}</strong><small>{humanize(ticket.source_channel)} · {ticket.category ? humanize(ticket.category) : 'Hospitality request'} · Updated {formatPortalDate(ticket.last_activity_at, true)}</small></div><StatusPill value={ticket.status} /><ArrowRight aria-hidden="true" /></Link>)}</div> : <PortalEmpty title="No hospitality requests yet" description="Create a booking enquiry or connect a channel to begin routing guest work." action={hasScope(crmScopes.ticketsManage) ? <button className="portal-secondary-button" type="button" onClick={() => setShowCreate(true)}><Plus aria-hidden="true" /> Capture request</button> : undefined} />}
+        </section>
+
+        <section className="portal-panel support-panel">
+          <header><div><span className="support-panel-kicker">Connected guest channels</span><h2>Provider status</h2><p>Only verified channels are treated as live for this hotel.</p></div><EnvelopeSimple aria-hidden="true" /></header>
+          {channels.error ? <PortalError error={channels.error} onRetry={() => void channels.refetch()} /> : <div className="hospitality-channel-list">{(channels.data?.items ?? []).map((channel) => <div className="hospitality-channel-row" key={channel.key}><div><strong>{channel.label}</strong><small>{channel.provider} · {channel.detail ?? 'No provider detail'}</small></div><StatusPill value={channel.status} />{channel.status === 'connected' && <CheckCircle aria-hidden="true" />}</div>)}</div>}
+          {health.data?.warnings.length ? <p className="support-data-note">{health.data.warnings.join(' ')}</p> : null}
+        </section>
+
+        <section className="portal-panel support-panel">
+          <header><div><span className="support-panel-kicker">Published request catalogue</span><h2>What this hotel can handle</h2><p>These request types come from the hotel configuration and approved hospitality catalogue.</p></div><span className="hospitality-intent-count">{intents.data?.items.length ?? 0} intents</span></header>
+          {intents.error ? <PortalError error={intents.error} onRetry={() => void intents.refetch()} /> : <div className="hospitality-intent-list">{(intents.data?.items ?? []).map((intent) => <div className="hospitality-intent-row" key={intent.key}><div><strong>{intent.name}</strong><small>{intent.queue_key ? `Queue: ${humanize(intent.queue_key)}` : 'Queue assignment follows the active routing rules.'} · {intent.required_fields.length} required fields</small></div><div className="hospitality-intent-badges"><StatusPill value={intent.status} /><span className={intent.human_approval_required ? 'hospitality-approval-required' : 'hospitality-approval-standard'}>{intent.human_approval_required ? 'Staff approval' : 'Routine response'}</span></div></div>)}</div>}
         </section>
 
         <section className="portal-panel support-panel">

@@ -8,6 +8,7 @@ import {
   CellSignalFull,
   ChartDonut,
   ChartLine,
+  CreditCard,
   CheckSquare,
   ClockCounterClockwise,
   Code,
@@ -52,6 +53,7 @@ const navigation = [
   { label: 'Team', to: '/portal/team', icon: UsersThree, scope: 'engagements.read' },
   { label: 'Settings', to: '/portal/settings', icon: GearSix, scope: 'portal.read' },
   { label: 'Audit', to: '/portal/audit', icon: ClockCounterClockwise, scope: 'security.audit.read' },
+  { label: 'Billing', to: '/portal/billing', icon: CreditCard, scope: 'billing.read' },
 ]
 
 const voiceNavigation = [
@@ -69,15 +71,15 @@ const voiceNavigation = [
 
 const supportNavigation = [
   { label: 'Support overview', to: '/portal/support', icon: SquaresFour, scope: 'crm.tickets.read', end: true },
-  { label: 'Hospitality', to: '/portal/support/hospitality', icon: CalendarBlank, scope: 'crm.tickets.read' },
-  { label: 'Logistics', to: '/portal/support/logistics', icon: Truck, scope: 'crm.tickets.read' },
-  { label: 'Ecommerce', to: '/portal/support/ecommerce', icon: ShoppingBagOpen, scope: 'crm.tickets.read' },
-  { label: 'Telecom', to: '/portal/support/telecom', icon: CellSignalFull, scope: 'crm.tickets.read' },
-  { label: 'Education', to: '/portal/support/education', icon: GraduationCap, scope: 'crm.tickets.read' },
-  { label: 'SaaS and IT', to: '/portal/support/saas', icon: Laptop, scope: 'crm.tickets.read' },
-  { label: 'Appointments', to: '/portal/support/appointments', icon: CalendarCheck, scope: 'crm.tickets.read' },
-  { label: 'Healthcare admin', to: '/portal/support/healthcare', icon: FirstAidKit, scope: 'crm.tickets.read' },
-  { label: 'Professional services', to: '/portal/support/professional-services', icon: Briefcase, scope: 'crm.tickets.read' },
+  { label: 'Hospitality', to: '/portal/support/hospitality', icon: CalendarBlank, scope: 'crm.tickets.read', vertical: 'hospitality' },
+  { label: 'Logistics', to: '/portal/support/logistics', icon: Truck, scope: 'crm.tickets.read', vertical: 'logistics' },
+  { label: 'Ecommerce', to: '/portal/support/ecommerce', icon: ShoppingBagOpen, scope: 'crm.tickets.read', vertical: 'ecommerce' },
+  { label: 'Telecom', to: '/portal/support/telecom', icon: CellSignalFull, scope: 'crm.tickets.read', vertical: 'telecom' },
+  { label: 'Education', to: '/portal/support/education', icon: GraduationCap, scope: 'crm.tickets.read', vertical: 'education' },
+  { label: 'SaaS and IT', to: '/portal/support/saas', icon: Laptop, scope: 'crm.tickets.read', vertical: 'saas' },
+  { label: 'Appointments', to: '/portal/support/appointments', icon: CalendarCheck, scope: 'crm.tickets.read', vertical: 'appointments' },
+  { label: 'Healthcare admin', to: '/portal/support/healthcare', icon: FirstAidKit, scope: 'crm.tickets.read', vertical: 'healthcare' },
+  { label: 'Professional services', to: '/portal/support/professional-services', icon: Briefcase, scope: 'crm.tickets.read', vertical: 'professional_services' },
   { label: 'Inbox', to: '/portal/support/inbox', icon: ListChecks, scope: 'crm.tickets.read' },
   { label: 'Tickets', to: '/portal/support/tickets', icon: FileText, scope: 'crm.tickets.read' },
   { label: 'Customers', to: '/portal/support/customers', icon: UsersThree, scope: 'crm.customers.read' },
@@ -108,6 +110,10 @@ export function PortalLayout() {
   const location = useLocation()
   const isVoiceRoute = location.pathname.startsWith('/portal/voice')
   const isSupportRoute = location.pathname.startsWith('/portal/support')
+  const assignedVertical = context?.vertical ?? null
+  const visibleSupportNavigation = supportNavigation.filter(({ scope, vertical }) => (
+    hasScope(scope) && (!vertical || assignedVertical === 'all' || assignedVertical === vertical)
+  ))
   const [mobileOpen, setMobileOpen] = useState(false)
   const engagementsQuery = useEngagements()
   const unreadQuery = usePortalQuery<UnreadCount>(
@@ -224,10 +230,10 @@ export function PortalLayout() {
               })}
             </>
           )}
-          {supportNavigation.some(({ scope }) => hasScope(scope)) && (
+          {visibleSupportNavigation.length > 0 && (
             <>
               <span className="portal-navigation-section">Support workspace</span>
-              {supportNavigation.filter(({ scope }) => hasScope(scope)).map((item) => {
+              {visibleSupportNavigation.map((item) => {
                 const Icon = item.icon
                 return (
                   <NavLink

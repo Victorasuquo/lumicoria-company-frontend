@@ -176,6 +176,466 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/client-portal/public/access-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Access Request */
+        post: operations["create_public_workspace_access_request"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/public/access-requests/{request_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Public Access Request */
+        get: operations["get_public_workspace_access_request"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Billing Overview */
+        get: operations["get_billing_overview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Billing Plans */
+        get: operations["list_billing_plans"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/checkout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Billing Checkout */
+        post: operations["create_billing_checkout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/credits/checkout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Credit Checkout */
+        post: operations["create_credit_checkout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/checkout/{reference}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Checkout Status */
+        get: operations["get_billing_checkout_status"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Billing Invoices */
+        get: operations["list_billing_invoices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/invoices/{invoice_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Billing Invoice */
+        get: operations["get_billing_invoice"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/transactions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Billing Transactions */
+        get: operations["list_billing_transactions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/subscription": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Billing Subscription */
+        get: operations["get_billing_subscription"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/credits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Billing Credits */
+        get: operations["get_billing_credits"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/credits/topups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Billing Credit Topups */
+        get: operations["list_billing_credit_topups"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/credits/ledger": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Billing Credit Ledger */
+        get: operations["list_billing_credit_ledger"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/subscription/change": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Change Subscription */
+        post: operations["schedule_billing_plan_change"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/subscription/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel Subscription */
+        post: operations["cancel_billing_subscription"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/billing/payment-method/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Update Payment Method */
+        post: operations["update_billing_payment_method"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/admin/billing/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Admin Billing Overview */
+        get: operations["get_admin_billing_overview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/admin/organizations/{organization_id}/billing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Admin Organization Billing */
+        get: operations["get_admin_organization_billing"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/admin/organizations/{organization_id}/billing/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Admin Billing Invoices */
+        get: operations["list_admin_billing_invoices"];
+        put?: never;
+        /** Create Admin Billing Invoice */
+        post: operations["create_admin_billing_invoice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/admin/organizations/{organization_id}/billing/credits/adjust": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Adjust Admin Credits */
+        post: operations["adjust_admin_billing_credits"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/admin/organizations/{organization_id}/billing/reconcile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reconcile Admin Billing */
+        post: operations["reconcile_admin_billing"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/admin/billing/plans/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sync Admin Billing Plans */
+        post: operations["sync_admin_billing_plans"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/admin/organizations/{organization_id}/billing/refunds": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Admin Refund */
+        post: operations["create_admin_billing_refund"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/communications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Client Threads */
+        get: operations["list_client_communication_threads"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/communications/{thread_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Client Thread */
+        get: operations["get_client_communication_thread"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/communications/{thread_id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reply Client Thread */
+        post: operations["reply_client_communication_thread"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/client-portal/organizations": {
         parameters: {
             query?: never;
@@ -2261,6 +2721,620 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/client-portal/social/meta/connect": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Start Meta Connect */
+        get: operations["start_meta_social_connect"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/connections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Meta Connections */
+        get: operations["list_meta_social_connections"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/connections/{connection_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Meta Connection */
+        get: operations["get_meta_social_connection"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/connections/{connection_id}/assets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Meta Assets */
+        get: operations["list_meta_social_assets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/connections/{connection_id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Activate Meta Connection */
+        post: operations["activate_meta_social_connection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/connections/{connection_id}/disconnect": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Disconnect Meta Connection */
+        post: operations["disconnect_meta_social_connection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/connections/{connection_id}/reconnect": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reconnect Meta Connection */
+        post: operations["reconnect_meta_social_connection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/connections/{connection_id}/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Meta Connection Health */
+        get: operations["get_meta_social_health"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/conversations/{conversation_id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send Meta Message */
+        post: operations["send_meta_social_message"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/messages/{message_id}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Retry Meta Message */
+        post: operations["retry_meta_social_message"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/social/messages/{message_id}/delivery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Meta Delivery */
+        get: operations["get_meta_social_delivery"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/webhooks/meta": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Verify Meta Social Webhook */
+        get: operations["verify_meta_social_webhook"];
+        put?: never;
+        /** Receive Meta Social Webhook */
+        post: operations["receive_meta_social_webhook"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Support Profile */
+        get: operations["get_support_profile_api_v1_client_portal_support_profile_get"];
+        /** Update Support Profile */
+        put: operations["update_support_profile_api_v1_client_portal_support_profile_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/profile/public": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Public Profile */
+        get: operations["get_public_profile_api_v1_client_portal_support_profile_public_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/profile/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Validate Support Profile */
+        post: operations["validate_support_profile_api_v1_client_portal_support_profile_validate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/profile/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish Support Profile */
+        post: operations["publish_support_profile_api_v1_client_portal_support_profile_publish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Support Templates */
+        get: operations["support_templates_api_v1_client_portal_support_templates_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Support Settings */
+        get: operations["support_settings_api_v1_client_portal_support_settings_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/conversations/{conversation_id}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Draft Support Reply */
+        post: operations["draft_support_reply_api_v1_client_portal_support_conversations__conversation_id__draft_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/conversations/{conversation_id}/reply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reply To Support Conversation */
+        post: operations["reply_to_support_conversation_api_v1_client_portal_support_conversations__conversation_id__reply_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/conversations/{conversation_id}/classify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Classify Support Conversation */
+        post: operations["classify_support_conversation_api_v1_client_portal_support_conversations__conversation_id__classify_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/faqs/generate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate Support Faq */
+        post: operations["generate_support_faq_api_v1_client_portal_support_faqs_generate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/faqs/{article_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Support Faq */
+        patch: operations["update_support_faq_api_v1_client_portal_support_faqs__article_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/client-portal/support/faqs/{article_id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish Support Faq */
+        post: operations["publish_support_faq_api_v1_client_portal_support_faqs__article_id__publish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/public/support/{slug}/configuration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Public Support Configuration */
+        get: operations["public_support_configuration_api_v1_client_portal_public_support__slug__configuration_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/public/support/{slug}/conversations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Public Support Message */
+        post: operations["public_support_message_api_v1_client_portal_public_support__slug__conversations_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/public/support/{slug}/status/{ticket_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Public Support Status */
+        get: operations["public_support_status_api_v1_client_portal_public_support__slug__status__ticket_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/public/support/{slug}/help": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Public Support Help */
+        get: operations["public_support_help_api_v1_client_portal_public_support__slug__help_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/public/support/{slug}/help/{article_slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Public Support Article */
+        get: operations["public_support_article_api_v1_client_portal_public_support__slug__help__article_slug__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/public/support/{slug}/help/{article_slug}/feedback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Public Support Article Feedback */
+        post: operations["public_support_article_feedback_api_v1_client_portal_public_support__slug__help__article_slug__feedback_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/hospitality/configuration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Hospitality Configuration */
+        get: operations["get_hospitality_configuration"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/hospitality/intents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Hospitality Intents */
+        get: operations["list_hospitality_intents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/hospitality/channels": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Hospitality Channels */
+        get: operations["list_hospitality_channels"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/hospitality/channels/gmail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Hospitality Gmail Status */
+        get: operations["get_hospitality_gmail_status"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/hospitality/conversations/{conversation_id}/gmail-reply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send Hospitality Gmail Reply */
+        post: operations["send_hospitality_gmail_reply"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/hospitality/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Hospitality Health */
+        get: operations["get_hospitality_health"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/client-portal/enterprise/controls": {
         parameters: {
             query?: never;
@@ -3700,6 +4774,23 @@ export interface paths {
         patch: operations["update_voice_widget"];
         trace?: never;
     };
+    "/api/v1/client-portal/voice/widgets/{widget_id}/origins": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Replace the allowed origins for a widget */
+        put: operations["update_voice_widget_origins"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/client-portal/voice/widgets/{widget_id}/rotate-key": {
         parameters: {
             query?: never;
@@ -3779,6 +4870,23 @@ export interface paths {
         put?: never;
         /** Create a public browser voice session */
         post: operations["create_public_browser_session"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/client-portal/public/voice/widgets/{widget_key}/browser-sessions/{public_session_id}/end": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** End a public browser voice session */
+        post: operations["end_public_browser_session"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4106,6 +5214,17 @@ export interface components {
             /** Rationale */
             rationale?: string | null;
         };
+        /** AdminBillingOverviewResponse */
+        AdminBillingOverviewResponse: {
+            /** Organizations */
+            organizations: {
+                [key: string]: unknown;
+            }[];
+            /** Totals */
+            totals: {
+                [key: string]: number;
+            };
+        };
         /** ApprovalDecisionResponse */
         ApprovalDecisionResponse: {
             /** Id */
@@ -4268,6 +5387,11 @@ export interface components {
             /** Due Days */
             due_days?: number | null;
         };
+        /** ArticleFeedbackRequest */
+        ArticleFeedbackRequest: {
+            /** Helpful */
+            helpful: boolean;
+        };
         /** AuditEventCollection */
         AuditEventCollection: {
             /** Items */
@@ -4312,6 +5436,244 @@ export interface components {
              * Format: date-time
              */
             occurred_at: string;
+        };
+        /** BillingCheckoutRequest */
+        BillingCheckoutRequest: {
+            /** Plan Key */
+            plan_key: string;
+            /**
+             * Billing Email
+             * Format: email
+             */
+            billing_email: string;
+        };
+        /** BillingCheckoutResponse */
+        BillingCheckoutResponse: {
+            /** Invoice Id */
+            invoice_id: string;
+            /** Reference */
+            reference: string;
+            /** Authorization Url */
+            authorization_url: string;
+            /** Access Code */
+            access_code?: string | null;
+            /** Status */
+            status: string;
+        };
+        /** BillingCheckoutStatusResponse */
+        BillingCheckoutStatusResponse: {
+            /** Reference */
+            reference: string;
+            /** Invoice Id */
+            invoice_id: string | null;
+            /** Status */
+            status: string;
+            /** Verified */
+            verified: boolean;
+            /** Amount Minor */
+            amount_minor?: number | null;
+            /** Currency */
+            currency?: string | null;
+        };
+        /** BillingCreditCheckoutRequest */
+        BillingCreditCheckoutRequest: {
+            /** Topup Key */
+            topup_key: string;
+            /**
+             * Billing Email
+             * Format: email
+             */
+            billing_email: string;
+        };
+        /** BillingInvoiceLineItemResponse */
+        BillingInvoiceLineItemResponse: {
+            /** Id */
+            id: string;
+            /** Kind */
+            kind: string;
+            /** Description */
+            description: string;
+            /** Quantity */
+            quantity: number;
+            /** Unit Amount Minor */
+            unit_amount_minor: number;
+            /** Total Amount Minor */
+            total_amount_minor: number;
+        };
+        /** BillingInvoiceResponse */
+        BillingInvoiceResponse: {
+            /** Id */
+            id: string;
+            /** Invoice Number */
+            invoice_number: string;
+            /** Purpose */
+            purpose: string;
+            /** Status */
+            status: string;
+            /** Currency */
+            currency: string;
+            /** Subtotal Minor */
+            subtotal_minor: number;
+            /** Total Minor */
+            total_minor: number;
+            /** Amount Paid Minor */
+            amount_paid_minor: number;
+            /** Amount Refunded Minor */
+            amount_refunded_minor: number;
+            /** Period Start */
+            period_start: string | null;
+            /** Period End */
+            period_end: string | null;
+            /** Due At */
+            due_at: string | null;
+            /** Paid At */
+            paid_at: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Line Items */
+            line_items?: components["schemas"]["BillingInvoiceLineItemResponse"][];
+        };
+        /** BillingLedgerEntryResponse */
+        BillingLedgerEntryResponse: {
+            /** Id */
+            id: string;
+            /** Entry Type */
+            entry_type: string;
+            /** Delta Units */
+            delta_units: number;
+            /** Balance After Units */
+            balance_after_units: number;
+            /** Source Type */
+            source_type: string;
+            /** Source Id */
+            source_id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** BillingOverviewResponse */
+        BillingOverviewResponse: {
+            /** Enabled */
+            enabled: boolean;
+            /** Provider */
+            provider: string;
+            /** Currency */
+            currency: string;
+            current_plan: components["schemas"]["BillingPlanResponse"] | null;
+            subscription: components["schemas"]["BillingSubscriptionResponse"] | null;
+            wallet: components["schemas"]["BillingWalletResponse"];
+            /** Invoices */
+            invoices: components["schemas"]["BillingInvoiceResponse"][];
+            /** Payments */
+            payments: components["schemas"]["BillingPaymentResponse"][];
+            /** Grace Period */
+            grace_period: boolean;
+        };
+        /** BillingPaymentResponse */
+        BillingPaymentResponse: {
+            /** Id */
+            id: string;
+            /** Invoice Id */
+            invoice_id: string;
+            /** Provider */
+            provider: string;
+            /** Provider Reference */
+            provider_reference: string;
+            /** Purpose */
+            purpose: string;
+            /** Status */
+            status: string;
+            /** Amount Minor */
+            amount_minor: number;
+            /** Currency */
+            currency: string;
+            /** Provider Fee Minor */
+            provider_fee_minor: number | null;
+            /** Verified At */
+            verified_at: string | null;
+            /** Paid At */
+            paid_at: string | null;
+            /** Failed At */
+            failed_at: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** BillingPlanResponse */
+        BillingPlanResponse: {
+            /** Id */
+            id: string;
+            /** Plan Key */
+            plan_key: string;
+            /** Name */
+            name: string;
+            /** Currency */
+            currency: string;
+            /** Setup Amount Minor */
+            setup_amount_minor: number;
+            /** Monthly Amount Minor */
+            monthly_amount_minor: number;
+            /** Included Credit Units */
+            included_credit_units: number;
+            /** Paystack Plan Code */
+            paystack_plan_code: string | null;
+            /** Status */
+            status: string;
+            /** Version */
+            version: number;
+            /**
+             * Effective At
+             * Format: date-time
+             */
+            effective_at: string;
+        };
+        /** BillingReconcileRequest */
+        BillingReconcileRequest: {
+            /** Reference */
+            reference: string;
+        };
+        /** BillingSubscriptionResponse */
+        BillingSubscriptionResponse: {
+            /** Id */
+            id: string;
+            /** Plan Id */
+            plan_id: string;
+            /** Provider Subscription Code */
+            provider_subscription_code: string | null;
+            /** Status */
+            status: string;
+            /** Current Period Start */
+            current_period_start: string | null;
+            /** Current Period End */
+            current_period_end: string | null;
+            /** Next Charge At */
+            next_charge_at: string | null;
+            /** Grace Until */
+            grace_until: string | null;
+            /** Scheduled Plan Id */
+            scheduled_plan_id: string | null;
+            /** Cancel At Period End */
+            cancel_at_period_end: boolean;
+        };
+        /** BillingWalletResponse */
+        BillingWalletResponse: {
+            /** Id */
+            id: string;
+            /** Balance Units */
+            balance_units: number;
+            /** Reserved Units */
+            reserved_units: number;
+            /** Lifetime Granted Units */
+            lifetime_granted_units: number;
+            /** Lifetime Consumed Units */
+            lifetime_consumed_units: number;
         };
         /** BrowserConnectionGrant */
         BrowserConnectionGrant: {
@@ -5757,6 +7119,79 @@ export interface components {
             page: components["schemas"]["Page"];
             meta: components["schemas"]["ResponseMeta"];
         };
+        /** CommunicationMessageCreate */
+        CommunicationMessageCreate: {
+            /** Body */
+            body: string;
+        };
+        /** CommunicationMessageResponse */
+        CommunicationMessageResponse: {
+            /** Id */
+            id: string;
+            /** Organization Id */
+            organization_id: string;
+            /** Thread Id */
+            thread_id: string;
+            /** Sender Principal Id */
+            sender_principal_id: string;
+            /** Sender Kind */
+            sender_kind: string;
+            /** Body */
+            body: string;
+            /** Visibility */
+            visibility: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** CommunicationThreadCollection */
+        CommunicationThreadCollection: {
+            /** Items */
+            items: components["schemas"]["CommunicationThreadResponse"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** CommunicationThreadDetail */
+        CommunicationThreadDetail: {
+            thread: components["schemas"]["CommunicationThreadResponse"];
+            /** Messages */
+            messages: components["schemas"]["CommunicationMessageResponse"][];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** CommunicationThreadResponse */
+        CommunicationThreadResponse: {
+            /** Id */
+            id: string;
+            /** Organization Id */
+            organization_id: string;
+            /** Subject */
+            subject: string;
+            /** Status */
+            status: string;
+            /**
+             * Last Activity At
+             * Format: date-time
+             */
+            last_activity_at: string;
+            /** Created By */
+            created_by: string;
+            /** Updated By */
+            updated_by: string;
+            /** Version */
+            version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
         /** CompleteUploadCommand */
         CompleteUploadCommand: {
             /** Upload Intent Id */
@@ -5869,6 +7304,13 @@ export interface components {
             safe_metadata?: {
                 [key: string]: unknown;
             };
+        };
+        /** CreditAdjustmentRequest */
+        CreditAdjustmentRequest: {
+            /** Units */
+            units: number;
+            /** Reason */
+            reason: string;
         };
         /** CriterionResult */
         CriterionResult: {
@@ -6399,6 +7841,39 @@ export interface components {
             /** Audience */
             audience?: string | null;
         };
+        /** GmailReplyRequest */
+        GmailReplyRequest: {
+            /** Recipient */
+            recipient: string;
+            /** Subject */
+            subject: string;
+            /** Body */
+            body: string;
+            /** Thread Id */
+            thread_id?: string | null;
+            /** Message Id */
+            message_id?: string | null;
+        };
+        /** GmailStatusResponse */
+        GmailStatusResponse: {
+            /** Connection Id */
+            connection_id: string | null;
+            /** Status */
+            status: string;
+            /** Mailbox */
+            mailbox: string | null;
+            /** Last Sync At */
+            last_sync_at: string | null;
+            /** Last Success At */
+            last_success_at: string | null;
+            /** Sync Cursor */
+            sync_cursor: string | null;
+            /** Last Error Code */
+            last_error_code: string | null;
+            /** Requires Reauthorization */
+            requires_reauthorization: boolean;
+            meta: components["schemas"]["ResponseMeta"];
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -6652,6 +8127,153 @@ export interface components {
              * @enum {string}
              */
             status: "ok" | "ready" | "not_ready";
+        };
+        /** HospitalityChannelCollection */
+        HospitalityChannelCollection: {
+            /** Items */
+            items: components["schemas"]["HospitalityChannelStatus"][];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** HospitalityChannelStatus */
+        HospitalityChannelStatus: {
+            /** Key */
+            key: string;
+            /** Label */
+            label: string;
+            /** Provider */
+            provider: string;
+            /** Status */
+            status: string;
+            /** Configured */
+            configured: boolean;
+            /** Last Event At */
+            last_event_at?: string | null;
+            /** Last Error Code */
+            last_error_code?: string | null;
+            /** Detail */
+            detail?: string | null;
+        };
+        /** HospitalityHealthResponse */
+        HospitalityHealthResponse: {
+            /** Organization Id */
+            organization_id: string;
+            /** Property Status */
+            property_status: string;
+            /** Published Knowledge */
+            published_knowledge: boolean;
+            /** Channels */
+            channels: components["schemas"]["HospitalityChannelStatus"][];
+            /** Intent Count */
+            intent_count: number;
+            /** Warnings */
+            warnings: string[];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** HospitalityIntentCollection */
+        HospitalityIntentCollection: {
+            /** Items */
+            items: components["schemas"]["HospitalityIntentResponse"][];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** HospitalityIntentResponse */
+        HospitalityIntentResponse: {
+            /** Key */
+            key: string;
+            /** Name */
+            name: string;
+            /** Required Fields */
+            required_fields: {
+                [key: string]: unknown;
+            }[];
+            /** Queue Key */
+            queue_key: string | null;
+            /** Human Approval Required */
+            human_approval_required: boolean;
+            /** Escalation Rules */
+            escalation_rules: {
+                [key: string]: unknown;
+            };
+            /** Definition */
+            definition: {
+                [key: string]: unknown;
+            };
+            /** Status */
+            status: string;
+            /** Definition Version */
+            definition_version: number;
+            /** Override Id */
+            override_id?: string | null;
+            /** Version */
+            version?: number | null;
+            /** Published At */
+            published_at?: string | null;
+        };
+        /** HospitalityPropertyConfigResponse */
+        HospitalityPropertyConfigResponse: {
+            /** Id */
+            id: string;
+            /** Organization Id */
+            organization_id: string;
+            /** Hotel Name */
+            hotel_name: string;
+            /** Slug */
+            slug: string;
+            /** Description */
+            description: string | null;
+            /** Timezone */
+            timezone: string;
+            /** Currency */
+            currency: string;
+            /** Default Language */
+            default_language: string;
+            /** Address */
+            address: {
+                [key: string]: unknown;
+            };
+            /** Operating Hours */
+            operating_hours: {
+                [key: string]: unknown;
+            };
+            /** Inventory */
+            inventory: {
+                [key: string]: unknown;
+            };
+            /** Policies */
+            policies: {
+                [key: string]: unknown;
+            };
+            /** Escalation Rules */
+            escalation_rules: {
+                [key: string]: unknown;
+            };
+            /** Enabled Channels */
+            enabled_channels: string[];
+            /** Channel Bindings */
+            channel_bindings: {
+                [key: string]: unknown;
+            };
+            /** Approved Response Rules */
+            approved_response_rules: {
+                [key: string]: unknown;
+            };
+            /** Status */
+            status: string;
+            /** Published At */
+            published_at: string | null;
+            /** Published By */
+            published_by: string | null;
+            /** Version */
+            version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
         };
         /** InvitationAcceptanceResponse */
         InvitationAcceptanceResponse: {
@@ -7393,6 +9015,18 @@ export interface components {
             /** Version */
             version: number;
         };
+        /** ManualInvoiceRequest */
+        ManualInvoiceRequest: {
+            /**
+             * Billing Email
+             * Format: email
+             */
+            billing_email: string;
+            /** Description */
+            description: string;
+            /** Amount Minor */
+            amount_minor: number;
+        };
         /** MembershipCreate */
         MembershipCreate: {
             /** Principal Id */
@@ -7450,6 +9084,239 @@ export interface components {
             email_verified_required?: boolean | null;
             /** Expires At */
             expires_at?: string | null;
+        };
+        /** MetaAsset */
+        MetaAsset: {
+            /** Id */
+            id: string;
+            /** Name */
+            name?: string | null;
+            /** Asset Type */
+            asset_type: string;
+            /** Page Id */
+            page_id?: string | null;
+            /** Instagram Account Id */
+            instagram_account_id?: string | null;
+            /** Waba Id */
+            waba_id?: string | null;
+            /** Phone Number Id */
+            phone_number_id?: string | null;
+        } & {
+            [key: string]: unknown;
+        };
+        /** MetaAssetCollection */
+        MetaAssetCollection: {
+            /** Connection Id */
+            connection_id: string;
+            /** Assets */
+            assets: components["schemas"]["MetaAsset"][];
+        };
+        /** MetaConnectionActivate */
+        MetaConnectionActivate: {
+            /**
+             * Channel
+             * @enum {string}
+             */
+            channel: "whatsapp" | "facebook" | "instagram";
+            /** Asset Id */
+            asset_id: string;
+            /** Page Id */
+            page_id?: string | null;
+            /** Instagram Account Id */
+            instagram_account_id?: string | null;
+            /** Waba Id */
+            waba_id?: string | null;
+            /** Phone Number Id */
+            phone_number_id?: string | null;
+            /** Name */
+            name?: string | null;
+            /** Default Queue Id */
+            default_queue_id?: string | null;
+            /**
+             * Ai Auto Reply
+             * @default false
+             */
+            ai_auto_reply: boolean;
+            /**
+             * Ai Confidence Threshold
+             * @default 0.85
+             */
+            ai_confidence_threshold: number;
+            /**
+             * Actionable Comments
+             * @default true
+             */
+            actionable_comments: boolean;
+        };
+        /** MetaConnectionHealthResponse */
+        MetaConnectionHealthResponse: {
+            /** Connection Id */
+            connection_id: string;
+            /** Status */
+            status: string;
+            /** Provider Reachable */
+            provider_reachable: boolean;
+            /** Webhook Subscribed */
+            webhook_subscribed: boolean;
+            /**
+             * Checked At
+             * Format: date-time
+             */
+            checked_at: string;
+            /** Error Code */
+            error_code?: string | null;
+        };
+        /** MetaOAuthStartResponse */
+        MetaOAuthStartResponse: {
+            /** Authorization Url */
+            authorization_url: string;
+            /**
+             * Provider
+             * @constant
+             */
+            provider: "meta";
+            /**
+             * Expires At
+             * Format: date-time
+             */
+            expires_at: string;
+        };
+        /** MetaOutboundMessageCreate */
+        MetaOutboundMessageCreate: {
+            /** Body */
+            body: string;
+            /** Channel */
+            channel?: ("whatsapp" | "facebook" | "instagram") | null;
+            /** Template Name */
+            template_name?: string | null;
+            /** Template Language */
+            template_language?: string | null;
+            /** Template Parameters */
+            template_parameters?: string[];
+        };
+        /** MetaSocialConnectionCollection */
+        MetaSocialConnectionCollection: {
+            /** Items */
+            items: components["schemas"]["MetaSocialConnectionResponse"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["ResponseMeta"];
+        };
+        /** MetaSocialConnectionResponse */
+        MetaSocialConnectionResponse: {
+            /** Id */
+            id: string;
+            /** Organization Id */
+            organization_id: string;
+            /** Channel */
+            channel: string;
+            /** Status */
+            status: string;
+            /** Name */
+            name: string;
+            /** Auth Mode */
+            auth_mode: string;
+            /** Meta User Id */
+            meta_user_id: string | null;
+            /** Business Id */
+            business_id: string | null;
+            /** Waba Id */
+            waba_id: string | null;
+            /** Phone Number Id */
+            phone_number_id: string | null;
+            /** Page Id */
+            page_id: string | null;
+            /** Instagram Account Id */
+            instagram_account_id: string | null;
+            /** Asset Id */
+            asset_id: string | null;
+            /** Granted Scopes */
+            granted_scopes: string[];
+            /** Credential Configured */
+            credential_configured: boolean;
+            /** Token Expires At */
+            token_expires_at: string | null;
+            /** Webhook Subscription State */
+            webhook_subscription_state: {
+                [key: string]: unknown;
+            };
+            /** Routing Configuration */
+            routing_configuration: {
+                [key: string]: unknown;
+            };
+            /** Ai Configuration */
+            ai_configuration: {
+                [key: string]: unknown;
+            };
+            /** Last Health Check At */
+            last_health_check_at: string | null;
+            /** Last Provider Error Code */
+            last_provider_error_code: string | null;
+            /** Disconnected At */
+            disconnected_at: string | null;
+            /** Version */
+            version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** MetaSocialDeliveryResponse */
+        MetaSocialDeliveryResponse: {
+            /** Id */
+            id: string;
+            /** Organization Id */
+            organization_id: string;
+            /** Connection Id */
+            connection_id: string;
+            /** Conversation Id */
+            conversation_id: string;
+            /** Crm Message Id */
+            crm_message_id: string;
+            /** Channel */
+            channel: string;
+            /** External Thread Id */
+            external_thread_id: string;
+            /** Provider Message Id */
+            provider_message_id: string | null;
+            /** Status */
+            status: string;
+            /** Attempts */
+            attempts: number;
+            /** Last Error Code */
+            last_error_code: string | null;
+            /** Last Error Detail */
+            last_error_detail: string | null;
+            /** Provider Metadata */
+            provider_metadata: {
+                [key: string]: unknown;
+            };
+            /** Version */
+            version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** MetaSocialWebhookResponse */
+        MetaSocialWebhookResponse: {
+            /** Accepted */
+            accepted: boolean;
+            /** Duplicate */
+            duplicate: boolean;
+            /** Event Count */
+            event_count: number;
         };
         /** MilestoneBlockCommand */
         MilestoneBlockCommand: {
@@ -7764,6 +9631,8 @@ export interface components {
             slug: string;
             /** Status */
             status: string;
+            /** Vertical */
+            vertical: string | null;
             /** Data Region */
             data_region: string;
             /** Identity Tenant Id */
@@ -7785,6 +9654,8 @@ export interface components {
         OrganizationUpdate: {
             /** Name */
             name?: string | null;
+            /** Vertical */
+            vertical?: string | null;
         };
         /** Page */
         Page: {
@@ -8090,6 +9961,26 @@ export interface components {
             /** Captcha Token */
             captcha_token?: string | null;
         };
+        /** PublicBrowserSessionResponse */
+        PublicBrowserSessionResponse: {
+            /** Session Id */
+            session_id: string;
+            /** Status */
+            status: string;
+            /** Channel */
+            channel: string;
+            /**
+             * Expires At
+             * Format: date-time
+             */
+            expires_at: string;
+            /** Media Token */
+            media_token?: string | null;
+            /** Media Url */
+            media_url?: string | null;
+            session: components["schemas"]["VoiceSessionResponse"];
+            connection: components["schemas"]["BrowserConnectionGrant"];
+        };
         /** PublicCallbackCreate */
         PublicCallbackCreate: {
             /** Phone Number */
@@ -8159,6 +10050,99 @@ export interface components {
             media_token?: string | null;
             /** Media Url */
             media_url?: string | null;
+        };
+        /** PublicSupportConfiguration */
+        PublicSupportConfiguration: {
+            /** Organization Id */
+            organization_id: string;
+            /** Public Slug */
+            public_slug: string;
+            /** Display Name */
+            display_name: string;
+            /** Logo Url */
+            logo_url: string | null;
+            /** Favicon Url */
+            favicon_url: string | null;
+            /** Hero Title */
+            hero_title: string;
+            /** Hero Description */
+            hero_description: string;
+            /** Primary Color */
+            primary_color: string;
+            /** Accent Color */
+            accent_color: string;
+            /** Support Email */
+            support_email: string | null;
+            /** Response Time Minutes */
+            response_time_minutes: number;
+            /** Public Categories */
+            public_categories: string[];
+            /** Enabled Channels */
+            enabled_channels: string[];
+            /** Customer Context Required */
+            customer_context_required: boolean;
+            /** Help Center Enabled */
+            help_center_enabled: boolean;
+            /** Voice Agent Enabled */
+            voice_agent_enabled: boolean;
+        };
+        /** PublicSupportMessage */
+        PublicSupportMessage: {
+            /** Message Id */
+            message_id: string;
+            /** Thread Id */
+            thread_id: string;
+            /** Visitor Id */
+            visitor_id: string;
+            /** Body */
+            body: string;
+            /** Display Name */
+            display_name?: string | null;
+            /** Email */
+            email?: string | null;
+            /** Subject */
+            subject?: string | null;
+            /** Occurred At */
+            occurred_at?: string | null;
+        };
+        /** PublicSupportMessageResponse */
+        PublicSupportMessageResponse: {
+            /** Conversation Id */
+            conversation_id: string;
+            /** Message Id */
+            message_id: string;
+            /** Ticket Id */
+            ticket_id: string | null;
+            /** Customer Id */
+            customer_id: string | null;
+            /** Response */
+            response: string;
+            /** Response Mode */
+            response_mode: string;
+            /** Citations */
+            citations: string[];
+            /** Handoff Required */
+            handoff_required: boolean;
+        };
+        /** PublicSupportStatusResponse */
+        PublicSupportStatusResponse: {
+            /** Ticket Id */
+            ticket_id: string;
+            /** Subject */
+            subject: string;
+            /** Status */
+            status: string;
+            /** Priority */
+            priority: string;
+            /** Source Channel */
+            source_channel: string;
+            /**
+             * Last Activity At
+             * Format: date-time
+             */
+            last_activity_at: string;
+            /** Conversation Id */
+            conversation_id: string | null;
         };
         /** PublicWidgetConfiguration */
         PublicWidgetConfiguration: {
@@ -8244,6 +10228,15 @@ export interface components {
             /** Recording Id */
             recording_id?: string | null;
         };
+        /** RefundRequest */
+        RefundRequest: {
+            /** Payment Id */
+            payment_id: string;
+            /** Amount Minor */
+            amount_minor?: number | null;
+            /** Reason */
+            reason: string;
+        };
         /** RequestContextResponse */
         RequestContextResponse: {
             /** Principal Id */
@@ -8252,6 +10245,8 @@ export interface components {
             principal_type: string;
             /** Organization Id */
             organization_id: string;
+            /** Vertical */
+            vertical?: string | null;
             /** Engagement Ids */
             engagement_ids: string[];
             /** Scopes */
@@ -8703,6 +10698,11 @@ export interface components {
              */
             published_at: string;
         };
+        /** SubscriptionChangeRequest */
+        SubscriptionChangeRequest: {
+            /** Plan Key */
+            plan_key: string;
+        };
         /** SupervisorSessionCreate */
         SupervisorSessionCreate: {
             /**
@@ -8742,6 +10742,202 @@ export interface components {
              * Format: date-time
              */
             updated_at: string;
+        };
+        /** SupportArticleCollection */
+        SupportArticleCollection: {
+            /** Items */
+            items: components["schemas"]["SupportArticleResponse"][];
+        };
+        /** SupportArticleResponse */
+        SupportArticleResponse: {
+            /** Id */
+            id: string;
+            /** Slug */
+            slug: string;
+            /** Title */
+            title: string;
+            /** Summary */
+            summary: string | null;
+            /** Content */
+            content: string;
+            /** Category */
+            category: string | null;
+            /** Published */
+            published: boolean;
+            /** Published At */
+            published_at: string | null;
+            /** Helpful Count */
+            helpful_count: number;
+            /** Not Helpful Count */
+            not_helpful_count: number;
+        };
+        /** SupportArticleUpdate */
+        SupportArticleUpdate: {
+            /** Title */
+            title: string;
+            /** Slug */
+            slug: string;
+            /** Summary */
+            summary?: string | null;
+            /** Content */
+            content: string;
+            /** Category */
+            category?: string | null;
+        };
+        /** SupportDraftRequest */
+        SupportDraftRequest: {
+            /** Message */
+            message: string;
+        };
+        /** SupportFAQRequest */
+        SupportFAQRequest: {
+            /** Topic */
+            topic: string;
+            /** Context */
+            context?: string | null;
+        };
+        /** SupportProfileResponse */
+        SupportProfileResponse: {
+            /** Public Slug */
+            public_slug: string;
+            /** Display Name */
+            display_name: string;
+            /** Logo Url */
+            logo_url?: string | null;
+            /** Favicon Url */
+            favicon_url?: string | null;
+            /** Hero Title */
+            hero_title: string;
+            /** Hero Description */
+            hero_description: string;
+            /**
+             * Primary Color
+             * @default #6554e8
+             */
+            primary_color: string;
+            /**
+             * Accent Color
+             * @default #8b7cf6
+             */
+            accent_color: string;
+            /** Support Email */
+            support_email?: string | null;
+            /**
+             * Response Time Minutes
+             * @default 60
+             */
+            response_time_minutes: number;
+            /** Public Categories */
+            public_categories?: string[];
+            /** Enabled Channels */
+            enabled_channels?: string[];
+            /** Operating Hours */
+            operating_hours?: {
+                [key: string]: unknown;
+            };
+            /** Ai Policy */
+            ai_policy?: {
+                [key: string]: unknown;
+            };
+            /** Escalation Rules */
+            escalation_rules?: {
+                [key: string]: unknown;
+            }[];
+            /**
+             * Customer Context Required
+             * @default false
+             */
+            customer_context_required: boolean;
+            /**
+             * Help Center Enabled
+             * @default true
+             */
+            help_center_enabled: boolean;
+            /** Active Voice Agent Id */
+            active_voice_agent_id?: string | null;
+            /** Id */
+            id: string;
+            /** Organization Id */
+            organization_id: string;
+            /** Status */
+            status: string;
+            /** Version */
+            version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** SupportProfileUpdate */
+        SupportProfileUpdate: {
+            /** Public Slug */
+            public_slug: string;
+            /** Display Name */
+            display_name: string;
+            /** Logo Url */
+            logo_url?: string | null;
+            /** Favicon Url */
+            favicon_url?: string | null;
+            /** Hero Title */
+            hero_title: string;
+            /** Hero Description */
+            hero_description: string;
+            /**
+             * Primary Color
+             * @default #6554e8
+             */
+            primary_color: string;
+            /**
+             * Accent Color
+             * @default #8b7cf6
+             */
+            accent_color: string;
+            /** Support Email */
+            support_email?: string | null;
+            /**
+             * Response Time Minutes
+             * @default 60
+             */
+            response_time_minutes: number;
+            /** Public Categories */
+            public_categories?: string[];
+            /** Enabled Channels */
+            enabled_channels?: string[];
+            /** Operating Hours */
+            operating_hours?: {
+                [key: string]: unknown;
+            };
+            /** Ai Policy */
+            ai_policy?: {
+                [key: string]: unknown;
+            };
+            /** Escalation Rules */
+            escalation_rules?: {
+                [key: string]: unknown;
+            }[];
+            /**
+             * Customer Context Required
+             * @default false
+             */
+            customer_context_required: boolean;
+            /**
+             * Help Center Enabled
+             * @default true
+             */
+            help_center_enabled: boolean;
+            /** Active Voice Agent Id */
+            active_voice_agent_id?: string | null;
+        };
+        /** SupportReplyRequest */
+        SupportReplyRequest: {
+            /** Body */
+            body: string;
         };
         /** TakeOverRequest */
         TakeOverRequest: {
@@ -9191,6 +11387,14 @@ export interface components {
             page: components["schemas"]["Page"];
             meta: components["schemas"]["ResponseMeta"];
         };
+        /** VoiceAgentChannelDefaults */
+        VoiceAgentChannelDefaults: {
+            /**
+             * Browser
+             * @default true
+             */
+            browser: boolean;
+        };
         /** VoiceAgentCompileResponse */
         VoiceAgentCompileResponse: {
             /** Agent Id */
@@ -9245,6 +11449,8 @@ export interface components {
             default_language: string;
             /** Supported Languages */
             supported_languages?: string[];
+            /** @description Channels provisioned automatically with the new agent. */
+            channel_defaults?: components["schemas"]["VoiceAgentChannelDefaults"];
         };
         /** VoiceAgentEvaluationCollection */
         VoiceAgentEvaluationCollection: {
@@ -10673,6 +12879,11 @@ export interface components {
              */
             created_at: string;
         };
+        /** WidgetOriginsUpdate */
+        WidgetOriginsUpdate: {
+            /** Origins */
+            origins: components["schemas"]["WidgetOriginEntry"][];
+        };
         /** WidgetPauseResponse */
         WidgetPauseResponse: {
             /** Widget Id */
@@ -10685,6 +12896,86 @@ export interface components {
              */
             updated_at: string;
             meta: components["schemas"]["ResponseMeta"];
+        };
+        /** WorkspaceAccessRequestCreate */
+        WorkspaceAccessRequestCreate: {
+            /** Applicant Name */
+            applicant_name: string;
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Phone Number */
+            phone_number?: string | null;
+            /** Company Name */
+            company_name: string;
+            /** Company Email */
+            company_email?: string | null;
+            /** Industry */
+            industry: string;
+            /** Heard About */
+            heard_about?: string | null;
+            /** Website */
+            website?: string | null;
+            /** Use Cases */
+            use_cases?: string[];
+            /** Notes */
+            notes?: string | null;
+        };
+        /** WorkspaceAccessRequestResponse */
+        WorkspaceAccessRequestResponse: {
+            /** Id */
+            id: string;
+            /** Applicant Name */
+            applicant_name: string;
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Phone Number */
+            phone_number: string | null;
+            /** Company Name */
+            company_name: string;
+            /** Company Email */
+            company_email: string | null;
+            /** Industry */
+            industry: string;
+            /** Heard About */
+            heard_about: string | null;
+            /** Website */
+            website: string | null;
+            /** Use Cases */
+            use_cases: string[];
+            /** Notes */
+            notes: string | null;
+            /** Status */
+            status: string;
+            /** Review Note */
+            review_note: string | null;
+            /** Organization Id */
+            organization_id: string | null;
+            /** Invitation Id */
+            invitation_id: string | null;
+            /** Invitation Email Status */
+            invitation_email_status: string;
+            /** Invitation Email Error */
+            invitation_email_error: string | null;
+            /** Reviewed By */
+            reviewed_by: string | null;
+            /** Reviewed At */
+            reviewed_at: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
         };
     };
     responses: never;
@@ -12153,6 +14444,5631 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_public_workspace_access_request: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkspaceAccessRequestCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkspaceAccessRequestResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_public_workspace_access_request: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                request_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkspaceAccessRequestResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_billing_overview: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingOverviewResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_billing_plans: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingPlanResponse"][];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    create_billing_checkout: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BillingCheckoutRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingCheckoutResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    create_credit_checkout: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BillingCreditCheckoutRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingCheckoutResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_billing_checkout_status: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                reference: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingCheckoutStatusResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_billing_invoices: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingInvoiceResponse"][];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_billing_invoice: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                invoice_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingInvoiceResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_billing_transactions: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingPaymentResponse"][];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_billing_subscription: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingSubscriptionResponse"] | null;
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_billing_credits: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingWalletResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_billing_credit_topups: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    }[];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_billing_credit_ledger: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingLedgerEntryResponse"][];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    schedule_billing_plan_change: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubscriptionChangeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingSubscriptionResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    cancel_billing_subscription: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingSubscriptionResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    update_billing_payment_method: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BillingCheckoutRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingCheckoutResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_admin_billing_overview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminBillingOverviewResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_admin_organization_billing: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organization_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingOverviewResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_admin_billing_invoices: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organization_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingInvoiceResponse"][];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    create_admin_billing_invoice: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                organization_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManualInvoiceRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingInvoiceResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    adjust_admin_billing_credits: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                organization_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreditAdjustmentRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingWalletResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    reconcile_admin_billing: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organization_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BillingReconcileRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingCheckoutStatusResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    sync_admin_billing_plans: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingPlanResponse"][];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    create_admin_billing_refund: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                organization_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RefundRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_client_communication_threads: {
+        parameters: {
+            query?: {
+                page_size?: number;
+                page_after?: string | null;
+            };
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommunicationThreadCollection"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_client_communication_thread: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                thread_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommunicationThreadDetail"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    reply_client_communication_thread: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                thread_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CommunicationMessageCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommunicationMessageResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
                 };
             };
         };
@@ -35895,6 +43811,2396 @@ export interface operations {
             };
         };
     };
+    start_meta_social_connect: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaOAuthStartResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_meta_social_connections: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaSocialConnectionCollection"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_meta_social_connection: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaSocialConnectionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_meta_social_assets: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaAssetCollection"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    activate_meta_social_connection: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaConnectionActivate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaSocialConnectionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    disconnect_meta_social_connection: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaSocialConnectionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reconnect_meta_social_connection: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaOAuthStartResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_meta_social_health: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaConnectionHealthResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    send_meta_social_message: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                conversation_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaOutboundMessageCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaSocialDeliveryResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    retry_meta_social_message: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                message_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaSocialDeliveryResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_meta_social_delivery: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                message_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaSocialDeliveryResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    verify_meta_social_webhook: {
+        parameters: {
+            query?: {
+                "hub.mode"?: string | null;
+                "hub.verify_token"?: string | null;
+                "hub.challenge"?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    receive_meta_social_webhook: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Hub-Signature-256"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaSocialWebhookResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_support_profile_api_v1_client_portal_support_profile_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_support_profile_api_v1_client_portal_support_profile_put: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupportProfileUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_public_profile_api_v1_client_portal_support_profile_public_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicSupportConfiguration"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    validate_support_profile_api_v1_client_portal_support_profile_validate_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    publish_support_profile_api_v1_client_portal_support_profile_publish_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    support_templates_api_v1_client_portal_support_templates_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: {
+                            [key: string]: string;
+                        }[];
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    support_settings_api_v1_client_portal_support_settings_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    draft_support_reply_api_v1_client_portal_support_conversations__conversation_id__draft_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                conversation_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupportDraftRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reply_to_support_conversation_api_v1_client_portal_support_conversations__conversation_id__reply_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                conversation_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupportReplyRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: string;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    classify_support_conversation_api_v1_client_portal_support_conversations__conversation_id__classify_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                conversation_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupportDraftRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    generate_support_faq_api_v1_client_portal_support_faqs_generate_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupportFAQRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportArticleResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_support_faq_api_v1_client_portal_support_faqs__article_id__patch: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                article_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupportArticleUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportArticleResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    publish_support_faq_api_v1_client_portal_support_faqs__article_id__publish_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                article_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportArticleResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    public_support_configuration_api_v1_client_portal_public_support__slug__configuration_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicSupportConfiguration"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    public_support_message_api_v1_client_portal_public_support__slug__conversations_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicSupportMessage"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicSupportMessageResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    public_support_status_api_v1_client_portal_public_support__slug__status__ticket_id__get: {
+        parameters: {
+            query: {
+                visitor_id: string;
+            };
+            header?: never;
+            path: {
+                slug: string;
+                ticket_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicSupportStatusResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    public_support_help_api_v1_client_portal_public_support__slug__help_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportArticleCollection"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    public_support_article_api_v1_client_portal_public_support__slug__help__article_slug__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+                article_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupportArticleResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    public_support_article_feedback_api_v1_client_portal_public_support__slug__help__article_slug__feedback_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+                article_slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ArticleFeedbackRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: boolean;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_hospitality_configuration: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalityPropertyConfigResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_hospitality_intents: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalityIntentCollection"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    list_hospitality_channels: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalityChannelCollection"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_hospitality_gmail_status: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GmailStatusResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    send_hospitality_gmail_reply: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                conversation_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GmailReplyRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CRMMessageResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    get_hospitality_health: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalityHealthResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
     get_enterprise_controls: {
         parameters: {
             query?: never;
@@ -43544,6 +53850,45 @@ export interface operations {
             };
         };
     };
+    update_voice_widget_origins: {
+        parameters: {
+            query?: never;
+            header: {
+                "If-Match": string;
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path: {
+                widget_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WidgetOriginsUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WidgetConfigResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     rotate_voice_widget_key: {
         parameters: {
             query?: never;
@@ -43694,6 +54039,38 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicBrowserSessionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    end_public_browser_session: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                widget_key: string;
+                public_session_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
