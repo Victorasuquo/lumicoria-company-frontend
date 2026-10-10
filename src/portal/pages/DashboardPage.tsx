@@ -42,7 +42,7 @@ function numberFromSection(
 
 export function DashboardPage() {
   const { hasScope } = usePortalAuth()
-  const { engagement, engagementId, engagementsQuery } = useSelectedEngagement()
+  const { engagement, engagementId, engagementsQuery } = useSelectedEngagement(hasScope('engagements.read'))
   const dashboardQuery = usePortalQuery<EngagementDashboard>(
     ['dashboard', engagementId],
     engagementId ? `/engagements/${engagementId}/dashboard` : null,

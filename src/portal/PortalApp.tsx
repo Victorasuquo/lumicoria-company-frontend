@@ -12,6 +12,7 @@ import './portal.css'
 
 const AuditPage = lazy(() => import('./pages/AuditPage').then(({ AuditPage: Page }) => ({ default: Page })))
 const DashboardPage = lazy(() => import('./pages/DashboardPage').then(({ DashboardPage: Page }) => ({ default: Page })))
+const CommandCenterPage = lazy(() => import('./pages/CommandCenterPage').then(({ CommandCenterPage: Page }) => ({ default: Page })))
 const DeliverablesPage = lazy(() => import('./pages/DeliverablesPage').then(({ DeliverablesPage: Page }) => ({ default: Page })))
 const InvitationPage = lazy(() => import('./pages/InvitationPage').then(({ InvitationPage: Page }) => ({ default: Page })))
 const LoginPage = lazy(() => import('./pages/LoginPage').then(({ LoginPage: Page }) => ({ default: Page })))
@@ -157,7 +158,8 @@ export function PortalApp() {
               </Route>
               <Route element={<RequirePortalSession />}>
                 <Route element={<PortalLayout />}>
-                  <Route path="/portal" element={<DashboardPage />} />
+                  <Route path="/portal" element={<CommandCenterPage />} />
+                  <Route path="/portal/engagement" element={<DashboardPage />} />
                   <Route path="/portal/milestones" element={<MilestonesPage />} />
                   <Route path="/portal/onboarding" element={<OnboardingPage />} />
                   <Route path="/portal/status-reports" element={<StatusReportsPage />} />

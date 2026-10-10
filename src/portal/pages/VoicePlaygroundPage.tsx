@@ -2,6 +2,7 @@ import { ArrowRight, ArrowsLeftRight, Ear, MicrophoneStage, Phone, Star, Stop, U
 import { useMutation } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Room, RoomEvent, Track, ConnectionState } from 'livekit-client'
+import { useSearchParams } from 'react-router-dom'
 import { portalFetch, createIdempotencyKey, jsonBody } from '../../api/client'
 import type { VoiceAgentCollection } from '../../api/types'
 import type {
@@ -27,6 +28,7 @@ import { portalQueryClient } from '../query'
 export function VoicePlaygroundPage() {
   const { context, hasScope } = usePortalAuth()
   const organizationId = context?.organization_id
+  const [searchParams] = useSearchParams()
 
   const [selectedAgentId, setSelectedAgentId] = useState('')
   const [session, setSession] = useState<VoiceBrowserSessionResponse | null>(null)
@@ -99,6 +101,13 @@ export function VoicePlaygroundPage() {
 
   const agents = agentsQuery.data?.items ?? []
   const isSessionActive = session?.session.status === 'active' || session?.session.status === 'initializing'
+
+  useEffect(() => {
+    const requestedAgent = searchParams.get('agent')
+    if (!selectedAgentId && requestedAgent && agents.some((agent) => agent.id === requestedAgent)) {
+      setSelectedAgentId(requestedAgent)
+    }
+  }, [agents, searchParams, selectedAgentId])
 
   const pollSession = useCallback(async () => {
     if (!session || !organizationId) return

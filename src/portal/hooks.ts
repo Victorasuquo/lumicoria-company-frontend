@@ -25,10 +25,13 @@ export function usePortalQuery<T>(
   })
 }
 
-export function useEngagements() {
+export function useEngagements(
+  options: Omit<UseQueryOptions<ApiCollection<Engagement>, Error>, 'queryKey' | 'queryFn'> = {},
+) {
   return usePortalQuery<ApiCollection<Engagement>>(
     ['engagements'],
     '/engagements?page_size=100',
+    options,
   )
 }
 
@@ -54,9 +57,9 @@ export function useVoiceQuery<T>(
   })
 }
 
-export function useSelectedEngagement() {
+export function useSelectedEngagement(enabled = true) {
   const { selectedEngagementId } = usePortalAuth()
-  const engagementsQuery = useEngagements()
+  const engagementsQuery = useEngagements({ enabled })
   const engagement = engagementsQuery.data?.items.find(
     ({ id }) => id === selectedEngagementId,
   ) ?? null
