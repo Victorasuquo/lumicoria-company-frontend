@@ -60,6 +60,12 @@ type CommandCenterResponse = {
     published_version_id: string | null
     default_language: string
     updated_at: string
+    readiness: {
+      ready: boolean
+      version_id: string | null
+      checks: Record<string, string>
+      blocking_issues: Array<{ code: string; path: string; message: string }>
+    }
   }>
   knowledge_bases: Array<{
     id: string
@@ -174,8 +180,8 @@ export function CommandCenterPage() {
                 {data.agents.slice(0, 6).map((agent) => (
                   <article className="command-center-agent-row" key={agent.id}>
                     <span className="command-center-agent-icon"><Robot aria-hidden="true" weight="duotone" /></span>
-                    <div><strong>{agent.name}</strong><small>{humanize(agent.category)} · {agent.default_language} · Updated {formatPortalDate(agent.updated_at, true)}</small></div>
-                    <StatusPill value={agent.published ? 'published' : agent.status} />
+                    <div><strong>{agent.name}</strong><small>{humanize(agent.category)} · {agent.default_language} · Updated {formatPortalDate(agent.updated_at, true)}</small>{agent.readiness.blocking_issues.length > 0 && <small className="command-center-agent-blocker">{agent.readiness.blocking_issues[0].message}</small>}</div>
+                    <StatusPill value={agent.published ? 'published' : agent.readiness.ready ? 'ready' : agent.status} />
                     <div className="command-center-row-actions">
                       <Link className="portal-secondary-button" to={`/portal/voice/agents/${agent.id}`}>Configure</Link>
                       {agent.published && <Link className="portal-secondary-button" to={`/portal/voice/playground?agent=${encodeURIComponent(agent.id)}`}>Test</Link>}
