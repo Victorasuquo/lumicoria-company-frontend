@@ -1,34 +1,19 @@
 import {
-  ArrowsLeftRight,
   Bell,
   BookOpenText,
-  CalendarCheck,
-  CalendarBlank,
   CaretDown,
-  CellSignalFull,
   ChartDonut,
   ChartLine,
   CreditCard,
-  CheckSquare,
   ClockCounterClockwise,
-  Code,
   FileText,
-  FirstAidKit,
-  FolderOpen,
   GearSix,
-  GraduationCap,
   ListChecks,
-  Laptop,
   Megaphone,
-  Phone,
   Play,
-  Briefcase,
-  ShieldCheck,
-  ShoppingBagOpen,
   SignOut,
   SquaresFour,
   UsersThree,
-  Truck,
   Waveform,
   WhatsappLogo,
   Wrench,
@@ -42,14 +27,10 @@ import { usePortalQuery, useEngagements } from './hooks'
 import { PortalError, PortalLoading, humanize } from './components/PortalState'
 
 const navigation = [
-  { label: 'Overview', to: '/portal', icon: SquaresFour, scope: 'engagements.read', end: true },
-  { label: 'Milestones', to: '/portal/milestones', icon: ChartDonut, scope: 'milestones.read' },
-  { label: 'Onboarding', to: '/portal/onboarding', icon: ListChecks, scope: 'onboarding.read' },
-  { label: 'Status reports', to: '/portal/status-reports', icon: FileText, scope: 'status_reports.read' },
-  { label: 'Deliverables', to: '/portal/deliverables', icon: FolderOpen, scope: 'deliverables.read' },
-  { label: 'Reviews', to: '/portal/reviews', icon: CheckSquare, scope: 'deliverables.review' },
+  { label: 'Command centre', to: '/portal', icon: SquaresFour, scope: 'portal.read', end: true },
+  { label: 'Delivery', to: '/portal/engagement', icon: ChartDonut, scope: 'engagements.read', end: true },
   { label: 'Notifications', to: '/portal/notifications', icon: Bell, scope: 'notifications.read' },
-  { label: 'Lumicoria messages', to: '/portal/communications', icon: Megaphone, scope: 'portal.read' },
+  { label: 'Messages', to: '/portal/communications', icon: Megaphone, scope: 'portal.read' },
   { label: 'Team', to: '/portal/team', icon: UsersThree, scope: 'engagements.read' },
   { label: 'Settings', to: '/portal/settings', icon: GearSix, scope: 'portal.read' },
   { label: 'Audit', to: '/portal/audit', icon: ClockCounterClockwise, scope: 'security.audit.read' },
@@ -60,37 +41,17 @@ const voiceNavigation = [
   { label: 'Voice Agents', to: '/portal/voice/agents', icon: Waveform, scope: 'voice.agents.read' },
   { label: 'Knowledge', to: '/portal/voice/knowledge', icon: BookOpenText, scope: 'voice.knowledge.read' },
   { label: 'Tools', to: '/portal/voice/tools', icon: Wrench, scope: 'voice.tools.read' },
-  { label: 'Handoffs', to: '/portal/voice/handoffs', icon: ArrowsLeftRight, scope: 'voice.handoff.read' },
-  { label: 'Widgets', to: '/portal/voice/widgets', icon: Code, scope: 'voice.widgets.read' },
   { label: 'Playground', to: '/portal/voice/playground', icon: Play, scope: 'voice.sessions.create' },
-  { label: 'Telephony', to: '/portal/voice/telephony', icon: Phone, scope: 'voice.channel.read' },
-  { label: 'WhatsApp', to: '/portal/voice/whatsapp', icon: WhatsappLogo, scope: 'voice.channel.read' },
   { label: 'Analytics', to: '/portal/voice/analytics', icon: ChartLine, scope: 'voice.analytics.read' },
-  { label: 'Compliance', to: '/portal/voice/compliance', icon: ShieldCheck, scope: 'voice.compliance.read' },
 ]
 
 const supportNavigation = [
   { label: 'Support overview', to: '/portal/support', icon: SquaresFour, scope: 'crm.tickets.read', end: true },
-  { label: 'Hospitality', to: '/portal/support/hospitality', icon: CalendarBlank, scope: 'crm.tickets.read', vertical: 'hospitality' },
-  { label: 'Logistics', to: '/portal/support/logistics', icon: Truck, scope: 'crm.tickets.read', vertical: 'logistics' },
-  { label: 'Ecommerce', to: '/portal/support/ecommerce', icon: ShoppingBagOpen, scope: 'crm.tickets.read', vertical: 'ecommerce' },
-  { label: 'Telecom', to: '/portal/support/telecom', icon: CellSignalFull, scope: 'crm.tickets.read', vertical: 'telecom' },
-  { label: 'Education', to: '/portal/support/education', icon: GraduationCap, scope: 'crm.tickets.read', vertical: 'education' },
-  { label: 'SaaS and IT', to: '/portal/support/saas', icon: Laptop, scope: 'crm.tickets.read', vertical: 'saas' },
-  { label: 'Appointments', to: '/portal/support/appointments', icon: CalendarCheck, scope: 'crm.tickets.read', vertical: 'appointments' },
-  { label: 'Healthcare admin', to: '/portal/support/healthcare', icon: FirstAidKit, scope: 'crm.tickets.read', vertical: 'healthcare' },
-  { label: 'Professional services', to: '/portal/support/professional-services', icon: Briefcase, scope: 'crm.tickets.read', vertical: 'professional_services' },
   { label: 'Inbox', to: '/portal/support/inbox', icon: ListChecks, scope: 'crm.tickets.read' },
   { label: 'Tickets', to: '/portal/support/tickets', icon: FileText, scope: 'crm.tickets.read' },
   { label: 'Customers', to: '/portal/support/customers', icon: UsersThree, scope: 'crm.customers.read' },
-  { label: 'Conversations', to: '/portal/support/conversations', icon: ListChecks, scope: 'crm.conversations.read' },
-  { label: 'Calls', to: '/portal/support/calls', icon: Phone, scope: 'voice.call.read' },
   { label: 'Channels', to: '/portal/support/channels', icon: WhatsappLogo, scope: 'crm.integrations.read' },
-  { label: 'Queues', to: '/portal/support/queues', icon: UsersThree, scope: 'crm.queues.read' },
-  { label: 'Workflows', to: '/portal/support/workflows', icon: Wrench, scope: 'crm.workflows.read' },
-  { label: 'Integrations', to: '/portal/support/integrations', icon: ArrowsLeftRight, scope: 'crm.integrations.read' },
   { label: 'Analytics', to: '/portal/support/analytics', icon: ChartLine, scope: 'crm.analytics.read' },
-  { label: 'Notifications', to: '/portal/support/notifications', icon: Bell, scope: 'crm.notifications.read' },
   { label: 'Support settings', to: '/portal/support/settings', icon: GearSix, scope: 'crm.audit.read' },
 ]
 
@@ -110,12 +71,11 @@ export function PortalLayout() {
   const location = useLocation()
   const isVoiceRoute = location.pathname.startsWith('/portal/voice')
   const isSupportRoute = location.pathname.startsWith('/portal/support')
-  const assignedVertical = context?.vertical ?? null
-  const visibleSupportNavigation = supportNavigation.filter(({ scope, vertical }) => (
-    hasScope(scope) && (!vertical || assignedVertical === 'all' || assignedVertical === vertical)
-  ))
+  const isCommandCenter = location.pathname === '/portal'
+  const visibleSupportNavigation = supportNavigation.filter(({ scope }) => hasScope(scope))
   const [mobileOpen, setMobileOpen] = useState(false)
-  const engagementsQuery = useEngagements()
+  const canReadEngagements = hasScope('engagements.read')
+  const engagementsQuery = useEngagements({ enabled: canReadEngagements })
   const unreadQuery = usePortalQuery<UnreadCount>(
     ['notifications', 'unread-count'],
     context?.organization_id
@@ -140,8 +100,8 @@ export function PortalLayout() {
     }
   }, [engagements, selectEngagement, selectedEngagementId])
 
-  if (engagementsQuery.isLoading) return <PortalLoading />
-  if (engagementsQuery.error) {
+  if (canReadEngagements && engagementsQuery.isLoading) return <PortalLoading />
+  if (canReadEngagements && engagementsQuery.error) {
     return <PortalError error={engagementsQuery.error} onRetry={() => void engagementsQuery.refetch()} />
   }
 
@@ -271,8 +231,8 @@ export function PortalLayout() {
       <div className="portal-workspace">
         <header className="portal-topbar">
           <div>
-            <small>{isVoiceRoute ? 'Voice intelligence' : isSupportRoute ? 'Support workspace' : 'Active engagement'}</small>
-            <strong>{isVoiceRoute || isSupportRoute ? (organizationName || 'Organisation workspace') : (selectedEngagement?.name || 'No engagement assigned')}</strong>
+            <small>{isCommandCenter ? 'Command centre' : isVoiceRoute ? 'Voice intelligence' : isSupportRoute ? 'Support workspace' : 'Active engagement'}</small>
+            <strong>{isCommandCenter || isVoiceRoute || isSupportRoute ? (organizationName || 'Organisation workspace') : (selectedEngagement?.name || 'No engagement assigned')}</strong>
           </div>
           {engagements.length > 1 && (
             <label className="portal-engagement-picker">
