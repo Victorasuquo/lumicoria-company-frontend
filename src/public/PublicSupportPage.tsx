@@ -2,6 +2,7 @@ import { Room, RoomEvent, Track, ConnectionState } from 'livekit-client'
 import { FormEvent, type CSSProperties, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { portalApiOrigin, portalBasePath } from '../api/client'
 import './public-support.css'
+import './public-support-lead.css'
 import './public-support-voice.css'
 
 type PublicSupportPageProps = {
@@ -29,6 +30,12 @@ type SupportConfig = {
   help_center_enabled: boolean
   voice_agent_enabled: boolean
   voice_agent_name: string | null
+  lead_capture: {
+    enabled: boolean
+    fields: string[]
+    consent_required: boolean
+    headline: string
+  }
 }
 
 type Article = {
@@ -51,6 +58,46 @@ type ChatResult = {
   response_mode: 'auto' | 'human_handoff'
   citations: string[]
   handoff_required: boolean
+}
+
+type LeadValues = {
+  full_name: string
+  email: string
+  phone: string
+  company_name: string
+  company_website: string
+  industry: string
+  job_title: string
+  support_staff_count: string
+  monthly_enquiry_volume: string
+  current_channels: string[]
+  primary_problem: string
+  preferred_follow_up: string
+  preferred_demo_time: string
+  consent_to_contact: boolean
+}
+
+const leadLabels: Record<keyof LeadValues, string> = {
+  full_name: 'Full name',
+  email: 'Work email',
+  phone: 'Phone or WhatsApp number',
+  company_name: 'Company name',
+  company_website: 'Company website',
+  industry: 'Industry',
+  job_title: 'Your role',
+  support_staff_count: 'Support team size',
+  monthly_enquiry_volume: 'Approximate monthly enquiries',
+  current_channels: 'Current support channels',
+  primary_problem: 'What would you like to improve?',
+  preferred_follow_up: 'Preferred follow-up',
+  preferred_demo_time: 'Preferred demo time',
+  consent_to_contact: 'I agree that the Lumicoria team may contact me about this request.',
+}
+
+const emptyLeadValues: LeadValues = {
+  full_name: '', email: '', phone: '', company_name: '', company_website: '', industry: '',
+  job_title: '', support_staff_count: '', monthly_enquiry_volume: '', current_channels: [],
+  primary_problem: '', preferred_follow_up: '', preferred_demo_time: '', consent_to_contact: false,
 }
 
 const api = `${portalApiOrigin}${portalBasePath}`
@@ -80,6 +127,47 @@ function getOrCreate(slug: string, field: string) {
   const value = crypto.randomUUID()
   window.sessionStorage.setItem(key, value)
   return value
+}
+
+function LeadCaptureForm({ config, slug, visitorId }: { config: SupportConfig; slug: string; visitorId: string }) {
+  const [values, setValues] = useState<LeadValues>(emptyLeadValues)
+  const [sending, setSending] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
+  if (!config.lead_capture.enabled) return null
+
+  const fields = config.lead_capture.fields as Array<keyof LeadValues>
+  const setValue = (field: keyof LeadValues, value: string | boolean | string[]) => setValues(current => ({ ...current, [field]: value }))
+  const toggleChannel = (channel: string) => setValue('current_channels', values.current_channels.includes(channel) ? values.current_channels.filter(item => item !== channel) : [...values.current_channels, channel])
+
+  async function submit(event: FormEvent) {
+    event.preventDefault()
+    if (sending) return
+    setSending(true)
+    setError('')
+    try {
+      await supportRequest(`/public/support/${encodeURIComponent(slug)}/leads`, {
+        method: 'POST',
+        body: JSON.stringify({ ...values, submission_id: crypto.randomUUID(), visitor_id: visitorId }),
+      })
+      setSubmitted(true)
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'We could not save your details.')
+    } finally { setSending(false) }
+  }
+
+  if (submitted) return <div className="public-support-lead-success"><span>✓</span><div><strong>Thanks — your details are with the team.</strong><p>A Lumicoria team member can follow up using the preference you selected.</p></div></div>
+
+  return <form className="public-support-lead" onSubmit={submit}>
+    <div><span className="public-support-eyebrow">Next step</span><h2>{config.lead_capture.headline}</h2><p>Share only what you are comfortable providing. We use these details to prepare a relevant conversation.</p></div>
+    <div className="public-support-lead-grid">
+      {fields.filter(field => field !== 'current_channels' && field !== 'consent_to_contact').map(field => field === 'primary_problem' ? <label key={field} className="public-support-lead-wide">{leadLabels[field]}<textarea value={values[field] as string} onChange={event => setValue(field, event.target.value)} rows={3} /></label> : <label key={field}>{leadLabels[field]}<input type={field === 'email' ? 'email' : field === 'company_website' ? 'url' : 'text'} value={values[field] as string} onChange={event => setValue(field, event.target.value)} required={field === 'full_name' || field === 'email'} /></label>)}
+    </div>
+    {fields.includes('current_channels') && <fieldset className="public-support-lead-options"><legend>{leadLabels.current_channels}</legend>{['Phone calls', 'WhatsApp', 'Instagram', 'Facebook', 'Email', 'Web chat'].map(channel => <label key={channel}><input type="checkbox" checked={values.current_channels.includes(channel)} onChange={() => toggleChannel(channel)} />{channel}</label>)}</fieldset>}
+    {fields.includes('consent_to_contact') && <label className="public-support-lead-consent"><input type="checkbox" checked={values.consent_to_contact} onChange={event => setValue('consent_to_contact', event.target.checked)} required={config.lead_capture.consent_required} />{leadLabels.consent_to_contact}</label>}
+    {error && <p className="public-support-error" role="alert">{error}</p>}
+    <button className="public-support-button" type="submit" disabled={sending}>{sending ? 'Saving…' : 'Request a conversation'} <span>→</span></button>
+  </form>
 }
 
 function Layout({ config, slug, children }: { config: SupportConfig; slug: string; children: React.ReactNode }) {
@@ -141,6 +229,7 @@ function Voice({ config, slug }: { config: SupportConfig; slug: string }) {
   const [ending, setEnding] = useState(false)
   const [status, setStatus] = useState('Ready when you are.')
   const [error, setError] = useState('')
+  const [showLeadCapture, setShowLeadCapture] = useState(false)
   const [session, setSession] = useState<{ session_id: string; connection: { url: string; access_token: string } } | null>(null)
   const roomRef = useRef<Room | null>(null)
   const audioRef = useRef<HTMLDivElement | null>(null)
@@ -188,6 +277,7 @@ function Voice({ config, slug }: { config: SupportConfig; slug: string }) {
     } finally {
       disconnect()
       setSession(null)
+      setShowLeadCapture(config.lead_capture.enabled)
       setEnding(false)
       setStatus('Voice session ended.')
     }
@@ -205,6 +295,7 @@ function Voice({ config, slug }: { config: SupportConfig; slug: string }) {
       {!session ? <button className="public-support-button" type="button" onClick={() => void startVoice()} disabled={starting}>{starting ? 'Connecting…' : `Talk to ${config.voice_agent_name || 'support'}`} <span>↗</span></button> : <button className="public-support-button secondary" type="button" onClick={() => void endVoice()} disabled={ending}>{ending ? 'Ending…' : 'End voice session'}</button>}
       <small>Routine questions use published business information. Sensitive or uncertain requests go to a person.</small>
     </div>
+    {showLeadCapture && <LeadCaptureForm config={config} slug={slug} visitorId={visitorId} />}
   </section>
 }
 
@@ -251,6 +342,7 @@ function Chat({ config, slug }: { config: SupportConfig; slug: string }) {
       </form>
       {ticketId && <div className="public-support-ticket-note">Your request is recorded. <Link to={`/support/${encodeURIComponent(slug)}/status/${encodeURIComponent(ticketId)}`}>Check its status</Link>.</div>}
     </div>
+    <LeadCaptureForm config={config} slug={slug} visitorId={visitorId} />
   </section>
 }
 
