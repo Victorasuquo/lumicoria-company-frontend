@@ -5663,6 +5663,7 @@
 .command-center-checklist-row > span:nth-child(2), .command-center-agent-row > div:nth-child(2), .command-center-ticket-row > div { min-width: 0; }
 .command-center-checklist-row strong, .command-center-checklist-row small, .command-center-agent-row strong, .command-center-agent-row small, .command-center-ticket-row strong, .command-center-ticket-row small { display: block; }
 .command-center-checklist-row small, .command-center-agent-row small, .command-center-ticket-row small { margin-top: .25rem; color: var(--portal-muted); font-size: .7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.command-center-agent-row .command-center-agent-blocker { color: var(--portal-danger, #b42318); }
 .command-center-checklist-icon { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; color: #b26b2b; background: #fff2dc; border-radius: 9px; }
 .command-center-checklist-row.ready .command-center-checklist-icon { color: #197b5e; background: #e1f5eb; }
 .command-center-checklist-row > svg, .command-center-ticket-row > svg, .command-center-foundation-list > a > svg:last-child { color: var(--portal-faint); }

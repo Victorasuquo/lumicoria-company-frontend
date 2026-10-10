@@ -42,6 +42,15 @@ export function VoiceAgentDetailPage() {
   const [promptTerms, setPromptTerms] = useState('')
   const [promptOpening, setPromptOpening] = useState('')
   const [promptClosing, setPromptClosing] = useState('')
+  const [promptIntents, setPromptIntents] = useState('')
+  const [promptKnowledgeConfidence, setPromptKnowledgeConfidence] = useState('0.72')
+  const [promptKnowledgeAction, setPromptKnowledgeAction] = useState('handoff')
+  const [promptAllowedActions, setPromptAllowedActions] = useState('')
+  const [promptMaximumRisk, setPromptMaximumRisk] = useState('A1')
+  const [promptConfirmationPhrases, setPromptConfirmationPhrases] = useState('')
+  const [promptHandoffRules, setPromptHandoffRules] = useState('')
+  const [promptTimezone, setPromptTimezone] = useState('UTC')
+  const [promptOutsideHoursAction, setPromptOutsideHoursAction] = useState('create_ticket')
   const [selectedKnowledgeBaseId, setSelectedKnowledgeBaseId] = useState('')
   const [mutationError, setMutationError] = useState<string | null>(null)
 
@@ -92,6 +101,11 @@ export function VoiceAgentDetailPage() {
     const document = latest.vtl_document as Record<string, any>
     const identity = (document.identity ?? {}) as Record<string, any>
     const disclosure = (document.disclosure ?? {}) as Record<string, any>
+    const conversation = (document.conversation ?? {}) as Record<string, any>
+    const knowledge = (document.knowledge ?? {}) as Record<string, any>
+    const actions = (document.actions ?? {}) as Record<string, any>
+    const handoff = (document.handoff ?? {}) as Record<string, any>
+    const businessHours = (document.business_hours ?? {}) as Record<string, any>
     setPromptCompany(typeof identity.company_name === 'string' ? identity.company_name : '')
     setPromptRole(typeof identity.role === 'string' ? identity.role : '')
     setPromptTone(Array.isArray(identity.tone) ? identity.tone.join(', ') : '')
@@ -106,6 +120,15 @@ export function VoiceAgentDetailPage() {
     )
     setPromptOpening(typeof disclosure.opening_text === 'string' ? disclosure.opening_text : '')
     setPromptClosing(typeof disclosure.closing_text === 'string' ? disclosure.closing_text : '')
+    setPromptIntents(Array.isArray(conversation.intents) ? conversation.intents.join('\n') : '')
+    setPromptKnowledgeConfidence(typeof knowledge.minimum_confidence === 'number' ? String(knowledge.minimum_confidence) : '0.72')
+    setPromptKnowledgeAction(typeof knowledge.insufficient_action === 'string' ? knowledge.insufficient_action : 'handoff')
+    setPromptAllowedActions(Array.isArray(actions.allowed_action_classes) ? actions.allowed_action_classes.join('\n') : '')
+    setPromptMaximumRisk(typeof actions.maximum_autonomous_risk === 'string' ? actions.maximum_autonomous_risk : 'A1')
+    setPromptConfirmationPhrases(Array.isArray(actions.confirmation_phrases) ? actions.confirmation_phrases.join('\n') : '')
+    setPromptHandoffRules(Array.isArray(handoff.escalation_rules) ? handoff.escalation_rules.join('\n') : '')
+    setPromptTimezone(typeof businessHours.timezone === 'string' ? businessHours.timezone : 'UTC')
+    setPromptOutsideHoursAction(typeof businessHours.outside_hours_action === 'string' ? businessHours.outside_hours_action : 'create_ticket')
   }, [versionsQuery.data])
 
   const updateMutation = useMutation({
@@ -197,6 +220,34 @@ export function VoiceAgentDetailPage() {
         ...(document.disclosure as Record<string, any> | undefined),
         opening_text: promptOpening.trim() || undefined,
         closing_text: promptClosing.trim() || undefined,
+      }
+      const intentLines = promptIntents.split('\n').map((value) => value.trim()).filter(Boolean)
+      if (intentLines.length > 0) {
+        document.conversation = {
+          ...(document.conversation as Record<string, any> | undefined),
+          intents: intentLines,
+        }
+      }
+      const knowledgeConfidence = Number(promptKnowledgeConfidence)
+      document.knowledge = {
+        ...(document.knowledge as Record<string, any> | undefined),
+        minimum_confidence: Number.isFinite(knowledgeConfidence) ? Math.min(1, Math.max(0, knowledgeConfidence)) : 0.72,
+        insufficient_action: promptKnowledgeAction,
+      }
+      document.actions = {
+        ...(document.actions as Record<string, any> | undefined),
+        allowed_action_classes: promptAllowedActions.split('\n').map((value) => value.trim()).filter(Boolean),
+        maximum_autonomous_risk: promptMaximumRisk,
+        confirmation_phrases: promptConfirmationPhrases.split('\n').map((value) => value.trim()).filter(Boolean),
+      }
+      document.handoff = {
+        ...(document.handoff as Record<string, any> | undefined),
+        escalation_rules: promptHandoffRules.split('\n').map((value) => value.trim()).filter(Boolean),
+      }
+      document.business_hours = {
+        ...(document.business_hours as Record<string, any> | undefined),
+        timezone: promptTimezone.trim() || 'UTC',
+        outside_hours_action: promptOutsideHoursAction,
       }
       const { data } = await portalFetch<VoiceAgentVersion>(
         `/voice/agents/${agentId}/versions`,
@@ -489,6 +540,19 @@ export function VoiceAgentDetailPage() {
             <div className="portal-voice-form-grid">
               <label><span>AI opening disclosure</span><textarea value={promptOpening} onChange={(event) => setPromptOpening(event.target.value)} rows={2} /></label>
               <label><span>Closing message</span><textarea value={promptClosing} onChange={(event) => setPromptClosing(event.target.value)} rows={2} /></label>
+            </div>
+            <label><span>Supported intents <small>One intent key per line</small></span><textarea value={promptIntents} onChange={(event) => setPromptIntents(event.target.value)} rows={3} placeholder="service_question\ncomplaint\nhuman_handoff" /></label>
+            <div className="portal-voice-form-grid">
+              <label><span>Knowledge confidence threshold</span><input type="number" min="0" max="1" step="0.01" value={promptKnowledgeConfidence} onChange={(event) => setPromptKnowledgeConfidence(event.target.value)} /></label>
+              <label><span>When knowledge is insufficient</span><select value={promptKnowledgeAction} onChange={(event) => setPromptKnowledgeAction(event.target.value)}><option value="clarify">Ask for clarification</option><option value="handoff">Hand off to staff</option><option value="create_ticket">Create a ticket</option><option value="end">End safely</option></select></label>
+              <label><span>Maximum autonomous risk</span><select value={promptMaximumRisk} onChange={(event) => setPromptMaximumRisk(event.target.value)}><option value="A0">A0 · informational only</option><option value="A1">A1 · low-risk actions</option><option value="A2">A2 · bounded actions with confirmation</option></select></label>
+              <label><span>Business-hours timezone</span><input value={promptTimezone} onChange={(event) => setPromptTimezone(event.target.value)} placeholder="Africa/Lagos" /></label>
+            </div>
+            <label><span>Allowed action classes <small>One action key per line</small></span><textarea value={promptAllowedActions} onChange={(event) => setPromptAllowedActions(event.target.value)} rows={3} placeholder="knowledge.search\nticket.create\ncall.transfer" /></label>
+            <label><span>Confirmation phrases <small>Required before side effects</small></span><textarea value={promptConfirmationPhrases} onChange={(event) => setPromptConfirmationPhrases(event.target.value)} rows={2} placeholder="Please confirm that you want me to proceed." /></label>
+            <div className="portal-voice-form-grid">
+              <label><span>Escalation rules <small>One rule per line</small></span><textarea value={promptHandoffRules} onChange={(event) => setPromptHandoffRules(event.target.value)} rows={3} placeholder="customer_requests_a_human\nrequired_policy_is_unavailable\nidentity_or_confirmation_fails" /></label>
+              <label><span>Outside-hours action</span><select value={promptOutsideHoursAction} onChange={(event) => setPromptOutsideHoursAction(event.target.value)}><option value="create_ticket">Create a ticket</option><option value="handoff">Offer human follow-up</option><option value="clarify">Ask for a callback detail</option><option value="end">End safely</option></select></label>
             </div>
             <div className="portal-voice-edit-actions"><button className="portal-primary-button" type="submit" disabled={savePromptMutation.isPending || !promptCompany.trim() || !promptRole.trim()}>{savePromptMutation.isPending ? 'Creating version…' : 'Save as new version'}</button><span className="portal-voice-panel-note">The current published version is unchanged until you validate and publish this new version.</span></div>
           </form>
