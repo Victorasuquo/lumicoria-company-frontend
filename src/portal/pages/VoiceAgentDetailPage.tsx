@@ -67,6 +67,18 @@ export function VoiceAgentDetailPage() {
     { enabled: hasScope('voice.agents.read') },
   )
 
+  const promptPreviewQuery = useVoiceQuery<{
+    agent_id: string
+    version_id: string
+    lifecycle_status: string
+    configuration_checksum_sha256: string
+    system_prompt: string
+  }>(
+    ['voice-agent-prompt-preview', agentId],
+    agentId ? `/voice/agents/${agentId}/prompt-preview` : null,
+    { enabled: hasScope('voice.agents.read') && Boolean(versionsQuery.data?.items?.length) },
+  )
+
   const knowledgeBasesQuery = useVoiceQuery<VoiceCollection<VoiceKnowledgeBase>>(
     ['voice-agent-knowledge-bases'],
     '/voice/knowledge-bases?page_size=100',
@@ -158,6 +170,7 @@ export function VoiceAgentDetailPage() {
       setMutationError(null)
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-versions', agentId] })
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-readiness', agentId] })
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-prompt-preview', agentId] })
     },
     onError: (err) => setMutationError(err instanceof Error ? err.message : 'Failed to configure knowledge'),
   })
@@ -200,6 +213,7 @@ export function VoiceAgentDetailPage() {
       setMutationError(null)
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-versions', agentId] })
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-readiness', agentId] })
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-prompt-preview', agentId] })
     },
     onError: (err) => setMutationError(err instanceof Error ? err.message : 'Failed to save prompt configuration'),
   })
@@ -479,6 +493,27 @@ export function VoiceAgentDetailPage() {
             <div className="portal-voice-edit-actions"><button className="portal-primary-button" type="submit" disabled={savePromptMutation.isPending || !promptCompany.trim() || !promptRole.trim()}>{savePromptMutation.isPending ? 'Creating version…' : 'Save as new version'}</button><span className="portal-voice-panel-note">The current published version is unchanged until you validate and publish this new version.</span></div>
           </form>
         ) : <p className="portal-voice-panel-note">You have read-only access to this agent’s prompt and guardrails.</p>}
+      </section>
+
+      <section className="portal-voice-detail-panel">
+        <div className="portal-voice-detail-panel-head">
+          <div>
+            <h3>Effective runtime prompt</h3>
+            <p className="portal-voice-panel-note">
+              This is the tenant-aware prompt assembled from the selected agent version. The same compiled identity, knowledge rules, handoff rules, and guardrails are used by chat, browser voice, phone, and widget runtimes.
+            </p>
+          </div>
+          {promptPreviewQuery.data && <code className="portal-voice-mono">{promptPreviewQuery.data.configuration_checksum_sha256.slice(0, 12)}…</code>}
+        </div>
+        {promptPreviewQuery.isLoading ? (
+          <PortalLoading label="Building effective prompt" />
+        ) : promptPreviewQuery.error ? (
+          <PortalError error={promptPreviewQuery.error} onRetry={() => void promptPreviewQuery.refetch()} />
+        ) : promptPreviewQuery.data ? (
+          <pre className="portal-voice-prompt-preview">{promptPreviewQuery.data.system_prompt}</pre>
+        ) : (
+          <PortalEmpty title="No prompt version yet" description="Create an immutable version to preview the prompt used by runtime paths." />
+        )}
       </section>
 
       {/* Versions panel */}
