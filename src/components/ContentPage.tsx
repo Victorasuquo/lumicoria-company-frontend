@@ -265,7 +265,7 @@ export function ContentPage({ path }: { path: string }) {
               {page.status && <span>{page.status}</span>}
               <p>{page.lede}</p>
               <a className="button button-primary" href={salesFormHref}>
-                Talk to our team <ArrowUpRight aria-hidden="true" weight="bold" />
+                Talk to Rebecca <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>
             </div>
           </Reveal>

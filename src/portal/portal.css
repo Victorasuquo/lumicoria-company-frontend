@@ -3923,6 +3923,33 @@
   resize: vertical;
 }
 
+.portal-voice-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.portal-voice-panel-note {
+  margin: 4px 0 0;
+  color: var(--portal-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.portal-voice-detail-panel label small {
+  display: block;
+  margin-top: 2px;
+  color: var(--portal-muted);
+  font-size: 0.72rem;
+  font-weight: 400;
+}
+
+@media (max-width: 760px) {
+  .portal-voice-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .portal-voice-detail-panel pre {
   margin: 0;
   padding: 14px 16px;

@@ -38,7 +38,7 @@ export function Nav() {
         </div>
 
         <a className="nav-cta" href={salesFormHref}>
-          Talk to our team
+          Talk to Rebecca
           <ArrowUpRight aria-hidden="true" weight="bold" />
         </a>
 
@@ -86,7 +86,7 @@ export function Nav() {
               </motion.a>
             </div>
             <a className="button button-primary button-block" href={salesFormHref}>
-              Talk to our team
+              Talk to Rebecca
               <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
           </motion.div>

@@ -1,6 +1,8 @@
-import { FormEvent, type CSSProperties, type ReactNode, useEffect, useMemo, useState } from 'react'
+import { Room, RoomEvent, Track, ConnectionState } from 'livekit-client'
+import { FormEvent, type CSSProperties, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { portalApiOrigin, portalBasePath } from '../api/client'
 import './public-support.css'
+import './public-support-voice.css'
 
 type PublicSupportPageProps = {
   slug: string
@@ -26,6 +28,7 @@ type SupportConfig = {
   customer_context_required: boolean
   help_center_enabled: boolean
   voice_agent_enabled: boolean
+  voice_agent_name: string | null
 }
 
 type Article = {
@@ -98,6 +101,7 @@ function Layout({ config, slug, children }: { config: SupportConfig; slug: strin
       </Link>
       <nav aria-label="Support navigation">
         <Link to={`/support/${encodeURIComponent(slug)}/help`}>Help centre</Link>
+        {config.voice_agent_enabled && <Link to={`/support/${encodeURIComponent(slug)}/voice`}>Talk to {config.voice_agent_name || 'support'}</Link>}
         <Link className="public-support-nav-button" to={`/support/${encodeURIComponent(slug)}/chat`}>Contact support</Link>
       </nav>
     </header>
@@ -116,16 +120,91 @@ function Home({ config, slug }: { config: SupportConfig; slug: string }) {
       <p>{config.hero_description}</p>
       <div className="public-support-actions">
         <Link className="public-support-button" to={`/support/${encodeURIComponent(slug)}/chat`}>Start a conversation <span>↗</span></Link>
+        {config.voice_agent_enabled && <Link className="public-support-button secondary" to={`/support/${encodeURIComponent(slug)}/voice`}>Talk to {config.voice_agent_name || 'support'} <span>↗</span></Link>}
         {config.help_center_enabled && <Link className="public-support-button secondary" to={`/support/${encodeURIComponent(slug)}/help`}>Browse help centre</Link>}
       </div>
       <p className="public-support-assurance">You can ask a question, leave a request, or ask for a member of the team.</p>
     </div>
     <div className="public-support-home-grid">
       <div className="public-support-card dark"><span className="public-support-card-label">Need an answer?</span><h2>Ask support directly.</h2><p>Get a quick answer for routine questions or leave the full context for a person to follow up.</p><Link to={`/support/${encodeURIComponent(slug)}/chat`}>Open chat <span>→</span></Link></div>
+      {config.voice_agent_enabled && <div className="public-support-card"><span className="public-support-card-label">Prefer to speak?</span><h2>Talk to {config.voice_agent_name || 'support'}.</h2><p>Use your browser microphone for a live voice conversation. Important matters can still be handed to a person.</p><Link to={`/support/${encodeURIComponent(slug)}/voice`}>Start voice support <span>→</span></Link></div>}
       {config.help_center_enabled && <div className="public-support-card"><span className="public-support-card-label">Self service</span><h2>Find a helpful article.</h2><p>Browse the published answers and guidance from {config.display_name}.</p><Link to={`/support/${encodeURIComponent(slug)}/help`}>View help centre <span>→</span></Link></div>}
       <div className="public-support-card"><span className="public-support-card-label">Human follow-up</span><h2>Important matters stay with people.</h2><p>Complaints, payments, disputes, and requests needing a decision are routed to the team.</p>{config.support_email ? <a href={`mailto:${config.support_email}`}>Email the team <span>→</span></a> : <Link to={`/support/${encodeURIComponent(slug)}/chat`}>Leave a message <span>→</span></Link>}</div>
     </div>
     {config.public_categories.length > 0 && <div className="public-support-topics"><div><span className="public-support-eyebrow">What can we help with?</span><h2>Choose a starting point.</h2></div><div className="public-support-topic-list">{config.public_categories.map(category => <Link key={category} to={`/support/${encodeURIComponent(slug)}/chat?topic=${encodeURIComponent(category)}`}>{category}<span>↗</span></Link>)}</div></div>}
+  </section>
+}
+
+function Voice({ config, slug }: { config: SupportConfig; slug: string }) {
+  const visitorId = useMemo(() => getOrCreate(slug, 'visitor'), [slug])
+  const [starting, setStarting] = useState(false)
+  const [ending, setEnding] = useState(false)
+  const [status, setStatus] = useState('Ready when you are.')
+  const [error, setError] = useState('')
+  const [session, setSession] = useState<{ session_id: string; connection: { url: string; access_token: string } } | null>(null)
+  const roomRef = useRef<Room | null>(null)
+  const audioRef = useRef<HTMLDivElement | null>(null)
+
+  const disconnect = useCallback(() => {
+    roomRef.current?.disconnect()
+    roomRef.current = null
+    audioRef.current?.replaceChildren()
+  }, [])
+
+  useEffect(() => () => disconnect(), [disconnect])
+
+  async function startVoice() {
+    if (starting || session) return
+    setStarting(true)
+    setError('')
+    setStatus('Connecting you to support…')
+    try {
+      const data = await supportRequest<{ session_id: string; connection: { url: string; access_token: string } }>(`/public/voice/support/${encodeURIComponent(slug)}/browser-sessions`, { method: 'POST', body: JSON.stringify({ visitor_id: visitorId }) })
+      const room = new Room({ adaptiveStream: true, dynacast: true })
+      roomRef.current = room
+      room.on(RoomEvent.ConnectionStateChanged, state => setStatus(state === ConnectionState.Connected ? 'You are connected.' : `Connection ${state}.`))
+      room.on(RoomEvent.TrackSubscribed, track => { if (track.kind === Track.Kind.Audio && audioRef.current) audioRef.current.appendChild(track.attach()) })
+      room.on(RoomEvent.TrackUnsubscribed, track => { if (track.kind === Track.Kind.Audio) track.detach().forEach(element => element.remove()) })
+      room.on(RoomEvent.Disconnected, () => setStatus('The voice session has ended.'))
+      await room.connect(data.connection.url, data.connection.access_token)
+      await room.localParticipant.setMicrophoneEnabled(true)
+      setSession(data)
+      setStatus('You are connected. Speak normally and interrupt when needed.')
+    } catch (reason) {
+      disconnect()
+      setStatus('Voice is not available right now.')
+      setError(reason instanceof Error ? reason.message : 'The voice session could not be started.')
+    } finally { setStarting(false) }
+  }
+
+  async function endVoice() {
+    if (!session || ending) return
+    setEnding(true)
+    setError('')
+    try {
+      await supportRequest(`/public/voice/support/${encodeURIComponent(slug)}/browser-sessions/${encodeURIComponent(session.session_id)}/end`, { method: 'POST' })
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'The voice session could not be ended safely.')
+    } finally {
+      disconnect()
+      setSession(null)
+      setEnding(false)
+      setStatus('Voice session ended.')
+    }
+  }
+
+  return <section className="public-support-voice-page">
+    <Link className="public-support-back" to={`/support/${encodeURIComponent(slug)}`}>← Back to support</Link>
+    <div className="public-support-voice-intro"><span className="public-support-eyebrow">Live voice support</span><h1>Talk to {config.voice_agent_name || 'support'}.</h1><p>{config.hero_description}</p></div>
+    <div className="public-support-voice-card">
+      <div className={`public-support-voice-orb ${session ? 'is-live' : ''}`} aria-hidden="true">◉</div>
+      <h2>{session ? 'You are connected.' : 'Start a browser voice session.'}</h2>
+      <p>{status}</p>
+      <div ref={audioRef} aria-hidden="true" />
+      {error && <p className="public-support-error" role="alert">{error}</p>}
+      {!session ? <button className="public-support-button" type="button" onClick={() => void startVoice()} disabled={starting}>{starting ? 'Connecting…' : `Talk to ${config.voice_agent_name || 'support'}`} <span>↗</span></button> : <button className="public-support-button secondary" type="button" onClick={() => void endVoice()} disabled={ending}>{ending ? 'Ending…' : 'End voice session'}</button>}
+      <small>Routine questions use published business information. Sensitive or uncertain requests go to a person.</small>
+    </div>
   </section>
 }
 
@@ -202,5 +281,5 @@ export function PublicSupportPage({ slug, view, articleSlug, ticketId }: PublicS
   useEffect(() => { if (!config || !config.help_center_enabled) return; if (view === 'help' && articleSlug) supportRequest<Article>(`/public/support/${encodeURIComponent(slug)}/help/${encodeURIComponent(articleSlug)}`).then(setArticle).catch(() => setError('This help article is unavailable.')); else if (view === 'help') supportRequest<{ items: Article[] }>(`/public/support/${encodeURIComponent(slug)}/help`).then(data => setArticles(data.items)).catch(() => setError('Help centre is unavailable.')) }, [config, slug, view, articleSlug])
   if (error) return <div className="public-support-error-page"><h1>Support channel unavailable</h1><p>{error}</p><a href="/">Return to Lumicoria</a></div>
   if (!config) return <Loading />
-  return <Layout config={config} slug={slug}>{view === 'chat' || view === 'embed' ? <Chat config={config} slug={slug} /> : view === 'help' && article ? <Article article={article} slug={slug} /> : view === 'help' ? <Help articles={articles} slug={slug} /> : view === 'status' && ticketId ? <Status slug={slug} ticketId={ticketId} /> : <Home config={config} slug={slug} />}</Layout>
+  return <Layout config={config} slug={slug}>{view === 'chat' || view === 'embed' ? <Chat config={config} slug={slug} /> : view === 'voice' && config.voice_agent_enabled ? <Voice config={config} slug={slug} /> : view === 'help' && article ? <Article article={article} slug={slug} /> : view === 'help' ? <Help articles={articles} slug={slug} /> : view === 'status' && ticketId ? <Status slug={slug} ticketId={ticketId} /> : <Home config={config} slug={slug} />}</Layout>
 }
