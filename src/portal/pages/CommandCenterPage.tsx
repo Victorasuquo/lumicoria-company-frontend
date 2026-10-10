@@ -177,7 +177,7 @@ export function CommandCenterPage() {
             </header>
             {data.agents.length ? (
               <div className="command-center-agent-list">
-                {data.agents.slice(0, 6).map((agent) => (
+                {data.agents.map((agent) => (
                   <article className="command-center-agent-row" key={agent.id}>
                     <span className="command-center-agent-icon"><Robot aria-hidden="true" weight="duotone" /></span>
                     <div><strong>{agent.name}</strong><small>{humanize(agent.category)} · {agent.default_language} · Updated {formatPortalDate(agent.updated_at, true)}</small>{agent.readiness.blocking_issues.length > 0 && <small className="command-center-agent-blocker">{agent.readiness.blocking_issues[0].message}</small>}</div>
