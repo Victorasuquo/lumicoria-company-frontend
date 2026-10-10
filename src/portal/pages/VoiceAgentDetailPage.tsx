@@ -1,6 +1,6 @@
 import { ArrowLeft, Plus } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { createIdempotencyKey, jsonBody, portalFetch } from '../../api/client'
 import type {
@@ -32,6 +32,16 @@ export function VoiceAgentDetailPage() {
   const [editDescription, setEditDescription] = useState('')
   const [editLanguage, setEditLanguage] = useState('')
   const [editSupported, setEditSupported] = useState('')
+  const [promptCompany, setPromptCompany] = useState('')
+  const [promptRole, setPromptRole] = useState('')
+  const [promptTone, setPromptTone] = useState('')
+  const [promptLocale, setPromptLocale] = useState('')
+  const [promptCulture, setPromptCulture] = useState('')
+  const [promptRules, setPromptRules] = useState('')
+  const [promptForbidden, setPromptForbidden] = useState('')
+  const [promptTerms, setPromptTerms] = useState('')
+  const [promptOpening, setPromptOpening] = useState('')
+  const [promptClosing, setPromptClosing] = useState('')
   const [selectedKnowledgeBaseId, setSelectedKnowledgeBaseId] = useState('')
   const [mutationError, setMutationError] = useState<string | null>(null)
 
@@ -62,6 +72,29 @@ export function VoiceAgentDetailPage() {
     '/voice/knowledge-bases?page_size=100',
     { enabled: hasScope('voice.knowledge.read') },
   )
+
+  useEffect(() => {
+    const versions = versionsQuery.data?.items ?? []
+    const latest = [...versions].sort((a, b) => b.version_number - a.version_number)[0]
+    if (!latest) return
+    const document = latest.vtl_document as Record<string, any>
+    const identity = (document.identity ?? {}) as Record<string, any>
+    const disclosure = (document.disclosure ?? {}) as Record<string, any>
+    setPromptCompany(typeof identity.company_name === 'string' ? identity.company_name : '')
+    setPromptRole(typeof identity.role === 'string' ? identity.role : '')
+    setPromptTone(Array.isArray(identity.tone) ? identity.tone.join(', ') : '')
+    setPromptLocale(typeof identity.locale === 'string' ? identity.locale : '')
+    setPromptCulture(Array.isArray(identity.cultural_guidance) ? identity.cultural_guidance.join('\n') : '')
+    setPromptRules(Array.isArray(identity.response_rules) ? identity.response_rules.join('\n') : '')
+    setPromptForbidden(Array.isArray(identity.forbidden_topics) ? identity.forbidden_topics.join('\n') : '')
+    setPromptTerms(
+      identity.preferred_terms && typeof identity.preferred_terms === 'object'
+        ? Object.entries(identity.preferred_terms).map(([key, value]) => `${key}=${String(value)}`).join('\n')
+        : '',
+    )
+    setPromptOpening(typeof disclosure.opening_text === 'string' ? disclosure.opening_text : '')
+    setPromptClosing(typeof disclosure.closing_text === 'string' ? disclosure.closing_text : '')
+  }, [versionsQuery.data])
 
   const updateMutation = useMutation({
     mutationFn: async (body: { name?: string; description?: string | null; default_language?: string; supported_languages?: string[] }) => {
@@ -127,6 +160,48 @@ export function VoiceAgentDetailPage() {
       void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-readiness', agentId] })
     },
     onError: (err) => setMutationError(err instanceof Error ? err.message : 'Failed to configure knowledge'),
+  })
+
+  const savePromptMutation = useMutation({
+    mutationFn: async (version: VoiceAgentVersion) => {
+      const document = JSON.parse(JSON.stringify(version.vtl_document)) as Record<string, any>
+      const identity: Record<string, any> = {
+        ...(document.identity as Record<string, any> | undefined),
+        company_name: promptCompany.trim(),
+        role: promptRole.trim(),
+        tone: promptTone.split(',').map((value) => value.trim()).filter(Boolean),
+        cultural_guidance: promptCulture.split('\n').map((value) => value.trim()).filter(Boolean),
+        response_rules: promptRules.split('\n').map((value) => value.trim()).filter(Boolean),
+        forbidden_topics: promptForbidden.split('\n').map((value) => value.trim()).filter(Boolean),
+        preferred_terms: Object.fromEntries(
+          promptTerms.split('\n').map((line) => line.split('=').map((value) => value.trim())).filter(([key, value]) => Boolean(key && value)),
+        ),
+      }
+      if (promptLocale.trim()) identity.locale = promptLocale.trim()
+      else delete identity.locale
+      document.identity = identity
+      document.disclosure = {
+        ...(document.disclosure as Record<string, any> | undefined),
+        opening_text: promptOpening.trim() || undefined,
+        closing_text: promptClosing.trim() || undefined,
+      }
+      const { data } = await portalFetch<VoiceAgentVersion>(
+        `/voice/agents/${agentId}/versions`,
+        {
+          organizationId: context!.organization_id,
+          method: 'POST',
+          idempotencyKey: createIdempotencyKey(),
+          ...jsonBody({ vtl_document: document }),
+        },
+      )
+      return data
+    },
+    onSuccess: () => {
+      setMutationError(null)
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-versions', agentId] })
+      void portalQueryClient.invalidateQueries({ queryKey: ['portal', context?.organization_id, 'voice-agent-readiness', agentId] })
+    },
+    onError: (err) => setMutationError(err instanceof Error ? err.message : 'Failed to save prompt configuration'),
   })
 
   const evaluationsMutation = useMutation({
@@ -372,6 +447,38 @@ export function VoiceAgentDetailPage() {
             <dt>Category</dt><dd>{humanize(agent.category)}</dd>
           </dl>
         )}
+      </section>
+
+      <section className="portal-voice-detail-panel">
+        <div className="portal-voice-detail-panel-head">
+          <div>
+            <h3>Prompt and guardrails</h3>
+            <p className="portal-voice-panel-note">Structured settings are compiled into the next immutable VTL version. They apply to browser, phone, widget, and fallback runtime paths.</p>
+          </div>
+        </div>
+        {!latestVersion ? (
+          <PortalEmpty title="Create a version first" description="The prompt and guardrail editor becomes available after the first agent version is created." />
+        ) : hasScope('voice.agents.manage') ? (
+          <form className="portal-voice-edit-form" onSubmit={(event) => { event.preventDefault(); savePromptMutation.mutate(latestVersion) }}>
+            <div className="portal-voice-form-grid">
+              <label><span>Company represented</span><input value={promptCompany} onChange={(event) => setPromptCompany(event.target.value)} placeholder="The organisation this agent represents" required /></label>
+              <label><span>Agent role</span><input value={promptRole} onChange={(event) => setPromptRole(event.target.value)} placeholder="Customer support specialist" required /></label>
+              <label><span>Locale</span><input value={promptLocale} onChange={(event) => setPromptLocale(event.target.value)} placeholder="en-NG" /></label>
+              <label><span>Brand tone</span><input value={promptTone} onChange={(event) => setPromptTone(event.target.value)} placeholder="warm, clear, professional" /></label>
+            </div>
+            <label><span>Cultural guidance <small>One rule per line</small></span><textarea value={promptCulture} onChange={(event) => setPromptCulture(event.target.value)} rows={3} placeholder="Use respectful Nigerian English.\nAvoid slang unless the customer uses it first." /></label>
+            <label><span>Response rules <small>One rule per line</small></span><textarea value={promptRules} onChange={(event) => setPromptRules(event.target.value)} rows={3} placeholder="Ask one question at a time.\nAlways explain the next step." /></label>
+            <div className="portal-voice-form-grid">
+              <label><span>Forbidden topics <small>One topic per line</small></span><textarea value={promptForbidden} onChange={(event) => setPromptForbidden(event.target.value)} rows={3} placeholder="Unverified prices\nUnconfirmed availability" /></label>
+              <label><span>Preferred terms <small>One key=value per line</small></span><textarea value={promptTerms} onChange={(event) => setPromptTerms(event.target.value)} rows={3} placeholder="customer=guest\nstaff=the support team" /></label>
+            </div>
+            <div className="portal-voice-form-grid">
+              <label><span>AI opening disclosure</span><textarea value={promptOpening} onChange={(event) => setPromptOpening(event.target.value)} rows={2} /></label>
+              <label><span>Closing message</span><textarea value={promptClosing} onChange={(event) => setPromptClosing(event.target.value)} rows={2} /></label>
+            </div>
+            <div className="portal-voice-edit-actions"><button className="portal-primary-button" type="submit" disabled={savePromptMutation.isPending || !promptCompany.trim() || !promptRole.trim()}>{savePromptMutation.isPending ? 'Creating version…' : 'Save as new version'}</button><span className="portal-voice-panel-note">The current published version is unchanged until you validate and publish this new version.</span></div>
+          </form>
+        ) : <p className="portal-voice-panel-note">You have read-only access to this agent’s prompt and guardrails.</p>}
       </section>
 
       {/* Versions panel */}

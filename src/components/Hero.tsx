@@ -76,7 +76,7 @@ export function Hero() {
 
             <motion.div className="hero-actions" {...enter(0.3)}>
               <a className="button button-white" href={salesFormHref}>
-                Talk to our team
+                Talk to Rebecca
                 <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>
               <a className="button hero-secondary-button" href="#solutions">

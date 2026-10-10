@@ -94,6 +94,7 @@ export function VoiceAgentsPage() {
           category,
           skill_pack_id: skillPackId,
           default_language: defaultLanguage,
+          create_initial_version: true,
         }),
       })
       return data

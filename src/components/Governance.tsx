@@ -39,7 +39,7 @@ export function Governance() {
               We help teams keep their answers current, review what customers ask, and improve the support workflow as the business changes.
             </p>
             <a className="text-link" href={salesFormHref}>
-              Talk to our team <ArrowUpRight aria-hidden="true" weight="bold" />
+              Talk to Rebecca <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>
           </div>
           <div className="research-list">

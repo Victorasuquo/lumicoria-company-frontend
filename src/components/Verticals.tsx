@@ -97,7 +97,7 @@ export function Verticals() {
           </p>
           <div className="verticals-intro-actions">
             <a className="button button-primary" href={salesFormHref}>
-              Talk to our team <ArrowRight aria-hidden="true" weight="bold" />
+              Talk to Rebecca <ArrowRight aria-hidden="true" weight="bold" />
             </a>
             <a className="text-link" href="/industries">
               View all industry work <ArrowRight aria-hidden="true" weight="bold" />
