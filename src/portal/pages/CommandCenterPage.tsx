@@ -108,6 +108,13 @@ function ChecklistIcon({ status }: { status: string }) {
     : <Warning aria-hidden="true" weight="fill" />
 }
 
+function agentRepairPath(agentId: string, code?: string) {
+  if (code === 'KNOWLEDGE_RELEASE_REQUIRED') return '/portal/voice/knowledge'
+  if (code === 'TOOL_BINDING_UNHEALTHY') return '/portal/voice/tools'
+  if (code === 'NO_ENABLED_CHANNEL') return '/portal/support/channels'
+  return `/portal/voice/agents/${agentId}`
+}
+
 function MetricCard({ label, value, detail, icon: Icon }: { label: string; value: number; detail: string; icon: typeof Lightning }) {
   return (
     <article className="command-center-metric">
@@ -183,6 +190,7 @@ export function CommandCenterPage() {
                     <div><strong>{agent.name}</strong><small>{humanize(agent.category)} · {agent.default_language} · Updated {formatPortalDate(agent.updated_at, true)}</small>{agent.readiness.blocking_issues.length > 0 && <small className="command-center-agent-blocker">{agent.readiness.blocking_issues[0].message}</small>}</div>
                     <StatusPill value={agent.published ? 'published' : agent.readiness.ready ? 'ready' : agent.status} />
                     <div className="command-center-row-actions">
+                      {agent.readiness.blocking_issues.length > 0 && <Link className="portal-secondary-button" to={agentRepairPath(agent.id, agent.readiness.blocking_issues[0].code)}>Resolve blocker</Link>}
                       <Link className="portal-secondary-button" to={`/portal/voice/agents/${agent.id}`}>Configure</Link>
                       {agent.published && <Link className="portal-secondary-button" to={`/portal/voice/playground?agent=${encodeURIComponent(agent.id)}`}>Test</Link>}
                     </div>
