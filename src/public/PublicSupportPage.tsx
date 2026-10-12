@@ -91,7 +91,7 @@ const leadLabels: Record<keyof LeadValues, string> = {
   primary_problem: 'What would you like to improve?',
   preferred_follow_up: 'Preferred follow-up',
   preferred_demo_time: 'Preferred demo time',
-  consent_to_contact: 'I agree that the Lumicoria team may contact me about this request.',
+  consent_to_contact: 'I agree that the support team may contact me about this request.',
 }
 
 const emptyLeadValues: LeadValues = {
@@ -156,7 +156,7 @@ function LeadCaptureForm({ config, slug, visitorId }: { config: SupportConfig; s
     } finally { setSending(false) }
   }
 
-  if (submitted) return <div className="public-support-lead-success"><span>✓</span><div><strong>Thanks — your details are with the team.</strong><p>A Lumicoria team member can follow up using the preference you selected.</p></div></div>
+  if (submitted) return <div className="public-support-lead-success"><span>✓</span><div><strong>Thanks — your details are with the team.</strong><p>A member of the {config.display_name} team can follow up using the preference you selected.</p></div></div>
 
   return <form className="public-support-lead" onSubmit={submit}>
     <div><span className="public-support-eyebrow">Next step</span><h2>{config.lead_capture.headline}</h2><p>Share only what you are comfortable providing. We use these details to prepare a relevant conversation.</p></div>
@@ -346,8 +346,8 @@ function Chat({ config, slug }: { config: SupportConfig; slug: string }) {
   </section>
 }
 
-function Help({ articles, slug }: { articles: Article[]; slug: string }) {
-  return <section className="public-support-help-page"><div className="public-support-page-intro"><Link className="public-support-back" to={`/support/${encodeURIComponent(slug)}`}>← Back to support</Link><span className="public-support-eyebrow">Help centre</span><h1>Answers for common questions.</h1><p>Published guidance from the {slug} support team.</p></div><div className="public-support-article-grid">{articles.length === 0 ? <div className="public-support-empty-card"><h2>Help centre is being prepared.</h2><p>Start a conversation and the support team will help you directly.</p><Link className="public-support-button" to={`/support/${encodeURIComponent(slug)}/chat`}>Contact support</Link></div> : articles.map(article => <Link className="public-support-article-card" key={article.id} to={`/support/${encodeURIComponent(slug)}/help/${encodeURIComponent(article.slug)}`}><span>{article.category || 'Guidance'}</span><h2>{article.title}</h2><p>{article.summary || article.content.slice(0, 140)}</p><strong>Read article →</strong></Link>)}</div></section>
+function Help({ articles, slug, displayName }: { articles: Article[]; slug: string; displayName: string }) {
+  return <section className="public-support-help-page"><div className="public-support-page-intro"><Link className="public-support-back" to={`/support/${encodeURIComponent(slug)}`}>← Back to support</Link><span className="public-support-eyebrow">Help centre</span><h1>Answers for common questions.</h1><p>Published guidance from the {displayName} support team.</p></div><div className="public-support-article-grid">{articles.length === 0 ? <div className="public-support-empty-card"><h2>Help centre is being prepared.</h2><p>Start a conversation and the support team will help you directly.</p><Link className="public-support-button" to={`/support/${encodeURIComponent(slug)}/chat`}>Contact support</Link></div> : articles.map(article => <Link className="public-support-article-card" key={article.id} to={`/support/${encodeURIComponent(slug)}/help/${encodeURIComponent(article.slug)}`}><span>{article.category || 'Guidance'}</span><h2>{article.title}</h2><p>{article.summary || article.content.slice(0, 140)}</p><strong>Read article →</strong></Link>)}</div></section>
 }
 
 function Article({ article, slug }: { article: Article; slug: string }) {
@@ -371,7 +371,7 @@ export function PublicSupportPage({ slug, view, articleSlug, ticketId }: PublicS
   const [error, setError] = useState('')
   useEffect(() => { supportRequest<SupportConfig>(`/public/support/${encodeURIComponent(slug)}/configuration`).then(setConfig).catch(errorValue => setError(errorValue instanceof Error ? errorValue.message : 'Support page is unavailable.')) }, [slug])
   useEffect(() => { if (!config || !config.help_center_enabled) return; if (view === 'help' && articleSlug) supportRequest<Article>(`/public/support/${encodeURIComponent(slug)}/help/${encodeURIComponent(articleSlug)}`).then(setArticle).catch(() => setError('This help article is unavailable.')); else if (view === 'help') supportRequest<{ items: Article[] }>(`/public/support/${encodeURIComponent(slug)}/help`).then(data => setArticles(data.items)).catch(() => setError('Help centre is unavailable.')) }, [config, slug, view, articleSlug])
-  if (error) return <div className="public-support-error-page"><h1>Support channel unavailable</h1><p>{error}</p><a href="/">Return to Lumicoria</a></div>
+  if (error) return <div className="public-support-error-page"><h1>Support channel unavailable</h1><p>{error}</p><a href={`/support/${encodeURIComponent(slug)}`}>Return to support</a></div>
   if (!config) return <Loading />
-  return <Layout config={config} slug={slug}>{view === 'chat' || view === 'embed' ? <Chat config={config} slug={slug} /> : view === 'voice' && config.voice_agent_enabled ? <Voice config={config} slug={slug} /> : view === 'help' && article ? <Article article={article} slug={slug} /> : view === 'help' ? <Help articles={articles} slug={slug} /> : view === 'status' && ticketId ? <Status slug={slug} ticketId={ticketId} /> : <Home config={config} slug={slug} />}</Layout>
+  return <Layout config={config} slug={slug}>{view === 'chat' || view === 'embed' ? <Chat config={config} slug={slug} /> : view === 'voice' && config.voice_agent_enabled ? <Voice config={config} slug={slug} /> : view === 'help' && article ? <Article article={article} slug={slug} /> : view === 'help' ? <Help articles={articles} slug={slug} displayName={config.display_name} /> : view === 'status' && ticketId ? <Status slug={slug} ticketId={ticketId} /> : <Home config={config} slug={slug} />}</Layout>
 }
