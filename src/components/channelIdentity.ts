@@ -6,10 +6,16 @@ const brandImages: Record<string, string> = {
   googlebusiness: 'google-business.svg', googlebusinessprofile: 'google-business.svg', googlemybusiness: 'google-business.svg',
   googlecalendar: 'calendar.svg', googlesheets: 'sheets.svg',
   tiktok: 'tiktok.png', tiktokbusiness: 'tiktok.png',
+  x: 'x.ico', twitter: 'x.ico',
+  twilio: 'twilio.png', twiliovoice: 'twilio.png', twiliowhatsapp: 'twilio.png',
+  telnyx: 'telnyx.ico', telnyxvoice: 'telnyx.ico',
+  resend: 'resend.ico', emailthroughresend: 'resend.ico',
   zendesk: 'zendesk.svg', zendesksupport: 'zendesk.svg',
   hubspot: 'hubspot.png', hubspotcrm: 'hubspot.png',
   salesforce: 'salesforce.ico', salesforcecrm: 'salesforce.ico',
   zoho: 'zoho.ico', zohocrm: 'zoho.ico',
+  pipedrive: 'pipedrive.ico', pipedrivecrm: 'pipedrive.ico',
+  monday: 'monday.png', mondaycrm: 'monday.png',
 }
 
 export function channelIdentity(provider = '', channel = '') {

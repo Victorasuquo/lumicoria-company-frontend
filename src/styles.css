@@ -1893,7 +1893,25 @@ svg {
   animation: ecosystem-scroll 34s linear infinite;
 }
 
+.ecosystem-lane {
+  overflow: hidden;
+}
+
+.ecosystem-lane + .ecosystem-lane {
+  border-top: 1px solid var(--line);
+}
+
+.ecosystem-lane:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: -2px;
+}
+
+.ecosystem-track--reverse {
+  animation-direction: reverse;
+}
+
 .ecosystem-marquee:hover .ecosystem-track,
+.ecosystem-marquee:focus-within .ecosystem-track,
 .ecosystem-marquee.is-paused .ecosystem-track {
   animation-play-state: paused;
 }
@@ -4335,8 +4353,11 @@ svg {
   }
 
   .ecosystem-marquee {
-    overflow-x: auto;
     mask-image: none;
+  }
+
+  .ecosystem-lane {
+    overflow-x: auto;
   }
 
   .ecosystem-motion-toggle,

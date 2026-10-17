@@ -23,3 +23,15 @@ All assets are served locally; rendering the carousel does not send visitor requ
 - `zoho.ico`: official site icon at https://www.zohowebstatic.com/sites/zweb/images/favicon.ico, published on https://www.zoho.com/crm/
 
 These additions are platform examples and icon mappings only. They do not create integrations, make TikTok messaging available, or mark CRM providers as connected. Workspace icons appear only when returned provider/channel identifiers match. Trademark permissions remain separate from downloading artwork; review each brand's usage terms before publishing co-branded marketing.
+
+## Two-row carousel additions — 17 October 2026
+
+- `twilio.png`: official Apple touch icon published on https://www.twilio.com at https://www.twilio.com/content/dam/twilio-com/core-assets/social/apple-touch-icon.png.
+- `telnyx.ico`: official site icon published on https://telnyx.com at https://telnyx.com/favicon.ico.
+- `resend.ico`: official site icon published on https://resend.com at https://resend.com/static/favicons/favicon-marketing.ico?v=1.
+
+- `x.ico`: official site icon published on https://about.x.com/en at https://abs.twimg.com/favicons/twitter.3.ico.
+- `pipedrive.ico`: official site icon at https://www.pipedrive.com/favicon.ico.
+- `monday.png`: official Apple touch icon published on https://monday.com at https://cdn.prod.website-files.com/656da6fea306219773d04208/65af6bd6e742d497b5f23f69_645898132bbaac20f1963919_256x256.png.
+
+Channels move left in the first row; CRM and business tools move right in the second. Both rows pause on hover, keyboard focus, or the shared Pause button. Each row becomes independently scrollable with reduced motion enabled. The five named sales CRMs are HubSpot, Salesforce, Zoho CRM, Pipedrive and monday CRM; Zendesk is an additional helpdesk example. These are illustrative provider references, not newly implemented integrations.

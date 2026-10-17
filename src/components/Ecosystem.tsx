@@ -1,30 +1,41 @@
 import { useState } from 'react'
-import { ArrowUpRight, GlobeHemisphereWest, Pause, PhoneCall, Play, UsersThree, type Icon } from '@phosphor-icons/react'
+import { ArrowUpRight, GlobeHemisphereWest, Pause, PhoneCall, Play, type Icon } from '@phosphor-icons/react'
 import { Reveal } from './Reveal'
 
 type EcosystemChannel = { name: string; image?: string; icon?: Icon; color?: string; detail?: string }
 
 const ecosystemChannels: EcosystemChannel[] = [
   { name: 'Phone calls', icon: PhoneCall, color: '#b96816' },
+  { name: 'Twilio', image: 'twilio.png', detail: 'Telephony provider · availability depends on your setup' },
+  { name: 'Telnyx', image: 'telnyx.ico', detail: 'Telephony provider · availability depends on your setup' },
   { name: 'WhatsApp Business', image: 'whatsapp.svg' },
   { name: 'Facebook Pages', image: 'facebook.png' },
   { name: 'Instagram DMs', image: 'instagram.webp' },
   { name: 'TikTok', image: 'tiktok.png', detail: 'Platform example · connection availability varies' },
+  { name: 'X', image: 'x.ico', detail: 'Social platform example · connection availability varies' },
   { name: 'Email', image: 'gmail.svg', detail: 'Gmail · email example' },
+  { name: 'Resend', image: 'resend.ico', detail: 'Email provider · availability depends on your setup' },
   { name: 'Google Business', image: 'google-business.svg' },
   { name: 'Web enquiries', icon: GlobeHemisphereWest, color: '#087f8c' },
-  { name: 'CRM systems', icon: UsersThree, color: '#7544cb' },
+]
+
+const ecosystemTools: EcosystemChannel[] = [
   { name: 'Zendesk', image: 'zendesk.svg', detail: 'Helpdesk example · not a connection status' },
   { name: 'HubSpot', image: 'hubspot.png', detail: 'CRM example · not a connection status' },
   { name: 'Salesforce', image: 'salesforce.ico', detail: 'CRM example · not a connection status' },
   { name: 'Zoho CRM', image: 'zoho.ico', detail: 'CRM example · not a connection status' },
+  { name: 'Pipedrive', image: 'pipedrive.ico', detail: 'CRM example · not a connection status' },
+  { name: 'monday CRM', image: 'monday.png', detail: 'CRM example · not a connection status' },
   { name: 'Bookings', image: 'calendar.svg', detail: 'Google Calendar · booking tool example' },
   { name: 'Spreadsheets', image: 'sheets.svg', detail: 'Google Sheets · spreadsheet tool example' },
 ]
 
 export function Ecosystem() {
   const [paused, setPaused] = useState(false)
-  const repeatedChannels = [...ecosystemChannels, ...ecosystemChannels]
+  const rows = [
+    { name: 'Customer support channels', channels: ecosystemChannels, reverse: false },
+    { name: 'CRM and business tools', channels: ecosystemTools, reverse: true },
+  ]
 
   return (
     <section className="ecosystem-section" id="ecosystem" aria-labelledby="ecosystem-title">
@@ -44,16 +55,20 @@ export function Ecosystem() {
       </div>
 
       <div className={`ecosystem-marquee${paused ? ' is-paused' : ''}`} aria-label="Customer support channels and tools">
-        <div className="ecosystem-track" style={{ animationDuration: `${ecosystemChannels.length * 3.4}s` }}>
-          {repeatedChannels.map((channel, index) => (
-            <div className="ecosystem-name" key={`${channel.name}-${index}`} aria-hidden={index >= ecosystemChannels.length} title={channel.detail}>
-              <span className="ecosystem-channel-icon" aria-hidden="true" style={{ color: channel.color }}>
-                {channel.image ? <img src={`/channel-icons/${channel.image}`} alt="" width={40} height={40} decoding="async" /> : channel.icon ? <channel.icon size={38} weight="duotone" /> : null}
-              </span>
-              {channel.name}
+        {rows.map(row => (
+          <div className="ecosystem-lane" key={row.name} role="region" aria-label={row.name} tabIndex={0}>
+            <div className={`ecosystem-track${row.reverse ? ' ecosystem-track--reverse' : ''}`} style={{ animationDuration: `${row.channels.length * 3.4}s` }}>
+              {[...row.channels, ...row.channels].map((channel, index) => (
+                <div className="ecosystem-name" key={`${channel.name}-${index}`} aria-hidden={index >= row.channels.length} title={channel.detail}>
+                  <span className="ecosystem-channel-icon" aria-hidden="true" style={{ color: channel.color }}>
+                    {channel.image ? <img src={`/channel-icons/${channel.image}`} alt="" width={40} height={40} decoding="async" /> : channel.icon ? <channel.icon size={38} weight="duotone" /> : null}
+                  </span>
+                  {channel.name}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
 
       <div className="page-shell ecosystem-note">
