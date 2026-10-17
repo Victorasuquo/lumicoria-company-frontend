@@ -1275,6 +1275,18 @@ svg {
 
 /* Approach */
 
+.approach-section, #approach { scroll-margin-top: 110px; }
+.approach-section .approach-step { min-height: 350px; }
+.approach-section .approach-steps { margin-top: 44px; }
+.approach-section .support-flow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.how-it-works-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin-top: 28px; }
+@media (max-width: 700px) {
+  .approach-section .support-flow-grid { grid-template-columns: 1fr; }
+  .approach-section .support-flow-grid .milestone { padding-block: 20px; }
+  .approach-section .support-flow-grid .milestone + .milestone { border-top: 1px solid #ffffff2b; }
+  .approach-section .approach-step { min-height: 300px; }
+}
+
 .approach-heading {
   max-width: 920px;
 }
@@ -1463,6 +1475,14 @@ svg {
 
 .engagements-section {
   padding-top: 20px;
+}
+
+.engagement-pricing-note {
+  max-width: 960px;
+  margin: 24px 0 0;
+  color: var(--ink-soft);
+  font-size: .84rem;
+  line-height: 1.75;
 }
 
 .engagement-heading {
@@ -1873,7 +1893,8 @@ svg {
   animation: ecosystem-scroll 34s linear infinite;
 }
 
-.ecosystem-marquee:hover .ecosystem-track {
+.ecosystem-marquee:hover .ecosystem-track,
+.ecosystem-marquee.is-paused .ecosystem-track {
   animation-play-state: paused;
 }
 
@@ -1891,16 +1912,38 @@ svg {
   white-space: nowrap;
 }
 
-.ecosystem-orbit {
-  width: 28px;
-  height: 28px;
-  display: inline-block;
-  background:
-    radial-gradient(circle at 62% 36%, #fff 0 12%, transparent 13%),
-    conic-gradient(from 45deg, #6b4eff, #62c6ff, #ad8bff, #6b4eff);
-  border: 1px solid rgba(107, 78, 255, 0.2);
-  border-radius: 9px;
-  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.72);
+.ecosystem-channel-icon {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  display: grid;
+  place-items: center;
+}
+
+.ecosystem-channel-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.ecosystem-motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 10px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.ecosystem-motion-toggle:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 4px;
 }
 
 .ecosystem-note {
@@ -4291,6 +4334,16 @@ svg {
     animation: none !important;
   }
 
+  .ecosystem-marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+
+  .ecosystem-motion-toggle,
+  .ecosystem-name[aria-hidden="true"] {
+    display: none;
+  }
+
   *,
   *::before,
   *::after {
@@ -4716,5 +4769,84 @@ svg {
 
   .public-widget-composer-footer .public-widget-primary-button {
     width: 100%;
+  }
+}
+
+/* Rebecca "call me" form — hero and support surfaces. */
+.call-me {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 18px;
+  max-width: 420px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+}
+
+.call-me-field {
+  display: grid;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.call-me-field input {
+  padding: 12px 14px;
+  font: inherit;
+  font-family: 'Space Grotesk Variable', system-ui, sans-serif;
+  font-size: 1rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.call-me-field input:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 1px;
+}
+
+.call-me-consent {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.call-me-consent input {
+  margin-top: 3px;
+  flex: 0 0 auto;
+}
+
+.call-me button[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.call-me-status,
+.call-me-note,
+.call-me-error {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.call-me-status { color: var(--violet-dark); }
+.call-me-note { color: var(--ink-soft); }
+.call-me-error { color: #b4232a; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .call-me {
+    background: var(--surface);
+    backdrop-filter: none;
   }
 }

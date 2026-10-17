@@ -23,6 +23,7 @@ const PublicWidgetPage = lazy(() => import('./public/PublicWidgetPage').then(({ 
 const PublicSupportPage = lazy(() => import('./public/PublicSupportPage').then(({ PublicSupportPage: Page }) => ({
   default: Page,
 })))
+const RebeccaPage = lazy(() => import('./public/RebeccaPage').then(({ RebeccaPage: Page }) => ({ default: Page })))
 
 function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
@@ -63,6 +64,9 @@ function App() {
   }
 
   if (isPublicSupport) {
+    if (supportSlug === (import.meta.env.VITE_REBECCA_SUPPORT_SLUG || 'lumicoria') && supportView === 'voice') {
+      return <Suspense fallback={<div className="public-widget-loader">Loading Rebecca…</div>}><RebeccaPage /></Suspense>
+    }
     return (
       <Suspense fallback={<div className="public-widget-loader">Loading support…</div>}>
         <PublicSupportPage slug={supportSlug} view={supportView} articleSlug={supportArticleSlug} ticketId={supportTicketId} />
@@ -79,11 +83,11 @@ function App() {
           <>
             <Hero />
             <Ecosystem />
+            <DeliverySystem />
             <OutcomeExplorer />
             <Verticals />
             <Company />
             <MeetPlatform />
-            <DeliverySystem />
             <Engagements />
             <EngagementStories />
             <Governance />

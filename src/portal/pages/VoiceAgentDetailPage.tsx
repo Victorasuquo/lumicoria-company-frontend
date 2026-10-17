@@ -1,4 +1,4 @@
-import { ArrowLeft, Plus } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowUpRight, Plus } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -24,9 +24,14 @@ import {
 import { useVoiceQuery } from '../hooks'
 import { portalQueryClient } from '../query'
 
+const tonePresets = ['Warm', 'Clear', 'Respectful', 'Professional', 'Concise', 'Empathetic', 'Confident', 'Conversational']
+
 export function VoiceAgentDetailPage() {
   const { agentId } = useParams<{ agentId: string }>()
   const { context, hasScope } = usePortalAuth()
+  const activeOrganizationName = context?.destinations?.find(
+    (destination) => destination.organization_id === context.organization_id,
+  )?.display_name ?? ''
   const [editMode, setEditMode] = useState(false)
   const [editName, setEditName] = useState('')
   const [editDescription, setEditDescription] = useState('')
@@ -106,11 +111,13 @@ export function VoiceAgentDetailPage() {
     const actions = (document.actions ?? {}) as Record<string, any>
     const handoff = (document.handoff ?? {}) as Record<string, any>
     const businessHours = (document.business_hours ?? {}) as Record<string, any>
-    setPromptCompany(typeof identity.company_name === 'string' ? identity.company_name : '')
+    setPromptCompany(activeOrganizationName || (typeof identity.company_name === 'string' ? identity.company_name : ''))
     setPromptRole(typeof identity.role === 'string' ? identity.role : '')
-    setPromptTone(Array.isArray(identity.tone) ? identity.tone.join(', ') : '')
-    setPromptLocale(typeof identity.locale === 'string' ? identity.locale : '')
-    setPromptCulture(Array.isArray(identity.cultural_guidance) ? identity.cultural_guidance.join('\n') : '')
+    setPromptTone(Array.isArray(identity.tone) && identity.tone.length ? identity.tone.join(', ') : 'warm, respectful, concise')
+    setPromptLocale(typeof identity.locale === 'string' && identity.locale ? identity.locale : 'en-NG')
+    setPromptCulture(Array.isArray(identity.cultural_guidance) && identity.cultural_guidance.length
+      ? identity.cultural_guidance.join('\n')
+      : 'Use clear, respectful Nigerian English.\nMirror the customer’s level of formality; do not force slang or cultural references.\nSpeak names, dates, and amounts clearly. Ask for clarification when a detail is uncertain.')
     setPromptRules(Array.isArray(identity.response_rules) ? identity.response_rules.join('\n') : '')
     setPromptForbidden(Array.isArray(identity.forbidden_topics) ? identity.forbidden_topics.join('\n') : '')
     setPromptTerms(
@@ -118,7 +125,9 @@ export function VoiceAgentDetailPage() {
         ? Object.entries(identity.preferred_terms).map(([key, value]) => `${key}=${String(value)}`).join('\n')
         : '',
     )
-    setPromptOpening(typeof disclosure.opening_text === 'string' ? disclosure.opening_text : '')
+    setPromptOpening(typeof disclosure.opening_text === 'string'
+      ? disclosure.opening_text.replaceAll('the represented organization', activeOrganizationName || 'the organisation')
+      : `Hello, you’re speaking with ${agentQuery.data?.name ?? 'our AI assistant'}${activeOrganizationName ? ` from ${activeOrganizationName}` : ''}. How can I help?`)
     setPromptClosing(typeof disclosure.closing_text === 'string' ? disclosure.closing_text : '')
     setPromptIntents(Array.isArray(conversation.intents) ? conversation.intents.join('\n') : '')
     setPromptKnowledgeConfidence(typeof knowledge.minimum_confidence === 'number' ? String(knowledge.minimum_confidence) : '0.72')
@@ -129,7 +138,7 @@ export function VoiceAgentDetailPage() {
     setPromptHandoffRules(Array.isArray(handoff.escalation_rules) ? handoff.escalation_rules.join('\n') : '')
     setPromptTimezone(typeof businessHours.timezone === 'string' ? businessHours.timezone : 'UTC')
     setPromptOutsideHoursAction(typeof businessHours.outside_hours_action === 'string' ? businessHours.outside_hours_action : 'create_ticket')
-  }, [versionsQuery.data])
+  }, [activeOrganizationName, agentQuery.data?.name, versionsQuery.data])
 
   const updateMutation = useMutation({
     mutationFn: async (body: { name?: string; description?: string | null; default_language?: string; supported_languages?: string[] }) => {
@@ -203,7 +212,7 @@ export function VoiceAgentDetailPage() {
       const document = JSON.parse(JSON.stringify(version.vtl_document)) as Record<string, any>
       const identity: Record<string, any> = {
         ...(document.identity as Record<string, any> | undefined),
-        company_name: promptCompany.trim(),
+        company_name: activeOrganizationName || promptCompany.trim(),
         role: promptRole.trim(),
         tone: promptTone.split(',').map((value) => value.trim()).filter(Boolean),
         cultural_guidance: promptCulture.split('\n').map((value) => value.trim()).filter(Boolean),
@@ -359,6 +368,14 @@ export function VoiceAgentDetailPage() {
   ) ?? publishedKnowledgeBases[0] ?? null
   const blockingIssues = readinessQuery.data?.issues.filter((issue) => issue.blocking) ?? []
   const hasMissingEvaluation = blockingIssues.some((issue) => issue.code === 'CRITICAL_EVALUATION_MISSING' || issue.code === 'CRITICAL_EVALUATION_FAILED')
+  const selectedTonePresets = promptTone.split(',').map((tone) => tone.trim().toLowerCase()).filter(Boolean)
+
+  function toggleTonePreset(tone: string) {
+    const current = new Set(selectedTonePresets)
+    if (current.has(tone.toLowerCase())) current.delete(tone.toLowerCase())
+    else current.add(tone.toLowerCase())
+    setPromptTone([...current].join(', '))
+  }
 
   function enterEditMode() {
     setEditName(agent.name)
@@ -400,19 +417,99 @@ export function VoiceAgentDetailPage() {
       />
 
       <div className="portal-voice-detail-meta">
-        <span>Language: <strong>{agent.default_language}</strong></span>
-        {agent.published_version_id && <span>Published version: <strong>{agent.published_version_id.slice(0, 12)}…</strong></span>}
-        <span>Updated {formatPortalDate(agent.updated_at)}</span>
+        <span><small>Language</small><strong>{agent.default_language}</strong></span>
+        {agent.published_version_id && <span><small>Live version</small><strong className="portal-voice-mono">{agent.published_version_id.slice(0, 12)}…</strong></span>}
+        <span><small>Last updated</small><strong>{formatPortalDate(agent.updated_at)}</strong></span>
       </div>
+
+      <nav className="portal-voice-agent-nav" aria-label="Agent configuration sections">
+        <a href="#agent-prompt">Start agent setup</a>
+        <a href="#agent-readiness">Readiness</a>
+        <a href="#agent-configuration">Agent details</a>
+        <a href="#agent-runtime-prompt">Runtime preview</a>
+        <a href="#agent-versions">Versions &amp; tools</a>
+      </nav>
 
       {mutationError && <p className="portal-voice-mutation-error">{mutationError}</p>}
 
-      <section className={`portal-voice-readiness-panel ${readinessQuery.data?.ready ? 'is-ready' : 'is-blocked'}`}>
+      <section id="agent-prompt" className="portal-voice-detail-panel portal-voice-prompt-panel">
+        <div className="portal-voice-detail-panel-head">
+          <div>
+            <span className="portal-voice-card-category">Agent onboarding · Start here</span>
+            <h3>Define how your agent represents you</h3>
+            <p className="portal-voice-panel-note">Set its identity, voice, customer conversation style, knowledge boundaries, and handoff rules before connecting channels or publishing. These settings apply to every runtime.</p>
+          </div>
+        </div>
+        {!latestVersion ? (
+          <PortalEmpty title="Create a version first" description="The prompt and guardrail editor becomes available after the first agent version is created." />
+        ) : hasScope('voice.agents.manage') ? (
+          <form className="portal-voice-edit-form" onSubmit={(event) => { event.preventDefault(); savePromptMutation.mutate(latestVersion) }}>
+            {activeOrganizationName && <div className="portal-voice-identity-callout"><span>Organisation identity</span><strong>{activeOrganizationName}</strong><p>This agent belongs to this workspace. The runtime identity is set from the active organisation and cannot drift to another company.</p></div>}
+            <details className="portal-voice-prompt-group" open>
+              <summary><span><strong>1. Identity &amp; purpose</strong><small>Which organisation the agent represents and what job it performs</small></span><span className="portal-voice-prompt-summary">Required</span></summary>
+            <div className="portal-voice-form-grid">
+              <label><span>Company represented</span><input value={activeOrganizationName || promptCompany} onChange={(event) => setPromptCompany(event.target.value)} placeholder="The organisation this agent represents" required readOnly={Boolean(activeOrganizationName)} /><small>Inherited from the active workspace</small></label>
+              <label><span>Agent role</span><input value={promptRole} onChange={(event) => setPromptRole(event.target.value)} placeholder="Customer support specialist" required /></label>
+            </div>
+            </details>
+            <details className="portal-voice-prompt-group" open>
+              <summary><span><strong>2. Voice, language &amp; tone</strong><small>Choose the voice personality and regional language style customers will hear</small></span><span className="portal-voice-prompt-summary">Required</span></summary>
+            <div className="portal-voice-form-grid">
+              <label><span>Language locale</span><select value={promptLocale} onChange={(event) => setPromptLocale(event.target.value)}>
+                {!['en-NG', 'en-GB', 'en-US', 'en'].includes(promptLocale) && <option value={promptLocale}>{promptLocale}</option>}
+                <option value="en-NG">en-NG · Nigerian English</option><option value="en-GB">en-GB · British English</option><option value="en-US">en-US · US English</option><option value="en">en · General English</option>
+              </select></label>
+              <label><span>Brand tone</span><input value={promptTone} onChange={(event) => setPromptTone(event.target.value)} placeholder="Choose below or describe your tone" required /><small>Selected qualities are combined into the agent’s speaking style.</small></label>
+            </div>
+            <div className="portal-voice-tone-picker" role="group" aria-label="Choose tone qualities">
+              <span>Choose tone qualities</span>
+              <div>{tonePresets.map((tone) => <button key={tone} type="button" className={selectedTonePresets.includes(tone.toLowerCase()) ? 'is-selected' : ''} aria-pressed={selectedTonePresets.includes(tone.toLowerCase())} onClick={() => toggleTonePreset(tone)}>{tone}</button>)}</div>
+            </div>
+            <p className="portal-voice-field-guidance">Tone describes the agent’s wording and manner. Locale guides language conventions; it does not guarantee a particular synthetic voice or accent. Choose the voice model separately in channel settings.</p>
+            <label><span>Cultural and language guidance <small>Be specific about language, formality, pronunciation, and phrases to avoid</small></span><textarea value={promptCulture} onChange={(event) => setPromptCulture(event.target.value)} rows={4} placeholder={'Use respectful Nigerian English.\nMirror the customer’s formality; avoid forced slang.\nSay dates and prices clearly.'} /></label>
+            <div className="portal-voice-form-grid">
+              <label><span>AI opening disclosure</span><textarea value={promptOpening} onChange={(event) => setPromptOpening(event.target.value)} rows={2} /></label>
+              <label><span>Closing message</span><textarea value={promptClosing} onChange={(event) => setPromptClosing(event.target.value)} rows={2} /></label>
+            </div>
+            </details>
+            <details className="portal-voice-prompt-group">
+              <summary><span><strong>3. Conversation behaviour</strong><small>Response rules, supported requests, vocabulary, and boundaries</small></span><span className="portal-voice-prompt-summary">Conversation</span></summary>
+            <label><span>Response rules <small>One rule per line</small></span><textarea value={promptRules} onChange={(event) => setPromptRules(event.target.value)} rows={3} placeholder={'Ask one question at a time.\nAlways explain the next step.'} /></label>
+            <div className="portal-voice-form-grid">
+              <label><span>Forbidden topics <small>One topic per line</small></span><textarea value={promptForbidden} onChange={(event) => setPromptForbidden(event.target.value)} rows={3} placeholder={'Unverified prices\nUnconfirmed availability'} /></label>
+              <label><span>Preferred terms <small>One key=value per line</small></span><textarea value={promptTerms} onChange={(event) => setPromptTerms(event.target.value)} rows={3} placeholder={'customer=guest\nstaff=the support team'} /></label>
+            </div>
+            <label><span>Supported intents <small>One intent key per line</small></span><textarea value={promptIntents} onChange={(event) => setPromptIntents(event.target.value)} rows={3} placeholder={'service_question\ncomplaint\nhuman_handoff'} /></label>
+            </details>
+            <details className="portal-voice-prompt-group">
+              <summary><span><strong>4. Knowledge &amp; safe actions</strong><small>What the agent may answer or do, and when it must stop</small></span><span className="portal-voice-prompt-summary">Safety controls</span></summary>
+            <div className="portal-voice-form-grid">
+              <label><span>Knowledge confidence threshold</span><input type="number" min="0" max="1" step="0.01" value={promptKnowledgeConfidence} onChange={(event) => setPromptKnowledgeConfidence(event.target.value)} /></label>
+              <label><span>When knowledge is insufficient</span><select value={promptKnowledgeAction} onChange={(event) => setPromptKnowledgeAction(event.target.value)}><option value="clarify">Ask for clarification</option><option value="handoff">Hand off to staff</option><option value="create_ticket">Create a ticket</option><option value="end">End safely</option></select></label>
+              <label><span>Maximum autonomous risk</span><select value={promptMaximumRisk} onChange={(event) => setPromptMaximumRisk(event.target.value)}><option value="A0">A0 · informational only</option><option value="A1">A1 · low-risk actions</option><option value="A2">A2 · bounded actions with confirmation</option></select></label>
+              <label><span>Business-hours timezone</span><input value={promptTimezone} onChange={(event) => setPromptTimezone(event.target.value)} placeholder="Africa/Lagos" /></label>
+            </div>
+            <label><span>Allowed action classes <small>One action key per line</small></span><textarea value={promptAllowedActions} onChange={(event) => setPromptAllowedActions(event.target.value)} rows={3} placeholder={'knowledge.search\nticket.create\ncall.transfer'} /></label>
+            <label><span>Confirmation phrases <small>Required before side effects</small></span><textarea value={promptConfirmationPhrases} onChange={(event) => setPromptConfirmationPhrases(event.target.value)} rows={2} placeholder="Please confirm that you want me to proceed." /></label>
+            </details>
+            <details className="portal-voice-prompt-group">
+              <summary><span><strong>5. Human handoff &amp; hours</strong><small>When to route to a person and what customers should expect</small></span><span className="portal-voice-prompt-summary">Escalation</span></summary>
+            <div className="portal-voice-form-grid">
+              <label><span>Escalation rules <small>One rule per line</small></span><textarea value={promptHandoffRules} onChange={(event) => setPromptHandoffRules(event.target.value)} rows={3} placeholder="customer_requests_a_human\nrequired_policy_is_unavailable\nidentity_or_confirmation_fails" /></label>
+              <label><span>Outside-hours action</span><select value={promptOutsideHoursAction} onChange={(event) => setPromptOutsideHoursAction(event.target.value)}><option value="allow">Continue with published knowledge</option><option value="create_ticket">Create a ticket</option><option value="schedule_callback">Schedule a callback</option><option value="end">End safely</option></select></label>
+            </div>
+            </details>
+            <div className="portal-voice-edit-actions"><button className="portal-primary-button" type="submit" disabled={savePromptMutation.isPending || !promptCompany.trim() || !promptRole.trim() || !promptTone.trim()}>{savePromptMutation.isPending ? 'Saving setup…' : 'Save setup as new version'}</button><span className="portal-voice-panel-note">Saving creates an immutable version. Validate and publish it before it changes live behaviour.</span></div>
+          </form>
+        ) : <p className="portal-voice-panel-note">You have read-only access to this agent’s prompt and guardrails.</p>}
+      </section>
+
+      <section id="agent-readiness" className={`portal-voice-readiness-panel ${readinessQuery.data?.ready ? 'is-ready' : 'is-blocked'}`}>
         <div className="portal-voice-readiness-header">
           <div>
             <span className="portal-voice-card-category">Publication readiness</span>
             <h3>{readinessQuery.isLoading ? 'Checking configuration…' : readinessQuery.data?.ready ? 'Ready to publish' : 'Publication is blocked'}</h3>
-            <p>Every blocker below must be cleared before this version can become live.</p>
+            <p>Complete the core agent setup above, then resolve any remaining checks before publishing.</p>
           </div>
           {readinessQuery.data && <StatusPill value={readinessQuery.data.ready ? 'ready' : 'blocked'} />}
         </div>
@@ -422,83 +519,49 @@ export function VoiceAgentDetailPage() {
             {blockingIssues.map((issue) => (
               <li key={`${issue.code}-${issue.path}`}>
                 <div><strong>{humanize(issue.code)}</strong><span>{issue.message}</span></div>
+                {issue.code === 'IDENTITY_ORGANIZATION_MISMATCH' && activeOrganizationName && (
+                  <a className="portal-secondary-button" href="#agent-prompt">Set identity to {activeOrganizationName} <ArrowUpRight size={14} /></a>
+                )}
                 {issue.code === 'KNOWLEDGE_RELEASE_REQUIRED' && hasScope('voice.agents.manage') && (
                   <div className="portal-voice-readiness-action">
                     {publishedKnowledgeBases.length > 0 ? (
                       <>
-                        <select
-                          aria-label="Published knowledge base"
-                          value={selectedKnowledgeBase?.id ?? ''}
-                          onChange={(event) => setSelectedKnowledgeBaseId(event.target.value)}
-                        >
+                        <select aria-label="Published knowledge base" value={selectedKnowledgeBase?.id ?? ''} onChange={(event) => setSelectedKnowledgeBaseId(event.target.value)}>
                           {publishedKnowledgeBases.map((knowledgeBase) => <option key={knowledgeBase.id} value={knowledgeBase.id}>{knowledgeBase.name}</option>)}
                         </select>
-                        <button
-                          className="portal-secondary-button"
-                          type="button"
-                          onClick={() => latestVersion && selectedKnowledgeBase && configureKnowledgeMutation.mutate({ version: latestVersion, knowledgeBase: selectedKnowledgeBase })}
-                          disabled={!latestVersion || !selectedKnowledgeBase || configureKnowledgeMutation.isPending}
-                        >
+                        <button className="portal-secondary-button" type="button" onClick={() => latestVersion && selectedKnowledgeBase && configureKnowledgeMutation.mutate({ version: latestVersion, knowledgeBase: selectedKnowledgeBase })} disabled={!latestVersion || !selectedKnowledgeBase || configureKnowledgeMutation.isPending}>
                           {configureKnowledgeMutation.isPending ? 'Creating version…' : 'Bind published knowledge'}
                         </button>
                       </>
-                    ) : (
-                      <Link className="portal-secondary-button" to="/portal/voice/knowledge">Publish knowledge first</Link>
-                    )}
+                    ) : <Link className="portal-secondary-button" to="/portal/voice/knowledge">Publish knowledge first</Link>}
                   </div>
                 )}
-                {issue.code === 'CRITICAL_EVALUATION_MISSING' && latestVersion && hasScope('voice.agents.manage') && (
-                  <span className="portal-voice-readiness-action-note">Run the required checks below.</span>
-                )}
+                {issue.code === 'CRITICAL_EVALUATION_MISSING' && latestVersion && hasScope('voice.agents.manage') && <span className="portal-voice-readiness-action-note">Run the required checks below.</span>}
               </li>
             ))}
           </ul>
         )}
         {hasMissingEvaluation && latestVersion && hasScope('voice.agents.manage') && (
-          <button
-            className="portal-primary-button"
-            type="button"
-            onClick={() => evaluationsMutation.mutate(latestVersion)}
-            disabled={evaluationsMutation.isPending}
-          >
+          <button className="portal-primary-button" type="button" onClick={() => evaluationsMutation.mutate(latestVersion)} disabled={evaluationsMutation.isPending}>
             {evaluationsMutation.isPending ? 'Running required checks…' : 'Run required checks'}
           </button>
         )}
-        {readinessQuery.data?.issues.some((issue) => issue.code === 'TOOL_BINDING_UNHEALTHY') && (
-          <Link className="portal-secondary-button" to="/portal/voice/tools">Review tool bindings</Link>
-        )}
+        {readinessQuery.data?.issues.some((issue) => issue.code === 'TOOL_BINDING_UNHEALTHY') && <Link className="portal-secondary-button" to="/portal/voice/tools">Review tool bindings</Link>}
       </section>
 
-      {/* Configuration panel */}
-      <section className="portal-voice-detail-panel">
+      <section id="agent-configuration" className="portal-voice-detail-panel">
         <div className="portal-voice-detail-panel-head">
-          <h3>Configuration</h3>
-          {!editMode && hasScope('voice.agents.manage') && (
-            <button className="portal-secondary-button" type="button" onClick={enterEditMode}>Edit</button>
-          )}
+          <h3>Agent details</h3>
+          {!editMode && hasScope('voice.agents.manage') && <button className="portal-secondary-button" type="button" onClick={enterEditMode}>Edit</button>}
         </div>
         {editMode ? (
           <form onSubmit={handleSave} className="portal-voice-edit-form">
-            <label>
-              <span>Name</span>
-              <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} required />
-            </label>
-            <label>
-              <span>Description</span>
-              <textarea value={editDescription} onChange={(e) => setEditDescription(e.target.value)} rows={3} />
-            </label>
-            <label>
-              <span>Default language</span>
-              <input type="text" value={editLanguage} onChange={(e) => setEditLanguage(e.target.value)} required />
-            </label>
-            <label>
-              <span>Supported languages (comma-separated)</span>
-              <input type="text" value={editSupported} onChange={(e) => setEditSupported(e.target.value)} />
-            </label>
+            <label><span>Name</span><input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} required /></label>
+            <label><span>Description</span><textarea value={editDescription} onChange={(e) => setEditDescription(e.target.value)} rows={3} /></label>
+            <label><span>Default language</span><input type="text" value={editLanguage} onChange={(e) => setEditLanguage(e.target.value)} required /></label>
+            <label><span>Supported languages (comma-separated)</span><input type="text" value={editSupported} onChange={(e) => setEditSupported(e.target.value)} /></label>
             <div className="portal-voice-edit-actions">
-              <button className="portal-primary-button" type="submit" disabled={updateMutation.isPending}>
-                {updateMutation.isPending ? 'Saving…' : 'Save'}
-              </button>
+              <button className="portal-primary-button" type="submit" disabled={updateMutation.isPending}>{updateMutation.isPending ? 'Saving…' : 'Save'}</button>
               <button className="portal-secondary-button" type="button" onClick={() => setEditMode(false)}>Cancel</button>
             </div>
           </form>
@@ -514,52 +577,7 @@ export function VoiceAgentDetailPage() {
         )}
       </section>
 
-      <section className="portal-voice-detail-panel">
-        <div className="portal-voice-detail-panel-head">
-          <div>
-            <h3>Prompt and guardrails</h3>
-            <p className="portal-voice-panel-note">Structured settings are compiled into the next immutable VTL version. They apply to browser, phone, widget, and fallback runtime paths.</p>
-          </div>
-        </div>
-        {!latestVersion ? (
-          <PortalEmpty title="Create a version first" description="The prompt and guardrail editor becomes available after the first agent version is created." />
-        ) : hasScope('voice.agents.manage') ? (
-          <form className="portal-voice-edit-form" onSubmit={(event) => { event.preventDefault(); savePromptMutation.mutate(latestVersion) }}>
-            <div className="portal-voice-form-grid">
-              <label><span>Company represented</span><input value={promptCompany} onChange={(event) => setPromptCompany(event.target.value)} placeholder="The organisation this agent represents" required /></label>
-              <label><span>Agent role</span><input value={promptRole} onChange={(event) => setPromptRole(event.target.value)} placeholder="Customer support specialist" required /></label>
-              <label><span>Locale</span><input value={promptLocale} onChange={(event) => setPromptLocale(event.target.value)} placeholder="en-NG" /></label>
-              <label><span>Brand tone</span><input value={promptTone} onChange={(event) => setPromptTone(event.target.value)} placeholder="warm, clear, professional" /></label>
-            </div>
-            <label><span>Cultural guidance <small>One rule per line</small></span><textarea value={promptCulture} onChange={(event) => setPromptCulture(event.target.value)} rows={3} placeholder="Use respectful Nigerian English.\nAvoid slang unless the customer uses it first." /></label>
-            <label><span>Response rules <small>One rule per line</small></span><textarea value={promptRules} onChange={(event) => setPromptRules(event.target.value)} rows={3} placeholder="Ask one question at a time.\nAlways explain the next step." /></label>
-            <div className="portal-voice-form-grid">
-              <label><span>Forbidden topics <small>One topic per line</small></span><textarea value={promptForbidden} onChange={(event) => setPromptForbidden(event.target.value)} rows={3} placeholder="Unverified prices\nUnconfirmed availability" /></label>
-              <label><span>Preferred terms <small>One key=value per line</small></span><textarea value={promptTerms} onChange={(event) => setPromptTerms(event.target.value)} rows={3} placeholder="customer=guest\nstaff=the support team" /></label>
-            </div>
-            <div className="portal-voice-form-grid">
-              <label><span>AI opening disclosure</span><textarea value={promptOpening} onChange={(event) => setPromptOpening(event.target.value)} rows={2} /></label>
-              <label><span>Closing message</span><textarea value={promptClosing} onChange={(event) => setPromptClosing(event.target.value)} rows={2} /></label>
-            </div>
-            <label><span>Supported intents <small>One intent key per line</small></span><textarea value={promptIntents} onChange={(event) => setPromptIntents(event.target.value)} rows={3} placeholder="service_question\ncomplaint\nhuman_handoff" /></label>
-            <div className="portal-voice-form-grid">
-              <label><span>Knowledge confidence threshold</span><input type="number" min="0" max="1" step="0.01" value={promptKnowledgeConfidence} onChange={(event) => setPromptKnowledgeConfidence(event.target.value)} /></label>
-              <label><span>When knowledge is insufficient</span><select value={promptKnowledgeAction} onChange={(event) => setPromptKnowledgeAction(event.target.value)}><option value="clarify">Ask for clarification</option><option value="handoff">Hand off to staff</option><option value="create_ticket">Create a ticket</option><option value="end">End safely</option></select></label>
-              <label><span>Maximum autonomous risk</span><select value={promptMaximumRisk} onChange={(event) => setPromptMaximumRisk(event.target.value)}><option value="A0">A0 · informational only</option><option value="A1">A1 · low-risk actions</option><option value="A2">A2 · bounded actions with confirmation</option></select></label>
-              <label><span>Business-hours timezone</span><input value={promptTimezone} onChange={(event) => setPromptTimezone(event.target.value)} placeholder="Africa/Lagos" /></label>
-            </div>
-            <label><span>Allowed action classes <small>One action key per line</small></span><textarea value={promptAllowedActions} onChange={(event) => setPromptAllowedActions(event.target.value)} rows={3} placeholder="knowledge.search\nticket.create\ncall.transfer" /></label>
-            <label><span>Confirmation phrases <small>Required before side effects</small></span><textarea value={promptConfirmationPhrases} onChange={(event) => setPromptConfirmationPhrases(event.target.value)} rows={2} placeholder="Please confirm that you want me to proceed." /></label>
-            <div className="portal-voice-form-grid">
-              <label><span>Escalation rules <small>One rule per line</small></span><textarea value={promptHandoffRules} onChange={(event) => setPromptHandoffRules(event.target.value)} rows={3} placeholder="customer_requests_a_human\nrequired_policy_is_unavailable\nidentity_or_confirmation_fails" /></label>
-              <label><span>Outside-hours action</span><select value={promptOutsideHoursAction} onChange={(event) => setPromptOutsideHoursAction(event.target.value)}><option value="allow">Continue with published knowledge</option><option value="create_ticket">Create a ticket</option><option value="schedule_callback">Schedule a callback</option><option value="end">End safely</option></select></label>
-            </div>
-            <div className="portal-voice-edit-actions"><button className="portal-primary-button" type="submit" disabled={savePromptMutation.isPending || !promptCompany.trim() || !promptRole.trim()}>{savePromptMutation.isPending ? 'Creating version…' : 'Save as new version'}</button><span className="portal-voice-panel-note">The current published version is unchanged until you validate and publish this new version.</span></div>
-          </form>
-        ) : <p className="portal-voice-panel-note">You have read-only access to this agent’s prompt and guardrails.</p>}
-      </section>
-
-      <section className="portal-voice-detail-panel">
+      <section id="agent-runtime-prompt" className="portal-voice-detail-panel">
         <div className="portal-voice-detail-panel-head">
           <div>
             <h3>Effective runtime prompt</h3>
@@ -574,14 +592,17 @@ export function VoiceAgentDetailPage() {
         ) : promptPreviewQuery.error ? (
           <PortalError error={promptPreviewQuery.error} onRetry={() => void promptPreviewQuery.refetch()} />
         ) : promptPreviewQuery.data ? (
-          <pre className="portal-voice-prompt-preview">{promptPreviewQuery.data.system_prompt}</pre>
+          <details className="portal-voice-runtime-preview">
+            <summary>View full compiled prompt <span>Generated from the selected immutable version</span></summary>
+            <pre className="portal-voice-prompt-preview">{promptPreviewQuery.data.system_prompt}</pre>
+          </details>
         ) : (
           <PortalEmpty title="No prompt version yet" description="Create an immutable version to preview the prompt used by runtime paths." />
         )}
       </section>
 
       {/* Versions panel */}
-      <section className="portal-voice-detail-panel">
+      <section id="agent-versions" className="portal-voice-detail-panel">
         <div className="portal-voice-detail-panel-head">
           <h3>Versions <span className="portal-voice-count">{versions.length}</span></h3>
           {hasScope('voice.agents.manage') && (

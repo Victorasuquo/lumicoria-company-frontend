@@ -17,6 +17,7 @@ import {
 
 export const navItems = [
   { label: 'Solutions', href: '#solutions' },
+  { label: 'How it works', href: '#how-it-works' },
   { label: 'Industries', href: '#industries' },
   { label: 'Platform', href: '#platform' },
   { label: 'Company', href: '#company' },
@@ -114,26 +115,26 @@ export const approachSteps = [
   {
     number: '01',
     icon: MagnifyingGlass,
-    eyebrow: 'Start with your account',
-    title: 'Create your workspace and organisation.',
-    text: 'Set up your team, business details, and the customer-support area you want to improve first.',
-    timing: 'A few minutes',
+    eyebrow: 'Teach your agent',
+    title: 'Your business. Your answers.',
+    text: 'Add approved business information, choose the voice and tone, and set the rules for when your team should take over.',
+    timing: 'Your knowledge and rules',
   },
   {
     number: '02',
     icon: CirclesFour,
-    eyebrow: 'Teach it your business',
-    title: 'Add the answers and rules your customers need.',
-    text: 'Provide approved information such as opening hours, services, delivery areas, booking details, and when staff should take over.',
-    timing: 'Your information',
+    eyebrow: 'Connect and test',
+    title: 'Try it before customers do.',
+    text: 'Configure your chosen channels, run test conversations, and review answers and human handoffs. Publish only when you are ready.',
+    timing: 'Review before launch',
   },
   {
     number: '03',
     icon: ArrowBendDownRight,
-    eyebrow: 'Test, then publish',
-    title: 'Try real questions before customers hear it.',
-    text: 'Run test conversations, review the responses, and publish when the experience matches your standards.',
-    timing: 'When ready',
+    eyebrow: 'Support your customers',
+    title: 'Answer. Capture. Hand off.',
+    text: 'Your agent handles routine questions and captures the request. Uncertain or sensitive matters reach your team with the conversation context.',
+    timing: 'People stay in control',
   },
 ]
 
@@ -149,39 +150,45 @@ export const deliveryMilestones = [
 
 export const engagements = [
   {
-    name: 'Voice Support Setup',
-    bestFor: 'You want to choose the first call workflow and prepare it around your business rules.',
-    duration: '2-4 weeks',
-    price: '₦10m to ₦20m',
-    includes: ['Support workflow review', 'Approved answer library', 'Call and escalation design', 'Launch recommendation'],
+    name: 'One-time setup',
+    slug: 'voice-support-setup',
+    bestFor: 'Prepare your workspace, approved answers, and first voice-support workflow.',
+    duration: 'Once per workspace',
+    price: '₦500,000',
+    includes: ['Workspace and agent configuration', 'Business knowledge preparation', 'Human handoff and escalation setup', 'Testing and onboarding before launch'],
     cta: 'Talk to our team',
   },
   {
-    name: 'Controlled Support Launch',
-    bestFor: 'You have a clear customer-support problem and want to introduce voice support carefully.',
-    duration: '6-10 weeks',
-    price: '₦45m to ₦100m',
-    includes: ['Voice workflow configuration', 'Business knowledge setup', 'Human handoff testing', 'Team training and support'],
+    name: 'Starter',
+    slug: 'controlled-support-launch',
+    bestFor: 'Start with a focused support workflow and a smaller monthly voice allowance.',
+    duration: 'Monthly subscription',
+    price: '₦30,000 / month',
+    includes: ['19,000 monthly voice credits', 'Equivalent to 30 browser + 10 phone minutes', 'Approved answers and human escalation', 'Shared conversation records and follow-up'],
+    cta: 'Talk to our team',
+  },
+  {
+    name: 'Growth',
+    slug: 'support-operations',
+    bestFor: 'Run a busier support workflow with more monthly credits for customer calls.',
+    duration: 'Monthly subscription',
+    price: '₦100,000 / month',
+    includes: ['90,000 monthly voice credits', 'Equivalent to 100 browser + 60 phone minutes', 'Approved answers and human escalation', 'Shared conversation records and follow-up'],
     cta: 'Talk to our team',
     featured: true,
   },
   {
-    name: 'Support Operations',
-    bestFor: 'Your customer support spans calls, WhatsApp, email, bookings, and more than one team.',
-    duration: '12-20 weeks',
-    price: '₦120m to ₦300m',
-    includes: ['Connected support channels', 'Escalation ownership', 'Reporting and review', 'Ongoing workflow improvement'],
-    cta: 'Talk to our team',
-  },
-  {
-    name: 'Managed Support Improvement',
-    bestFor: 'You want a partner to monitor support quality and improve the workflow after launch.',
-    duration: 'Monthly',
-    price: '₦5m to ₦30m / month',
-    includes: ['Quality and outcome review', 'Knowledge updates', 'Escalation and issue review', 'Monthly support reporting'],
+    name: 'Enterprise',
+    slug: 'managed-support-improvement',
+    bestFor: 'Agree a support configuration and commercial terms around your organisation’s requirements.',
+    duration: 'Agreed in your quote',
+    price: 'Custom pricing',
+    includes: ['Scoped channels and integrations', 'Agreed voice allowance and usage rates', 'Organisation-specific workflow requirements', 'Implementation and support terms agreed upfront'],
     cta: 'Talk to our team',
   },
 ]
+
+export const voicePricingNote = 'Setup is separate from the subscription. Included voice credits form one shared monthly balance, not separate minute quotas: 1 credit = ₦1; browser voice uses 300 credits/minute and phone voice uses 1,000 credits/minute. Additional usage needs credit top-ups. Phone-number costs and any additional provider charges are confirmed separately. Final pricing and availability are confirmed before activation.'
 
 export const trustPrinciples = [
   {

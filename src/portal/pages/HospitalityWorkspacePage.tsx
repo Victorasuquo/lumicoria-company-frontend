@@ -23,6 +23,7 @@ import {
 } from '../../api/crm'
 import type { HospitalityChannelCollection, HospitalityConfiguration, HospitalityHealth, HospitalityIntentCollection } from '../../api/hospitality'
 import { usePortalAuth } from '../../auth/AuthProvider'
+import { ChannelIcon } from '../../components/ChannelIcon'
 import { usePortalQuery } from '../hooks'
 import {
   PortalEmpty,
@@ -206,7 +207,7 @@ export function HospitalityWorkspacePage() {
 
         <section className="portal-panel support-panel">
           <header><div><span className="support-panel-kicker">Connected guest channels</span><h2>Provider status</h2><p>Only verified channels are treated as live for this hotel.</p></div><EnvelopeSimple aria-hidden="true" /></header>
-          {channels.error ? <PortalError error={channels.error} onRetry={() => void channels.refetch()} /> : <div className="hospitality-channel-list">{(channels.data?.items ?? []).map((channel) => <div className="hospitality-channel-row" key={channel.key}><div><strong>{channel.label}</strong><small>{channel.provider} · {channel.detail ?? 'No provider detail'}</small></div><StatusPill value={channel.status} />{channel.status === 'connected' && <CheckCircle aria-hidden="true" />}</div>)}</div>}
+          {channels.error ? <PortalError error={channels.error} onRetry={() => void channels.refetch()} /> : <div className="hospitality-channel-list">{(channels.data?.items ?? []).map((channel) => <div className="hospitality-channel-row" key={channel.key}><div className="workspace-connector-identity"><ChannelIcon provider={channel.provider} channel={channel.key} /><div><strong>{channel.label}</strong><small>{channel.provider} · {channel.detail ?? 'No provider detail'}</small></div></div><StatusPill value={channel.status} />{channel.status === 'connected' && <CheckCircle aria-hidden="true" />}</div>)}</div>}
           {health.data?.warnings.length ? <p className="support-data-note">{health.data.warnings.join(' ')}</p> : null}
         </section>
 
