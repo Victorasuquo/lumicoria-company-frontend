@@ -12,6 +12,7 @@ import {
   WhatsappLogo,
 } from '@phosphor-icons/react'
 import { Link } from 'react-router-dom'
+import { ChannelIcon } from '../../components/ChannelIcon'
 import type { CRMCollection, CRMConnector } from '../../api/crm'
 import type {
   VoiceCollection,
@@ -47,7 +48,7 @@ function ChannelCard({ icon: Icon, label, title, description, state, detail, act
   return (
     <article className="channel-ops-card">
       <div className="channel-ops-card-topline">
-        <span className="channel-ops-icon"><Icon aria-hidden="true" weight="duotone" /></span>
+        <ChannelIcon channel={label} fallback={Icon} size={36} />
         <StatusPill value={state} />
       </div>
       <span className="support-panel-kicker">{label}</span>

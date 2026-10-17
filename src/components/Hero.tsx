@@ -7,6 +7,7 @@ import {
 } from '@phosphor-icons/react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import { useRef } from 'react'
+import { CallMe } from './CallMe'
 import { heroActivity, heroOutcomes, proofPoints, salesFormHref } from '../data/site'
 
 export function Hero() {
@@ -79,15 +80,16 @@ export function Hero() {
                 Talk to Rebecca
                 <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>
-              <a className="button hero-secondary-button" href="#solutions">
+              <a className="button hero-secondary-button" href="#how-it-works">
                 See how it works
                 <ArrowDown aria-hidden="true" weight="bold" />
               </a>
             </motion.div>
 
-            <motion.p className="hero-trust-line" {...enter(0.36)}>
-              Built around your rules. Connected to the tools you already use. Human when it matters.
-            </motion.p>
+            <motion.div {...enter(0.36)}>
+              <CallMe />
+            </motion.div>
+
           </motion.div>
         </motion.div>
 

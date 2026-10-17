@@ -72,7 +72,10 @@ export function DashboardPage() {
   const latestStatusQuery = usePortalQuery<StatusReportVersion>(
     ['status-report-latest', engagementId],
     engagementId ? `/engagements/${engagementId}/status-reports/latest` : null,
-    { enabled: hasScope('status_reports.read'), retry: false },
+    {
+      enabled: hasScope('status_reports.read') && dashboardQuery.data?.latest_status.status === 'available',
+      retry: false,
+    },
   )
 
   if (engagementsQuery.isLoading) return <PortalLoading />
@@ -180,7 +183,7 @@ export function DashboardPage() {
             <div><h2>Latest status</h2><p>The most recently published client update.</p></div>
             <Link to="/portal/status-reports">All reports <ArrowRight aria-hidden="true" /></Link>
           </header>
-          {latestStatusQuery.data ? (
+          {dashboard?.latest_status.status === 'available' && latestStatusQuery.data ? (
             <div className="portal-report-snapshot">
               <span>Published {formatPortalDate(latestStatusQuery.data.published_at, true)}</span>
               <h3>{String(latestStatusQuery.data.snapshot.summary || 'Status update')}</h3>

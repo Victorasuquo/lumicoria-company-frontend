@@ -14,6 +14,7 @@ import {
   Warning,
 } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState } from 'react'
+import { ChannelIcon } from '../../components/ChannelIcon'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { createIdempotencyKey, jsonBody, portalFetch } from '../../api/client'
@@ -49,6 +50,7 @@ import {
   humanize,
 } from '../components/PortalState'
 import { portalQueryClient } from '../query'
+import { SupportAnalyticsView } from './SupportAnalyticsView'
 
 const ticketStatuses = ['open', 'in_progress', 'pending_customer', 'pending_internal', 'escalated', 'resolved', 'closed']
 const priorities = ['low', 'normal', 'high', 'urgent']
@@ -290,7 +292,7 @@ export function SupportCallsPage() {
 export function SupportChannelsPage() {
   const connectors = usePortalQuery<{ items: Array<{ id: string; name: string; provider: string; channel: string; status: string; last_health_check_at: string | null }> }>(['crm', 'channels'], '/crm/connectors?page_size=100')
   const channelRows = ['voice', 'whatsapp', 'facebook', 'instagram', 'email', 'web_chat', 'widget']
-  return <SupportAccess scope={crmScopes.integrationsRead}><div className="portal-page support-page"><PortalPageHeader eyebrow="Customer entry points" title="Channels" description="See which customer-facing channels are connected and where a request may need attention." /><section className="portal-panel support-table-panel"><div className="support-channel-card-grid">{channelRows.map((channel) => { const matches = connectors.data?.items.filter((connector) => connector.channel === channel) ?? []; return <article className="support-channel-card" key={channel}><div><span className="support-panel-kicker">{humanize(channel)}</span><h2>{matches.length ? matches[0].name : 'Not connected'}</h2><p>{matches.length ? `${humanize(matches[0].provider)} · Last check ${formatPortalDate(matches[0].last_health_check_at, true)}` : 'Connect this channel when your team is ready to receive requests here.'}</p></div><StatusPill value={matches.length ? matches[0].status : 'not_configured'} /></article> })}</div></section></div></SupportAccess>
+  return <SupportAccess scope={crmScopes.integrationsRead}><div className="portal-page support-page"><PortalPageHeader eyebrow="Customer entry points" title="Channels" description="See which customer-facing channels are connected and where a request may need attention." /><section className="portal-panel support-table-panel"><div className="support-channel-card-grid">{channelRows.map((channel) => { const matches = connectors.data?.items.filter((connector) => connector.channel === channel) ?? []; return <article className="support-channel-card" key={channel}><div><ChannelIcon channel={channel} provider={matches[0]?.provider} /><span className="support-panel-kicker">{humanize(channel)}</span><h2>{matches.length ? matches[0].name : 'Not connected'}</h2><p>{matches.length ? `${humanize(matches[0].provider)} · Last check ${formatPortalDate(matches[0].last_health_check_at, true)}` : 'Connect this channel when your team is ready to receive requests here.'}</p></div><StatusPill value={matches.length ? matches[0].status : 'not_configured'} /></article> })}</div></section></div></SupportAccess>
 }
 
 export function SupportNotificationsPage() {
@@ -349,18 +351,22 @@ export function SupportQueuesPage() {
 
 export function SupportAnalyticsPage() {
   const { context, hasScope } = usePortalAuth()
-  const defaultFromDate = useMemo(() => { const date = new Date(); date.setDate(date.getDate() - 30); return date.toISOString().slice(0, 10) }, [])
+  const localDate = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+  const defaultFromDate = useMemo(() => { const date = new Date(); date.setDate(date.getDate() - 29); return localDate(date) }, [])
   const [fromDate, setFromDate] = useState(defaultFromDate)
-  const [toDate, setToDate] = useState(new Date().toISOString().slice(0, 10))
+  const [toDate, setToDate] = useState(() => localDate(new Date()))
   const [channel, setChannel] = useState('')
   const [vertical, setVertical] = useState('')
   const [operationId, setOperationId] = useState<string | null>(null)
+  const validRange = Boolean(fromDate && toDate && fromDate <= toDate)
   const filters = { from_date: fromDate, to_date: toDate, channel: channel || null, vertical: vertical || null }
-  const report = usePortalQuery<CRMAnalyticsReport>(['crm', 'analytics', fromDate, toDate, channel, vertical], `/crm/analytics/report${analyticsQueryString(filters)}`)
+  const report = usePortalQuery<CRMAnalyticsReport>(['crm', 'analytics', fromDate, toDate, channel, vertical], `/crm/analytics/report${analyticsQueryString(filters)}`, { enabled: validRange && hasScope(crmScopes.analyticsRead) })
   const operation = usePortalQuery<CRMOperation>(['crm', 'analytics-operation', operationId], operationId ? `/operations/${operationId}` : null, { enabled: Boolean(operationId), refetchInterval: (query) => ['succeeded', 'failed', 'cancelled'].includes(query.state.data?.status ?? '') ? false : 2000 })
+  useEffect(() => { setOperationId(null); setVertical('') }, [context?.organization_id])
   const exportMutation = useMutation({
     mutationFn: async (format: 'csv' | 'json') => {
       if (!context) throw new Error('Organisation context is unavailable.')
+      if (!validRange) throw new Error('Choose a valid reporting period before exporting.')
       const { data } = await portalFetch<CRMOperation>('/crm/analytics/exports', { method: 'POST', organizationId: context.organization_id, idempotencyKey: createIdempotencyKey(), ...jsonBody({ format, filters }) })
       return data
     },
@@ -378,7 +384,45 @@ export function SupportAnalyticsPage() {
     anchor.click()
     URL.revokeObjectURL(url)
   }
-  return <SupportAccess scope={crmScopes.analyticsRead}><div className="portal-page support-page"><PortalPageHeader eyebrow="Operations" title="Analytics" description="Understand where requests enter, how work moves, and where people still need to step in." action={hasScope(crmScopes.analyticsExport) ? <div className="support-action-group"><button className="portal-secondary-button" type="button" onClick={() => exportMutation.mutate('csv')} disabled={exportMutation.isPending}>Export CSV</button><button className="portal-secondary-button" type="button" onClick={() => exportMutation.mutate('json')} disabled={exportMutation.isPending}>Export JSON</button></div> : undefined} /><section className="portal-panel support-panel"><div className="support-filter-bar"><label>From<input type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} /></label><label>To<input type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} /></label><label>Channel<select value={channel} onChange={(event) => setChannel(event.target.value)}><option value="">All channels</option>{channels.map((item) => <option key={item} value={item}>{humanize(item)}</option>)}</select></label><label>Vertical<input value={vertical} onChange={(event) => setVertical(event.target.value)} placeholder="All verticals" /></label></div><header><div><span className="support-panel-kicker">{fromDate} to {toDate}</span><h2>Support performance</h2><p>Reported from reconciled CRM source events.</p></div></header><CollectionMessage isLoading={report.isLoading} error={report.error} onRetry={() => void report.refetch()} emptyTitle="No analytics yet" emptyDescription="Analytics will appear after support activity is recorded."><div className="support-metric-grid support-metric-grid-inline">{Object.entries(report.data?.summary ?? {}).slice(0, 8).map(([key, value]) => <Metric key={key} label={humanize(key)} value={value} detail="Selected reporting period" icon={TrendUp} />)}</div><div className="support-data-table"><h3>By channel</h3>{report.data?.by_channel.map((item, index) => <div key={String(item.channel ?? index)}><span>{humanize(String(item.channel ?? 'Unknown'))}</span><strong>{String(item.total ?? item.count ?? 0)}</strong></div>)}</div></CollectionMessage>{(exportMutation.error || operation.error) && <PortalError error={exportMutation.error || operation.error} title="Analytics export failed" />}{operation.data && <div className="support-operation-status"><strong>Export {humanize(operation.data.status)}</strong><span>{operation.data.progress}% complete</span>{operation.data.status === 'succeeded' && <button className="portal-secondary-button" type="button" onClick={downloadExport}>Download export</button>}</div>}</section></div></SupportAccess>
+  return (
+    <SupportAccess scope={crmScopes.analyticsRead}>
+      <SupportAnalyticsView
+        fromDate={fromDate}
+        toDate={toDate}
+        channel={channel}
+        vertical={vertical}
+        workspaceVertical={context?.vertical && context.vertical !== 'all' ? context.vertical : null}
+        channels={channels}
+        report={report.data}
+        loading={report.isLoading}
+        refreshing={report.isFetching}
+        error={report.error}
+        validRange={validRange}
+        onFromDate={setFromDate}
+        onToDate={setToDate}
+        onChannel={setChannel}
+        onVertical={setVertical}
+        onPreset={days => {
+          const end = new Date()
+          const start = new Date(end)
+          start.setDate(start.getDate() - days + 1)
+          setFromDate(localDate(start))
+          setToDate(localDate(end))
+        }}
+        onRefresh={() => void report.refetch()}
+        exportActions={hasScope(crmScopes.analyticsExport) ? (
+          <div className="support-action-group">
+            <button className="portal-secondary-button" type="button" onClick={() => exportMutation.mutate('csv')} disabled={exportMutation.isPending || !validRange}>Export CSV</button>
+            <button className="portal-secondary-button" type="button" onClick={() => exportMutation.mutate('json')} disabled={exportMutation.isPending || !validRange}>Export JSON</button>
+          </div>
+        ) : undefined}
+        exportStatus={<>
+          {(exportMutation.error || operation.error) && <PortalError error={exportMutation.error || operation.error} title="Analytics export failed" />}
+          {operation.data && <div className="support-operation-status"><strong>Export {humanize(operation.data.status)}</strong><span>{operation.data.progress}% complete</span>{operation.data.status === 'succeeded' && <button className="portal-secondary-button" type="button" onClick={downloadExport}>Download export</button>}</div>}
+        </>}
+      />
+    </SupportAccess>
+  )
 }
 
 export function SupportIntegrationsPage() {
@@ -398,7 +442,7 @@ export function SupportIntegrationsPage() {
     },
     onSuccess: () => invalidateCRM(context?.organization_id, 'connectors'),
   })
-  return <SupportAccess scope={crmScopes.integrationsRead}><div className="portal-page support-page"><PortalPageHeader eyebrow="Connected systems" title="Integrations" description="See which systems are connected, what they can do, and where synchronisation needs attention." /><section className="portal-panel support-table-panel"><CollectionMessage isLoading={connectors.isLoading} error={connectors.error} onRetry={() => void connectors.refetch()} emptyTitle="No integrations connected" emptyDescription="Connect a helpdesk or communication provider when your organisation is ready."><div className="support-connector-list">{connectors.data?.items.map((connector) => <article className="support-connector-row" key={connector.id}><div><span className="support-panel-kicker">{humanize(connector.channel)}</span><h2>{connector.name}</h2><p>{humanize(connector.provider)} · {connector.credential_configured ? 'Credentials configured' : 'Credentials required'}</p></div><StatusPill value={connector.status} />{hasScope(crmScopes.integrationsManage) && <div className="support-action-group"><button className="portal-secondary-button" type="button" onClick={() => health.mutate(connector.id)} disabled={health.isPending}>Check health</button><button className="portal-secondary-button" type="button" onClick={() => sync.mutate(connector.id)} disabled={sync.isPending}>Sync</button></div>}</article>)}</div></CollectionMessage>{(health.error || sync.error) && <PortalError error={health.error || sync.error} title="Integration action failed" />}</section></div></SupportAccess>
+  return <SupportAccess scope={crmScopes.integrationsRead}><div className="portal-page support-page"><PortalPageHeader eyebrow="Connected systems" title="Integrations" description="See which systems are connected, what they can do, and where synchronisation needs attention." /><section className="portal-panel support-table-panel"><CollectionMessage isLoading={connectors.isLoading} error={connectors.error} onRetry={() => void connectors.refetch()} emptyTitle="No integrations connected" emptyDescription="Connect a helpdesk or communication provider when your organisation is ready."><div className="support-connector-list">{connectors.data?.items.map((connector) => <article className="support-connector-row" key={connector.id}><div className="workspace-connector-identity"><ChannelIcon provider={connector.provider} channel={connector.channel} /><div><span className="support-panel-kicker">{humanize(connector.channel)}</span><h2>{connector.name}</h2><p>{humanize(connector.provider)} · {connector.credential_configured ? 'Credentials configured' : 'Credentials required'}</p></div></div><StatusPill value={connector.status} />{hasScope(crmScopes.integrationsManage) && <div className="support-action-group"><button className="portal-secondary-button" type="button" onClick={() => health.mutate(connector.id)} disabled={health.isPending}>Check health</button><button className="portal-secondary-button" type="button" onClick={() => sync.mutate(connector.id)} disabled={sync.isPending}>Sync</button></div>}</article>)}</div></CollectionMessage>{(health.error || sync.error) && <PortalError error={health.error || sync.error} title="Integration action failed" />}</section></div></SupportAccess>
 }
 
 export function SupportWorkflowsPage() {
@@ -411,7 +455,7 @@ export function SupportSettingsPage() {
   const profile = usePortalQuery<{ public_slug: string; display_name: string; hero_title: string; hero_description: string; primary_color: string; accent_color: string; support_email: string | null; response_time_minutes: number; public_categories: string[]; enabled_channels: string[]; status: string }>(['support', 'profile', 'settings'], '/support/profile', { enabled: hasScope('portal.read') })
   const [form, setForm] = useState({ public_slug: '', display_name: '', hero_title: '', hero_description: '', primary_color: '#6554e8', accent_color: '#8b7cf6', support_email: '', response_time_minutes: '60', public_categories: '', enabled_channels: 'web_chat' })
   useEffect(() => { if (!profile.data) return; setForm({ public_slug: profile.data.public_slug, display_name: profile.data.display_name, hero_title: profile.data.hero_title, hero_description: profile.data.hero_description, primary_color: profile.data.primary_color, accent_color: profile.data.accent_color, support_email: profile.data.support_email || '', response_time_minutes: String(profile.data.response_time_minutes), public_categories: profile.data.public_categories.join(', '), enabled_channels: profile.data.enabled_channels.join(', ') }) }, [profile.data])
-  const saveProfile = useMutation({ mutationFn: () => portalFetch('/support/profile', { organizationId: context?.organization_id, method: 'PUT', idempotencyKey: createIdempotencyKey(), ...jsonBody({ ...form, response_time_minutes: Number(form.response_time_minutes), support_email: form.support_email || null, public_categories: form.public_categories.split(',').map(value => value.trim()).filter(Boolean), enabled_channels: form.enabled_channels.split(',').map(value => value.trim()).filter(Boolean), operating_hours: {}, ai_policy: { auto_reply: true }, escalation_rules: [], customer_context_required: false, help_center_enabled: true, active_voice_agent_id: null }) }), onSuccess: () => void profile.refetch() })
+  const saveProfile = useMutation({ mutationFn: () => portalFetch('/support/profile', { organizationId: context?.organization_id, method: 'PUT', idempotencyKey: createIdempotencyKey(), ...jsonBody({ ...form, response_time_minutes: Number(form.response_time_minutes), support_email: form.support_email || null, public_categories: form.public_categories.split(',').map(value => value.trim()).filter(Boolean), enabled_channels: form.enabled_channels.split(',').map(value => value.trim()).filter(Boolean) }) }), onSuccess: () => void profile.refetch() })
   const publishProfile = useMutation({ mutationFn: () => portalFetch('/support/profile/publish', { organizationId: context?.organization_id, method: 'POST', idempotencyKey: createIdempotencyKey() }), onSuccess: () => void profile.refetch() })
   const update = (key: keyof typeof form, value: string) => setForm(current => ({ ...current, [key]: value }))
   return <SupportAccess scope={crmScopes.auditRead}><div className="portal-page support-page"><PortalPageHeader eyebrow="Support controls" title="Settings" description="Shape the branded public support experience and the rules that keep customer work with the right team." /><div className="support-settings-grid"><section className="portal-panel support-panel"><header><div><span className="support-panel-kicker">Public support profile</span><h2>{profile.data?.status === 'published' ? 'Published and ready' : 'Prepare your support page'}</h2><p>These settings control the organisation URL, public message, colour system, and available customer channels.</p></div>{profile.data && <StatusPill value={profile.data.status} />}</header>{profile.isLoading ? <PortalLoading label="Loading support profile" /> : <form className="support-profile-form" onSubmit={event => { event.preventDefault(); saveProfile.mutate() }}><label>Public URL slug<input value={form.public_slug} onChange={event => update('public_slug', event.target.value)} required /></label><label>Organisation display name<input value={form.display_name} onChange={event => update('display_name', event.target.value)} required /></label><label>Hero title<input value={form.hero_title} onChange={event => update('hero_title', event.target.value)} required /></label><label>Support description<textarea value={form.hero_description} onChange={event => update('hero_description', event.target.value)} rows={3} required /></label><div className="support-form-columns"><label>Primary colour<input type="color" value={form.primary_color} onChange={event => update('primary_color', event.target.value)} /></label><label>Accent colour<input type="color" value={form.accent_color} onChange={event => update('accent_color', event.target.value)} /></label><label>Response time (minutes)<input type="number" min="1" value={form.response_time_minutes} onChange={event => update('response_time_minutes', event.target.value)} /></label></div><label>Public categories <small>Separate with commas</small><input value={form.public_categories} onChange={event => update('public_categories', event.target.value)} placeholder="General support, Bookings, Delivery" /></label><label>Enabled channels <small>Separate with commas</small><input value={form.enabled_channels} onChange={event => update('enabled_channels', event.target.value)} placeholder="web_chat, voice, email" /></label>{(saveProfile.error || publishProfile.error) && <PortalError error={saveProfile.error || publishProfile.error} />}{hasScope('portal.manage') && <div className="support-action-group"><button className="portal-secondary-button" type="submit" disabled={saveProfile.isPending}>{saveProfile.isPending ? 'Saving…' : 'Save profile'}</button><button className="portal-primary-button" type="button" onClick={() => publishProfile.mutate()} disabled={publishProfile.isPending || profile.data?.status === 'published'}>{publishProfile.isPending ? 'Publishing…' : profile.data?.status === 'published' ? 'Published' : 'Publish support page'}</button></div>}</form>}</section><section className="portal-panel support-panel"><header><div><span className="support-panel-kicker">Organisation policy</span><h2>Human control</h2></div></header><p>Routine, well-supported questions can receive an AI response. Payments, refunds, bookings, disputes, complaints, and uncertain matters remain with people.</p><Link className="portal-secondary-button" to="/portal/settings">Open organisation settings <ArrowRight aria-hidden="true" /></Link><header className="support-settings-subhead"><div><span className="support-panel-kicker">Permissions</span><h2>Current access</h2></div></header><ul className="support-scope-list">{Object.values(crmScopes).map((scope) => <li key={scope}><span>{scope}</span><CheckCircle aria-label={hasScope(scope) ? 'Granted' : 'Not granted'} weight={hasScope(scope) ? 'fill' : 'regular'} /></li>)}</ul></section></div></div></SupportAccess>

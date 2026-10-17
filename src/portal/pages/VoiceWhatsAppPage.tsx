@@ -1,4 +1,5 @@
-import { CheckCircle, Plus, WhatsappLogo } from '@phosphor-icons/react'
+import { CheckCircle, Plus } from '@phosphor-icons/react'
+import { ChannelIcon } from '../../components/ChannelIcon'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { createIdempotencyKey, jsonBody, portalFetch } from '../../api/client'
@@ -176,7 +177,7 @@ export function VoiceWhatsAppPage() {
                   style={{ cursor: 'pointer' }}
                 >
                   <span className="portal-voice-phone-number">
-                    <WhatsappLogo aria-hidden="true" weight="duotone" />
+                    <ChannelIcon channel="whatsapp" size={24} />
                     {sender.phone_number}
                   </span>
                   <span>{sender.display_name}</span>

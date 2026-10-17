@@ -1,5 +1,5 @@
 import { ArrowUpRight, Check } from '@phosphor-icons/react'
-import { engagements, salesFormHref } from '../data/site'
+import { engagements, salesFormHref, voicePricingNote } from '../data/site'
 import { Reveal } from './Reveal'
 
 export function Engagements() {
@@ -7,10 +7,10 @@ export function Engagements() {
     <section className="section engagements-section" id="engagements">
       <div className="page-shell">
         <Reveal className="section-heading engagement-heading">
-          <p className="eyebrow">Ways to work together</p>
-          <h2>Start at the level of commitment <span>that feels right.</span></h2>
+          <p className="eyebrow">Plans and pricing</p>
+          <h2>Choose your support plan. <span>Grow at your pace.</span></h2>
           <p>
-            Every engagement has a defined support outcome, a clear handoff, and a practical path from the first conversation to daily use.
+            One-time setup, a monthly subscription, and voice credits you can track. All prices are in Nigerian naira.
           </p>
         </Reveal>
 
@@ -23,13 +23,13 @@ export function Engagements() {
             >
               <div className="engagement-card-top">
                 <span className="engagement-index">0{index + 1}</span>
-                {engagement.featured && <span className="popular-label">Most common start</span>}
+                {engagement.featured && <span className="popular-label">More voice credits</span>}
               </div>
               <h3>{engagement.name}</h3>
               <p className="engagement-best">{engagement.bestFor}</p>
               <div className="engagement-meta">
-                <div><span>Timeline</span><strong>{engagement.duration}</strong></div>
-                <div><span>Investment</span><strong>{engagement.price}</strong></div>
+                <div><span>Billing</span><strong>{engagement.duration}</strong></div>
+                <div><span>Price</span><strong>{engagement.price}</strong></div>
               </div>
               <ul>
                 {engagement.includes.map((item) => (
@@ -43,6 +43,7 @@ export function Engagements() {
             </Reveal>
           ))}
         </div>
+        <p className="engagement-pricing-note">{voicePricingNote}</p>
       </div>
     </section>
   )

@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowUpRight, CheckCircle, EnvelopeSimple } from '@phosphor-icons/react'
 import { useEffect } from 'react'
-import { contactHref, engagements, outcomes, salesFormHref } from '../data/site'
+import { contactHref, engagements, outcomes, salesFormHref, voicePricingNote } from '../data/site'
 import { Reveal } from './Reveal'
 
 type PageSection = {
@@ -97,12 +97,12 @@ const staticPages: Record<string, PageDefinition> = {
     ],
   },
   '/engagements': {
-    eyebrow: 'Ways to engage',
-    title: 'A defined starting point for every level of certainty.',
-    lede: 'Begin with a workflow question, a production build, a multi-agent programme, or ongoing ownership of agents already in operation.',
+    eyebrow: 'Plans and pricing',
+    title: 'Voice support pricing for your organisation.',
+    lede: voicePricingNote,
     sections: engagements.map((engagement) => ({
       title: `${engagement.name} · ${engagement.duration}`,
-      paragraphs: [engagement.bestFor, `Typical investment: ${engagement.price}.`],
+      paragraphs: [engagement.bestFor, `Price: ${engagement.price}.`],
       bullets: engagement.includes,
     })),
   },
@@ -198,7 +198,7 @@ const staticPages: Record<string, PageDefinition> = {
 
 const servicePages = Object.fromEntries(
   engagements.map((engagement) => {
-    const slug = engagement.name.toLowerCase().replaceAll(' ', '-')
+    const slug = engagement.slug
     return [
       `/services/${slug}`,
       {
