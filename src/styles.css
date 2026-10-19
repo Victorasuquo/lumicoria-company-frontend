@@ -1851,9 +1851,15 @@ svg {
 .ecosystem-heading {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.65fr);
-  gap: 90px;
-  align-items: end;
+  grid-template-areas: "demo title" "copy title";
+  gap: 28px 90px;
+  align-items: center;
 }
+
+.ecosystem-visual { grid-area: demo; min-width: 0; }
+.ecosystem-intro { grid-area: title; }
+.ecosystem-intro .eyebrow { margin-bottom: 24px; }
+.ecosystem-copy { grid-area: copy; }
 
 .ecosystem-heading h2 {
   margin: 0;
@@ -1868,11 +1874,11 @@ svg {
   color: #7a8291;
 }
 
-.ecosystem-heading > div {
+.ecosystem-copy {
   padding-bottom: 4px;
 }
 
-.ecosystem-heading > div p {
+.ecosystem-copy > p {
   margin: 0 0 24px;
   color: var(--ink-soft);
   line-height: 1.65;
@@ -3992,6 +3998,8 @@ svg {
     grid-template-columns: 1fr;
     gap: 30px;
   }
+
+  .ecosystem-heading { grid-template-areas: "title" "demo" "copy"; }
 
   .ecosystem-heading > div,
   .stories-heading > p {

@@ -1,0 +1,44 @@
+.channel-demo { width: min(100%, 390px); margin-inline: auto; color: #211c2d; }
+.channel-demo-window { overflow: hidden; border-radius: 24px; background: rgb(255 255 255 / 55%); backdrop-filter: blur(18px); box-shadow: 0 24px 48px -24px rgb(62 44 100 / 22%); }
+.channel-demo-scene { padding-top: 4px; }
+.channel-demo-contact { display: flex; align-items: center; gap: 10px; height: 66px; padding: 0 17px; }
+.channel-demo-shop-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+.channel-demo-contact strong { font-size: 14px; font-weight: 650; }
+.channel-demo-platform { margin-left: auto; }
+.channel-demo-platform img { display: block; width: 23px; height: 23px; object-fit: contain; }
+.channel-demo-messages { height: 368px; display: flex; flex-direction: column; align-items: flex-start; gap: 11px; padding: 8px 19px 16px; overflow-y: auto; scrollbar-width: none; overscroll-behavior: contain; }
+.channel-demo-messages::-webkit-scrollbar { display: none; }
+.channel-demo-message { flex-shrink: 0; max-width: 85%; padding: 10px 13px; font-size: 13px; line-height: 1.5; }
+.channel-demo-message p { margin: 0; color: inherit; }
+.channel-demo-message--customer { color: #39323e; background: rgb(255 255 255 / 92%); border-radius: 16px 16px 16px 4px; }
+.channel-demo-message--agent { align-self: flex-end; color: white; background: #7251dc; border-radius: 16px 16px 4px 16px; }
+.channel-demo-message small { display: flex; justify-content: flex-end; margin-top: 3px; opacity: 0.7; }
+.channel-demo-message--photo { max-width: 236px; padding: 5px 5px 11px; }
+.channel-demo-message--photo p { padding: 9px 8px 0; }
+.channel-demo-attachment { position: relative; overflow: hidden; border-radius: 12px; }
+.channel-demo-attachment > img { display: block; width: 216px; height: 225px; object-fit: cover; }
+.channel-demo-pointer { position: absolute; right: 23%; top: 49%; color: white; filter: drop-shadow(0 2px 3px rgb(0 0 0 / 45%)); }
+.channel-demo-typing { display: flex; align-items: center; justify-content: center; align-self: flex-end; flex-shrink: 0; gap: 5px; padding: 13px 16px; background: #e3dbf4; border-radius: 14px 14px 4px 14px; }
+.channel-demo-typing b { width: 4px; height: 4px; background: #79698f; border-radius: 50%; animation: channel-demo-dot 700ms ease-in-out infinite alternate; }
+.channel-demo-typing b:nth-child(2) { animation-delay: 150ms; }
+.channel-demo-typing b:last-child { animation-delay: 300ms; }
+.channel-demo-composer { display: flex; align-items: center; justify-content: space-between; margin: 6px 17px 17px; padding: 10px 14px; border-radius: 24px; background: rgb(255 255 255 / 66%); color: #6a6175; font-size: 12px; }
+.channel-demo-composer svg { color: #7251dc; }
+.channel-demo-controls { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 18px; }
+.channel-demo-controls button { display: grid; place-items: center; flex-shrink: 0; width: 39px; height: 39px; padding: 8px; border: 0; border-radius: 12px; color: #5d536d; background: transparent; cursor: pointer; transition: background 180ms, transform 180ms; }
+.channel-demo-controls button img { width: 22px; height: 22px; object-fit: contain; }
+.channel-demo-controls button[aria-pressed="true"]:not(.channel-demo-pause) { background: rgb(255 255 255 / 90%); transform: translateY(-3px); }
+.channel-demo-controls button:hover { background: rgb(255 255 255 / 60%); }
+.channel-demo-controls .channel-demo-pause { width: 29px; margin-left: 1px; }
+.channel-demo button:focus-visible, .channel-demo-messages:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+@keyframes channel-demo-dot { from { opacity: 0.4; transform: translateY(0); } to { opacity: 1; transform: translateY(-3px); } }
+@media (max-width: 560px) {
+  .channel-demo { max-width: 350px; }
+  .channel-demo-contact { height: 61px; padding-inline: 14px; }
+  .channel-demo-messages { padding-inline: 14px; }
+  .channel-demo-controls { gap: 2px; }
+  .channel-demo-controls button { width: 37px; height: 40px; }
+  .channel-demo-controls .channel-demo-pause { width: 25px; }
+}
+@media (prefers-reduced-motion: reduce) { .channel-demo-typing b { animation: none; } .channel-demo-controls button { transition: none; } }
+@media (prefers-reduced-transparency: reduce) { .channel-demo-window { background: #f4f1fa; backdrop-filter: none; } }

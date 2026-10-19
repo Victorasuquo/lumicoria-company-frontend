@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ArrowUpRight, GlobeHemisphereWest, Pause, PhoneCall, Play, type Icon } from '@phosphor-icons/react'
 import { Reveal } from './Reveal'
+import { ChannelConversationDemo } from './ChannelConversationDemo'
 
 type EcosystemChannel = { name: string; image?: string; icon?: Icon; color?: string; detail?: string }
 
@@ -41,9 +42,12 @@ export function Ecosystem() {
     <section className="ecosystem-section" id="ecosystem" aria-labelledby="ecosystem-title">
       <div className="page-shell">
         <Reveal className="ecosystem-heading">
-          <p className="eyebrow">Support that follows the customer</p>
-          <h2 id="ecosystem-title">Start with a call. <span>Keep the context moving.</span></h2>
-          <div>
+          <div className="ecosystem-visual"><ChannelConversationDemo /></div>
+          <div className="ecosystem-intro">
+            <p className="eyebrow">Support that follows the customer</p>
+            <h2 id="ecosystem-title">Start with a call. <span>Keep the context moving.</span></h2>
+          </div>
+          <div className="ecosystem-copy">
             <p>
               Voice is the first response. WhatsApp, email, web chat, and your existing business tools keep the same request moving when a person needs to step in.
             </p>
