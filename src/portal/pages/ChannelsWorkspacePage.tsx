@@ -191,10 +191,10 @@ export function ChannelsWorkspacePage() {
             icon={PlugsConnected}
             label="Helpdesk systems"
             title={connectorsUnavailable ? 'Status unavailable' : `${helpdesks.length} connection${helpdesks.length === 1 ? '' : 's'}`}
-            description="Zendesk and Freshdesk connections can sync external tickets while Lumicoria keeps the local support record."
+            description="Connect Zendesk, Freshdesk, or HubSpot to sync external tickets while Lumicoria keeps the local support record."
             state={connectorsUnavailable ? 'server_setup' : helpdesks.some((item) => item.status === 'connected') ? 'connected' : helpdesks.length ? 'degraded' : 'not_configured'}
             detail={connectorsUnavailable ? 'The CRM service did not respond.' : helpdesks.length ? helpdesks.map((item) => `${humanize(item.provider)} checked ${formatPortalDate(item.last_health_check_at, true)}`).join(' · ') : 'No helpdesk connection has been returned by the backend.'}
-            action={{ label: 'Open integrations', to: '/portal/support/integrations' }}
+            action={{ label: helpdesks.some((item) => item.status === 'connected') ? 'Manage helpdesks' : 'Connect your helpdesk', to: '/portal/support/channels/helpdesk' }}
           />
         </section>
       )}

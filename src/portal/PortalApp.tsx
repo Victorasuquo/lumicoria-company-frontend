@@ -49,6 +49,7 @@ const SupportCustomerDetailPage = lazy(() => import('./pages/SupportPages').then
 const SupportConversationsPage = lazy(() => import('./pages/SupportPages').then(({ SupportConversationsPage: Page }) => ({ default: Page })))
 const SupportCallsPage = lazy(() => import('./pages/SupportPages').then(({ SupportCallsPage: Page }) => ({ default: Page })))
 const ChannelsWorkspacePage = lazy(() => import('./pages/ChannelsWorkspacePage').then(({ ChannelsWorkspacePage: Page }) => ({ default: Page })))
+const HelpdeskConnectPage = lazy(() => import('./pages/HelpdeskConnectPage').then(({ HelpdeskConnectPage: Page }) => ({ default: Page })))
 const SupportNotificationsPage = lazy(() => import('./pages/SupportPages').then(({ SupportNotificationsPage: Page }) => ({ default: Page })))
 const SupportQueuesPage = lazy(() => import('./pages/SupportPages').then(({ SupportQueuesPage: Page }) => ({ default: Page })))
 const SupportAnalyticsPage = lazy(() => import('./pages/SupportPages').then(({ SupportAnalyticsPage: Page }) => ({ default: Page })))
@@ -212,6 +213,7 @@ export function PortalApp() {
                   <Route path="/portal/support/conversations/:conversationId" element={<MetaConversationPage />} />
                   <Route path="/portal/support/calls" element={<SupportCallsPage />} />
                   <Route path="/portal/support/channels" element={<ChannelsWorkspacePage />} />
+                  <Route path="/portal/support/channels/helpdesk" element={<HelpdeskConnectPage />} />
                   <Route path="/portal/support/channels/meta" element={<MetaConnectionsPage />} />
                   <Route path="/portal/support/channels/meta/connect" element={<MetaConnectionsPage />} />
                   <Route path="/portal/support/channels/meta/:connectionId" element={<MetaConnectionDetailPage />} />

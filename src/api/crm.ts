@@ -22,6 +22,10 @@ export type CRMNotificationDelivery = components['schemas']['CRMNotificationDeli
 export type CRMNotificationRetryResponse = components['schemas']['CRMNotificationRetryResponse']
 export type CRMConnectorUpdate = components['schemas']['CRMConnectorUpdate']
 export type CRMConnectorHealth = components['schemas']['CRMConnectorHealthResponse']
+export type CRMConnectorProvider = components['schemas']['CRMConnectorProviderDescriptor']
+export type CRMConnectorProviderField = components['schemas']['CRMConnectorProviderField']
+export type CRMConnectorProviderCollection = components['schemas']['CRMConnectorProviderCollection']
+export type CRMOAuthStart = components['schemas']['CRMOAuthStartResponse']
 export type CRMConnectorSyncResponse = components['schemas']['CRMConnectorSyncResponse']
 export type CRMOperation = components['schemas']['OperationResponse']
 

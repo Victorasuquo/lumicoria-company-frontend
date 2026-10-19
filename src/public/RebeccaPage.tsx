@@ -185,9 +185,11 @@ export function RebeccaExperience({ embedded = false }: { embedded?: boolean }) 
     } else if (event.type === 'state') {
       setState(event.state === 'thinking' ? 'Preparing a reply' : 'Listening')
     } else if (event.type === 'voice_changed') {
-      // Honest disclosure: the caller is about to hear a different voice, and
-      // pretending otherwise is more jarring than saying so.
-      setError('Rebecca’s Nigerian voice is unavailable right now, so she is continuing in a backup voice.')
+      // Deliberately silent. Both providers speak as a Nigerian woman, so a
+      // switch is not something the caller needs to act on - telling them would
+      // interrupt the conversation to report a detail that changes nothing for
+      // them. The server still logs it, which is where it is actually useful.
+      console.info('Rebecca switched synthesis provider', event.provider)
     } else if (event.type === 'notice') {
       setError(String(event.message))
     } else if (event.type === 'error') {
