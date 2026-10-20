@@ -247,6 +247,12 @@ export type PublicWidgetConfiguration = {
   channels: string[]
   captcha_enabled: boolean
   customer_context_required: boolean
+  // The organisation's own brand, so the panel matches the emails a visitor
+  // receives afterwards. Null until the tenant sets them on their profile.
+  organization_name?: string | null
+  logo_url?: string | null
+  primary_color?: string | null
+  accent_color?: string | null
 }
 
 export type PublicWidgetSessionResponse = {
