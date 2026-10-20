@@ -295,6 +295,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/client-portal/billing/trial/claim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Claim Billing Trial */
+        post: operations["claim_billing_trial"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/client-portal/billing/invoices": {
         parameters: {
             query?: never;
@@ -5767,6 +5784,8 @@ export interface components {
              * Format: email
              */
             billing_email: string;
+            /** Provider */
+            provider?: string | null;
         };
         /** BillingCheckoutResponse */
         BillingCheckoutResponse: {
@@ -5805,6 +5824,8 @@ export interface components {
              * Format: email
              */
             billing_email: string;
+            /** Provider */
+            provider?: string | null;
         };
         /** BillingInvoiceLineItemResponse */
         BillingInvoiceLineItemResponse: {
@@ -5827,6 +5848,8 @@ export interface components {
             id: string;
             /** Invoice Number */
             invoice_number: string;
+            /** Provider */
+            provider: string;
             /** Purpose */
             purpose: string;
             /** Status */
@@ -5883,6 +5906,20 @@ export interface components {
             enabled: boolean;
             /** Provider */
             provider: string;
+            /** Available Providers */
+            available_providers?: string[];
+            /**
+             * Trial Credit Units
+             * @default 0
+             */
+            trial_credit_units: number;
+            /**
+             * Trial Available
+             * @default false
+             */
+            trial_available: boolean;
+            /** Trial Claimed At */
+            trial_claimed_at?: string | null;
             /** Currency */
             currency: string;
             current_plan: components["schemas"]["BillingPlanResponse"] | null;
@@ -5945,6 +5982,8 @@ export interface components {
             included_credit_units: number;
             /** Paystack Plan Code */
             paystack_plan_code: string | null;
+            /** Flutterwave Plan Id */
+            flutterwave_plan_id?: string | null;
             /** Status */
             status: string;
             /** Version */
@@ -5984,11 +6023,18 @@ export interface components {
         BillingReconcileRequest: {
             /** Reference */
             reference: string;
+            /** Transaction Id */
+            transaction_id?: string | null;
         };
         /** BillingSubscriptionResponse */
         BillingSubscriptionResponse: {
             /** Id */
             id: string;
+            /**
+             * Provider
+             * @default paystack
+             */
+            provider: string;
             /** Plan Id */
             plan_id: string;
             /** Provider Subscription Code */
@@ -6007,6 +6053,17 @@ export interface components {
             scheduled_plan_id: string | null;
             /** Cancel At Period End */
             cancel_at_period_end: boolean;
+        };
+        /** BillingTrialClaimResponse */
+        BillingTrialClaimResponse: {
+            /** Claimed */
+            claimed: boolean;
+            /** Credit Units */
+            credit_units: number;
+            /** Balance Units */
+            balance_units: number;
+            /** Claimed At */
+            claimed_at?: string | null;
         };
         /** BillingUsageEventResponse */
         BillingUsageEventResponse: {
@@ -16058,7 +16115,9 @@ export interface operations {
     };
     get_billing_checkout_status: {
         parameters: {
-            query?: never;
+            query?: {
+                transaction_id?: string | null;
+            };
             header?: {
                 "X-Organization-ID"?: string | null;
                 "X-Portal-Host"?: string | null;
@@ -16077,6 +16136,218 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BillingCheckoutStatusResponse"];
+                };
+            };
+            /** @description A valid authenticated principal is required. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The authenticated principal is not authorized. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The resource is unavailable in the resolved tenant context. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request conflicts with current state or immutable evidence. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The supplied If-Match precondition failed. */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The requested upload exceeds the allowed size. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description The request violates field or domain validation. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A required precondition header is missing. */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+            /** @description A rate or quota limit was exceeded. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": {
+                        /** Format: uri */
+                        type: string;
+                        title: string;
+                        status: number;
+                        detail: string;
+                        instance: string;
+                        code: string;
+                        request_id: string;
+                        errors: {
+                            [key: string]: unknown;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    claim_billing_trial: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Organization-ID"?: string | null;
+                "X-Portal-Host"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BillingTrialClaimResponse"];
                 };
             };
             /** @description A valid authenticated principal is required. */

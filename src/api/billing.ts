@@ -12,6 +12,7 @@ export type BillingPlan = {
   phone_voice_rate_units: number
   credit_unit_ngn: number
   paystack_plan_code: string | null
+  flutterwave_plan_id: string | null
   status: string
   version: number
   effective_at: string
@@ -20,6 +21,7 @@ export type BillingPlan = {
 export type BillingInvoice = {
   id: string
   invoice_number: string
+  provider: string
   purpose: string
   status: string
   currency: string
@@ -60,6 +62,7 @@ export type BillingPayment = {
 
 export type BillingSubscription = {
   id: string
+  provider: string
   plan_id: string
   provider_subscription_code: string | null
   status: string
@@ -82,6 +85,10 @@ export type BillingWallet = {
 export type BillingOverview = {
   enabled: boolean
   provider: string
+  available_providers: string[]
+  trial_credit_units: number
+  trial_available: boolean
+  trial_claimed_at: string | null
   currency: string
   current_plan: BillingPlan | null
   subscription: BillingSubscription | null
@@ -97,6 +104,13 @@ export type BillingCheckout = {
   authorization_url: string
   access_code: string | null
   status: string
+}
+
+export type BillingTrialClaim = {
+  claimed: boolean
+  credit_units: number
+  balance_units: number
+  claimed_at: string | null
 }
 
 export type BillingCheckoutStatus = {
