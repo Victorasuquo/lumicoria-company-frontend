@@ -458,7 +458,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** Change Subscription */
-        post: operations["schedule_billing_plan_change"];
+        post: operations["create_subscription_upgrade_checkout"];
         delete?: never;
         options?: never;
         head?: never;
@@ -11342,8 +11342,12 @@ export interface components {
         };
         /** SubscriptionChangeRequest */
         SubscriptionChangeRequest: {
+            /** Billing Email */
+            billing_email: string;
             /** Plan Key */
             plan_key: string;
+            /** Provider */
+            provider?: "flutterwave" | "paystack" | null;
         };
         /** SupervisorSessionCreate */
         SupervisorSessionCreate: {
@@ -18243,7 +18247,7 @@ export interface operations {
             };
         };
     };
-    schedule_billing_plan_change: {
+    create_subscription_upgrade_checkout: {
         parameters: {
             query?: never;
             header?: {
@@ -18265,7 +18269,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BillingSubscriptionResponse"];
+                    "application/json": components["schemas"]["BillingCheckoutResponse"];
                 };
             };
             /** @description A valid authenticated principal is required. */
