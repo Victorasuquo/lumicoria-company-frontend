@@ -224,7 +224,14 @@ export function PublicWidgetPage({ widgetKey }: PublicWidgetPageProps) {
   }
 
   const theme = configuration?.theme_json ?? {}
-  const accent = typeof theme.accent === 'string' ? theme.accent : '#6557f5'
+  // theme_json is the per-widget override; the organisation's colour is the
+  // default beneath it, so the panel matches the emails the visitor then gets.
+  const accent =
+    (typeof theme.accent === 'string' ? theme.accent : null) ??
+    configuration?.primary_color ??
+    '#6557f5'
+  const brandName = configuration?.organization_name ?? configuration?.display_name ?? 'Support'
+  const logoUrl = configuration?.logo_url ?? null
   const canVoice = configuration?.channels.includes('browser') ?? false
 
   if (loading) {
@@ -242,10 +249,15 @@ export function PublicWidgetPage({ widgetKey }: PublicWidgetPageProps) {
     >
       <section className="public-widget-card" aria-label={`${configuration?.display_name ?? 'Customer support'} public support`}>
         <header className="public-widget-header">
-          <div>
-            <p className="public-widget-kicker">Customer support</p>
-            <h1>{configuration?.display_name ?? 'Support'}</h1>
-            <p className="public-widget-subtitle">A clear route to the right team.</p>
+          <div className="public-widget-identity">
+            {logoUrl
+              ? <img className="public-widget-logo" src={logoUrl} alt="" />
+              : <span className="public-widget-mark" aria-hidden="true">{brandName.slice(0, 1).toUpperCase()}</span>}
+            <div>
+              <p className="public-widget-kicker">{brandName}</p>
+              <h1>{configuration?.display_name ?? 'Support'}</h1>
+              <p className="public-widget-subtitle">A clear route to the right team.</p>
+            </div>
           </div>
           {embedded && <button className="public-widget-icon-button" type="button" aria-label="Close support" onClick={() => window.parent.postMessage({ type: 'lumicoria-widget-close' }, '*')}><X aria-hidden="true" /></button>}
         </header>

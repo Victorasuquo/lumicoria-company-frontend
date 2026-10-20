@@ -10715,6 +10715,14 @@ export interface components {
             captcha_enabled: boolean;
             /** Customer Context Required */
             customer_context_required: boolean;
+            /** Organization Name */
+            organization_name?: string | null;
+            /** Logo Url */
+            logo_url?: string | null;
+            /** Primary Color */
+            primary_color?: string | null;
+            /** Accent Color */
+            accent_color?: string | null;
         };
         /** PublicWidgetMessage */
         PublicWidgetMessage: {
