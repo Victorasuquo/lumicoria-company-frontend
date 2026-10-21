@@ -1,4 +1,4 @@
-import { CheckCircle, CreditCard, DownloadSimple, Lightning, Receipt, WarningCircle } from '@phosphor-icons/react'
+import { ArrowDownLeft, ArrowUpRight, CheckCircle, CreditCard, DownloadSimple, Gift, Lightning, Receipt, WarningCircle } from '@phosphor-icons/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
@@ -12,6 +12,11 @@ const naira = (minor: number) => `₦${(minor / 100).toLocaleString('en-NG', { m
 const creditNaira = (units: number, unitNgn: number) => `₦${(units * unitNgn).toLocaleString('en-NG', { maximumFractionDigits: 0 })}`
 const billingAmount = (minor: number, currency = 'NGN') => new Intl.NumberFormat(currency === 'NGN' ? 'en-NG' : 'en', { style: 'currency', currency, maximumFractionDigits: currency === 'NGN' ? 0 : 2 }).format(minor / 100)
 const readableLabel = (value: string) => value.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase())
+const trialCreditMinor = (invoice: BillingInvoice, creditUnits: number, unitNgn: number) => {
+  if (!invoice.purpose.toLowerCase().includes('trial') || invoice.total_minor !== 0) return null
+  const grantMinor = creditUnits * unitNgn * 100
+  return grantMinor || invoice.line_items.reduce((total, item) => total + item.total_amount_minor, 0) || null
+}
 // Keep the processor label factual without implying payment details we do not receive.
 const payMethod = (provider: string | null | undefined) => !provider || provider === 'lumicoria' ? 'Included' : readableLabel(provider)
 
@@ -21,15 +26,16 @@ function BillingAccess({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
-function InvoiceReceipt({ invoice, customerEmail, organizationId, onPrint }: { invoice: BillingInvoice; customerEmail?: string | null; organizationId?: string | null; onPrint: () => void }) {
+function InvoiceReceipt({ invoice, customerEmail, organizationId, trialCreditMinorAmount, onPrint }: { invoice: BillingInvoice; customerEmail?: string | null; organizationId?: string | null; trialCreditMinorAmount: number | null; onPrint: () => void }) {
   const currency = invoice.currency || 'NGN'
   const balanceDue = Math.max(invoice.total_minor - invoice.amount_paid_minor, 0)
+  const isTrialCredit = Boolean(trialCreditMinorAmount)
   return <section className="billing-receipt-sheet" id={`receipt-${invoice.id}`} aria-label={`Receipt for invoice ${invoice.invoice_number}`}>
     <header className="billing-receipt-header">
       <div className="billing-receipt-brand"><img src="/brand-mark.png" alt="" /><img className="billing-receipt-wordmark" src="/lumicoria-wordmark.png" alt="Lumicoria" /></div>
-      <div className="billing-receipt-heading"><span>{invoice.status === 'paid' ? 'Payment receipt' : 'Invoice'}</span><strong className={`billing-receipt-status billing-receipt-status-${invoice.status === 'paid' ? 'paid' : 'open'}`}>{readableLabel(invoice.status)}</strong></div>
+      <div className="billing-receipt-heading"><span>{isTrialCredit ? 'Trial credit receipt' : invoice.status === 'paid' ? 'Payment receipt' : 'Invoice'}</span><strong className={`billing-receipt-status billing-receipt-status-${invoice.status === 'paid' ? 'paid' : 'open'}`}>{isTrialCredit ? 'Credited' : readableLabel(invoice.status)}</strong></div>
     </header>
-    <div className="billing-receipt-total"><span>{invoice.status === 'paid' ? 'Amount paid' : 'Invoice total'}</span><strong>{billingAmount(invoice.status === 'paid' ? invoice.amount_paid_minor : invoice.total_minor, currency)}</strong><small>{invoice.status === 'paid' && invoice.total_minor === 0 ? 'Workspace credit · no payment required' : readableLabel(invoice.purpose)}</small></div>
+    <div className="billing-receipt-total"><span>{trialCreditMinorAmount ? 'Trial credit issued' : invoice.status === 'paid' ? 'Amount paid' : 'Invoice total'}</span><strong>{billingAmount(trialCreditMinorAmount ?? (invoice.status === 'paid' ? invoice.amount_paid_minor : invoice.total_minor), currency)}</strong><small>{trialCreditMinorAmount ? 'Added to workspace balance · no payment collected' : invoice.status === 'paid' && invoice.total_minor === 0 ? 'Workspace credit · no payment required' : readableLabel(invoice.purpose)}</small></div>
     <div className="billing-receipt-meta">
       <div><span>Invoice number</span><strong>{invoice.invoice_number}</strong></div>
       <div><span>Issued</span><strong>{formatPortalDate(invoice.created_at, true)}</strong></div>
@@ -44,7 +50,7 @@ function InvoiceReceipt({ invoice, customerEmail, organizationId, onPrint }: { i
     </div>
     <div className="billing-receipt-items">
       <div className="billing-receipt-items-heading"><strong>Description</strong><strong>Amount</strong></div>
-      {invoice.line_items.length ? invoice.line_items.map((item) => <div className="billing-receipt-item" key={item.id}><div><strong>{item.description}</strong><small>{item.quantity > 1 ? `${item.quantity} × ${billingAmount(item.unit_amount_minor, currency)}` : readableLabel(item.kind)}</small></div><strong>{billingAmount(item.total_amount_minor, currency)}</strong></div>) : <p className="billing-receipt-empty">No itemised details were included with this invoice.</p>}
+      {invoice.line_items.length ? invoice.line_items.map((item) => <div className="billing-receipt-item" key={item.id}><div><strong>{item.description}</strong><small>{item.quantity > 1 ? `${item.quantity} × ${billingAmount(item.unit_amount_minor, currency)}` : readableLabel(item.kind)}</small></div><strong>{billingAmount(isTrialCredit && item.total_amount_minor === 0 ? trialCreditMinorAmount ?? 0 : item.total_amount_minor, currency)}</strong></div>) : <p className="billing-receipt-empty">No itemised details were included with this invoice.</p>}
     </div>
     <div className="billing-receipt-totals">
       <div><span>Subtotal</span><strong>{billingAmount(invoice.subtotal_minor, currency)}</strong></div>
@@ -90,6 +96,10 @@ export function BillingPage() {
   const subscriptionActive = ['pending', 'active', 'grace', 'past_due'].includes(data?.subscription?.status ?? '')
   const unitNgn = data?.credit_unit_ngn || 1
   const trialValue = creditNaira(data?.trial_credit_units ?? 0, unitNgn)
+  const transactions = [
+    ...(data?.trial_granted && data.trial_claimed_at && data.trial_credit_units > 0 ? [{ id: `trial-${data.trial_claimed_at}`, type: 'credit' as const, title: 'Free trial credit', reference: 'Workspace trial', method: 'Lumicoria', amountMinor: data.trial_credit_units * unitNgn * 100, currency: data.currency || 'NGN', status: 'credited', createdAt: data.trial_claimed_at }] : []),
+    ...(data?.payments.map((payment) => ({ id: payment.id, type: 'payment' as const, title: readableLabel(payment.purpose), reference: payment.provider_reference, method: payMethod(payment.provider), amountMinor: payment.amount_minor, currency: payment.currency, status: payment.status, createdAt: payment.created_at })) ?? []),
+  ].sort((first, second) => new Date(second.createdAt).getTime() - new Date(first.createdAt).getTime())
   return <BillingAccess><div className="portal-page">
     <PortalPageHeader eyebrow="Billing" title="Keep your workspace funded" description="Manage your Lumicoria plan, invoices, and credits from one place." action={<Link className="portal-secondary-button" to="/portal/billing/invoices"><Receipt aria-hidden="true" /> View invoices</Link>} />
     {!data?.enabled && !data?.available_providers.length && <div className="portal-notice"><WarningCircle aria-hidden="true" /><div><strong>Online checkout is not enabled yet</strong><p>Configure at least one payment provider and webhook in the backend environment.</p></div></div>}
@@ -100,7 +110,7 @@ export function BillingPage() {
       <article className="support-metric"><div className="support-metric-icon"><Receipt aria-hidden="true" /></div><span>Recent payments</span><strong>{data?.payments.filter((item) => item.status === 'success').length ?? 0}</strong><small>Provider-verified</small></article>
     </div>
     {data?.trial_granted && <section className="portal-panel"><header><div><span className="support-panel-kicker">Workspace trial</span><h2>{trialValue} free trial credit</h2><p>Added to this workspace on {formatPortalDate(data.trial_claimed_at)} — nothing to claim, no card needed. Spend it on calls, messages and tickets, and add a plan when you are ready.</p></div><Link className="portal-secondary-button" to="/portal/billing/invoices"><Receipt aria-hidden="true" /> See the receipt</Link></header></section>}
-    <section className="portal-panel"><header><div><span className="support-panel-kicker">Payment activity</span><h2>Recent transactions</h2><p>Provider and verification status for each checkout.</p></div></header><div className="portal-table-wrap"><table className="portal-table"><thead><tr><th>Reference</th><th>Method</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>{data?.payments.map((payment) => <tr key={payment.id}><td><strong>{payment.provider_reference}</strong></td><td>{payMethod(payment.provider)}</td><td>{naira(payment.amount_minor)}</td><td><StatusPill value={payment.status} /></td><td>{formatPortalDate(payment.created_at)}</td></tr>)}</tbody></table>{!data?.payments.length && <PortalEmpty title="No payments yet" description="Checkout and payment verification updates will appear here." />}</div></section>
+    <section className="portal-panel billing-activity-panel"><header><div><span className="support-panel-kicker">Payment activity</span><h2>Recent transactions</h2><p>Payments, trial credits, and verification updates for this workspace.</p></div><Link className="billing-activity-link" to="/portal/billing/invoices"><Receipt aria-hidden="true" /> Invoices</Link></header>{transactions.length ? <div className="billing-activity-list" role="list" aria-label="Recent payment activity">{transactions.map((transaction) => <article className={`billing-activity-row billing-activity-${transaction.type}`} key={transaction.id} role="listitem"><span className="billing-activity-icon">{transaction.type === 'credit' ? <Gift aria-hidden="true" /> : <CreditCard aria-hidden="true" />}</span><div className="billing-activity-description"><strong>{transaction.title}</strong><span>{transaction.method} <span aria-hidden="true">·</span> <code title={transaction.reference}>{transaction.reference}</code></span></div><div className="billing-activity-state">{transaction.status === 'credited' ? <span className="billing-activity-credited"><CheckCircle aria-hidden="true" weight="fill" /> Credited</span> : <StatusPill value={transaction.status} />}<time dateTime={transaction.createdAt}>{formatPortalDate(transaction.createdAt, true)}</time></div><strong className={`billing-activity-amount${transaction.type === 'credit' ? ' is-credit' : transaction.status === 'success' ? ' is-debit' : ''}`}>{transaction.type === 'credit' ? <ArrowDownLeft aria-hidden="true" /> : transaction.status === 'success' ? <ArrowUpRight aria-hidden="true" /> : null}{billingAmount(transaction.amountMinor, transaction.currency)}</strong></article>)}</div> : <PortalEmpty title="No payment activity yet" description="Completed checkouts and trial credits will appear here." />}</section>
     {subscriptionActive && <div className="portal-notice"><WarningCircle aria-hidden="true" /><div><strong>Upgrade billing</strong><p>Upgrades are charged at the new plan’s full monthly price today, with no second setup fee. Your current recurring subscription is cancelled only after the new payment is verified. The provider cannot be switched during an upgrade.{data?.subscription?.cancel_at_period_end ? ' Cancellation is already scheduled; contact support before starting another change.' : ''}</p>{!data?.subscription?.cancel_at_period_end && <button className="portal-secondary-button" type="button" disabled={!hasScope('billing.manage') || cancelSubscription.isPending} onClick={() => { if (window.confirm('Cancel future renewal for this workspace subscription? Your current paid period remains available.')) cancelSubscription.mutate() }}>{cancelSubscription.isPending ? 'Cancelling…' : 'Cancel subscription'}</button>}{cancelSubscription.error && <PortalError error={cancelSubscription.error as Error} />}</div></div>}
     <section className="portal-panel billing-plans-panel"><header><div><span className="support-panel-kicker">Plans</span><h2>{subscriptionActive ? 'Upgrade your workspace' : 'Choose your workspace plan'}</h2><p>{subscriptionActive ? 'Select a higher tier. Your subscription is preserved until the new payment succeeds.' : 'Clear monthly pricing, included usage, and payment terms for this workspace.'}</p></div></header>{(data?.available_providers.length ?? 0) > 1 && <label className="portal-field"><span>Payment method</span><select value={provider || data?.provider || ''} onChange={(event) => setProvider(event.target.value)} disabled={subscriptionActive}>{data?.available_providers.map((item) => <option key={item} value={item}>{item === 'flutterwave' ? 'Card, transfer or USSD' : 'Card or bank'}</option>)}</select></label>}<div className="billing-plan-grid">{plans.data?.map((plan) => {
       const current = plan.id === data?.subscription?.plan_id
@@ -125,6 +135,7 @@ export function BillingPage() {
 
 export function BillingInvoicesPage() {
   const invoices = usePortalQuery<BillingInvoice[]>(['billing', 'invoices'], '/billing/invoices')
+  const overview = usePortalQuery<BillingOverview>(['billing', 'overview'], '/billing/overview')
   const { context, firebaseUser } = usePortalAuth()
   const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(null)
   const printReceipt = () => {
@@ -137,9 +148,10 @@ export function BillingInvoicesPage() {
   return <BillingAccess><div className="portal-page billing-invoices-page"><PortalPageHeader eyebrow="Billing" title="Invoices & receipts" description="A clear record of what your workspace purchased, what was paid, and when." action={<Link className="portal-secondary-button" to="/portal/billing"><CreditCard aria-hidden="true" /> Back to billing</Link>} />
     <section className="billing-invoice-list" aria-label="Invoices and receipts">{invoices.data?.map((invoice) => {
       const expanded = selectedInvoiceId === invoice.id
+      const creditMinor = trialCreditMinor(invoice, overview.data?.trial_credit_units ?? 0, overview.data?.credit_unit_ngn ?? 1)
       return <article className={`billing-invoice-entry${expanded ? ' is-open' : ''}`} key={invoice.id}>
-        <div className="billing-invoice-row"><div className="billing-invoice-identity"><img src="/brand-mark.png" alt="" /><div><strong>{invoice.invoice_number}</strong><span>{invoice.line_items[0]?.description || readableLabel(invoice.purpose)}</span><small>{formatPortalDate(invoice.created_at, true)} · {payMethod(invoice.provider)}</small></div></div><div className="billing-invoice-amount"><span>Total</span><strong>{billingAmount(invoice.total_minor, invoice.currency)}</strong></div><div className="billing-invoice-status"><StatusPill value={invoice.status} /></div><button className="portal-secondary-button billing-invoice-open" type="button" aria-expanded={expanded} aria-controls={`receipt-${invoice.id}`} onClick={() => setSelectedInvoiceId(expanded ? null : invoice.id)}>{expanded ? 'Close receipt' : 'View receipt'}</button></div>
-        {expanded && <InvoiceReceipt invoice={invoice} customerEmail={firebaseUser?.email} organizationId={context?.organization_id} onPrint={printReceipt} />}
+        <div className="billing-invoice-row"><div className="billing-invoice-identity"><img src="/brand-mark.png" alt="" /><div><strong>{invoice.invoice_number}</strong><span>{invoice.line_items[0]?.description || readableLabel(invoice.purpose)}</span><small>{formatPortalDate(invoice.created_at, true)} · {payMethod(invoice.provider)}</small></div></div><div className="billing-invoice-amount"><span>{creditMinor ? 'Credit issued' : 'Total'}</span><strong>{billingAmount(creditMinor ?? invoice.total_minor, invoice.currency)}</strong>{creditMinor && <small>No payment collected</small>}</div><div className="billing-invoice-status">{creditMinor ? <span className="billing-activity-credited"><CheckCircle aria-hidden="true" weight="fill" /> Credited</span> : <StatusPill value={invoice.status} />}</div><button className="portal-secondary-button billing-invoice-open" type="button" aria-expanded={expanded} aria-controls={`receipt-${invoice.id}`} onClick={() => setSelectedInvoiceId(expanded ? null : invoice.id)}>{expanded ? 'Close receipt' : 'View receipt'}</button></div>
+        {expanded && <InvoiceReceipt invoice={invoice} customerEmail={firebaseUser?.email} organizationId={context?.organization_id} trialCreditMinorAmount={creditMinor} onPrint={printReceipt} />}
       </article>
     })}{!invoices.data?.length && <div className="billing-invoice-empty"><img src="/brand-mark.png" alt="" /><PortalEmpty title="No invoices yet" description="Your first invoice or trial-credit record will appear here after billing activity begins." action={<Link className="portal-primary-button" to="/portal/billing">Explore plans</Link>} /></div>}</section>
   </div></BillingAccess>

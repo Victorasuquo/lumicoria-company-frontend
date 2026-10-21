@@ -6449,6 +6449,27 @@
 .billing-receipt-footer { display: flex; padding-top: 17px; margin-top: 19px; justify-content: space-between; gap: 12px; color: #778192; border-top: 1px solid #e9ebf1; font-size: .65rem; }
 .billing-receipt-print { margin-top: 21px; }
 
+.billing-activity-panel > header { align-items: center; }
+.billing-activity-link { display: inline-flex; min-height: 38px; padding: 8px 11px; align-items: center; gap: 7px; color: var(--portal-ink); background: rgba(255,255,255,.72); border: 1px solid rgba(50,60,80,.1); border-radius: 10px; font-size: .74rem; font-weight: 650; text-decoration: none; transition: background 160ms ease, border-color 160ms ease; }
+.billing-activity-link:hover { background: #fff; border-color: rgba(94,78,220,.25); }
+.billing-activity-link:focus-visible { outline: 3px solid rgba(111,91,255,.35); outline-offset: 2px; }
+.billing-activity-list { overflow: hidden; border-top: 1px solid rgba(42,51,70,.09); }
+.billing-activity-row { display: grid; min-height: 76px; padding: 13px 3px; align-items: center; gap: 16px; border-bottom: 1px solid rgba(42,51,70,.09); grid-template-columns: 42px minmax(0,1fr) auto auto; }
+.billing-activity-icon { display: grid; width: 40px; height: 40px; color: #5e52cf; background: #efedff; border-radius: 13px; font-size: 1.1rem; place-items: center; }
+.billing-activity-credit .billing-activity-icon { color: #237453; background: #e6f5ed; }
+.billing-activity-description { display: grid; min-width: 0; gap: 4px; }
+.billing-activity-description > strong { overflow: hidden; font-size: .82rem; font-weight: 660; text-overflow: ellipsis; white-space: nowrap; }
+.billing-activity-description > span { overflow: hidden; color: var(--portal-muted); font-size: .7rem; text-overflow: ellipsis; white-space: nowrap; }
+.billing-activity-description code { color: inherit; font-family: 'Space Mono', monospace; font-size: .65rem; }
+.billing-activity-state { display: grid; justify-items: end; gap: 5px; }
+.billing-activity-state > time { color: var(--portal-muted); font-size: .67rem; white-space: nowrap; }
+.billing-activity-credited { display: inline-flex; padding: 4px 8px; align-items: center; gap: 4px; color: #237453; background: #e6f5ed; border-radius: 999px; font-size: .66rem; font-weight: 680; }
+.billing-activity-amount { display: inline-flex; min-width: 120px; justify-content: flex-end; align-items: center; gap: 5px; font-size: .85rem; font-weight: 690; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.billing-activity-amount svg { font-size: 1rem; }
+.billing-activity-amount.is-credit { color: #237453; }
+.billing-activity-amount.is-debit { color: #343b49; }
+.billing-invoice-amount > small { color: #247552; font-size: .65rem; }
+
 body.billing-print-mode * { visibility: hidden !important; }
 body.billing-print-mode .billing-receipt-sheet, body.billing-print-mode .billing-receipt-sheet * { visibility: visible !important; }
 body.billing-print-mode .billing-receipt-sheet { position: fixed !important; inset: 0 auto auto 0 !important; z-index: 99999 !important; width: min(100%, 760px) !important; margin: 0 auto !important; background: #fff !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
@@ -6459,6 +6480,12 @@ body.billing-print-mode .billing-receipt-sheet { position: fixed !important; ins
   body.billing-print-mode .billing-receipt-print { display: none !important; }
 }
 @media (max-width: 760px) {
+  .billing-activity-row { padding: 12px 0; gap: 8px 12px; grid-template-columns: 38px minmax(0,1fr) auto; }
+  .billing-activity-icon { width: 36px; height: 36px; border-radius: 11px; }
+  .billing-activity-description { grid-column: 2; }
+  .billing-activity-state { grid-column: 2; grid-row: 2; justify-items: start; }
+  .billing-activity-state > time { font-size: .63rem; }
+  .billing-activity-amount { min-width: 0; grid-column: 3; grid-row: 1 / span 2; font-size: .78rem; }
   .billing-invoice-row { grid-template-columns: minmax(0,1fr) auto; gap: 13px; }
   .billing-invoice-status { grid-column: 1; grid-row: 2; }
   .billing-invoice-open { grid-column: 2; grid-row: 2; }
@@ -6467,6 +6494,9 @@ body.billing-print-mode .billing-receipt-sheet { position: fixed !important; ins
   .billing-receipt-meta { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media (max-width: 480px) {
+  .billing-activity-panel { padding: 17px; }
+  .billing-activity-description > span { max-width: 210px; }
+  .billing-activity-amount { font-size: .72rem; }
   .billing-invoice-entry { padding: 14px; }
   .billing-invoice-identity { gap: 9px; }
   .billing-invoice-identity > img { width: 35px; height: 35px; }
