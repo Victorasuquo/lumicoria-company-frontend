@@ -165,7 +165,8 @@ export const engagements = [
     duration: 'Monthly subscription',
     price: '₦30,000 / month',
     includes: ['19,000 monthly voice credits', 'Equivalent to 30 browser + 10 phone minutes', 'Approved answers and human escalation', 'Shared conversation records and follow-up'],
-    cta: 'Talk to our team',
+    cta: 'Choose Starter',
+    href: '/portal',
   },
   {
     name: 'Growth',
@@ -174,7 +175,8 @@ export const engagements = [
     duration: 'Monthly subscription',
     price: '₦100,000 / month',
     includes: ['90,000 monthly voice credits', 'Equivalent to 100 browser + 60 phone minutes', 'Approved answers and human escalation', 'Shared conversation records and follow-up'],
-    cta: 'Talk to our team',
+    cta: 'Choose Growth',
+    href: '/portal',
     featured: true,
   },
   {

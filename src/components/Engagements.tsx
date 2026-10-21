@@ -36,7 +36,13 @@ export function Engagements() {
                   <li key={item}><Check aria-hidden="true" weight="bold" />{item}</li>
                 ))}
               </ul>
-              <a className={engagement.featured ? 'button button-primary button-block' : 'button button-outline button-block'} href={salesFormHref}>
+              {/* A plan you can simply buy sends people into the portal to sign
+                  in and subscribe. Setup and Enterprise still need a
+                  conversation, so those keep the sales form. */}
+              <a
+                className={engagement.featured ? 'button button-primary button-block' : 'button button-outline button-block'}
+                href={engagement.href ?? salesFormHref}
+              >
                 {engagement.cta}
                 <ArrowUpRight aria-hidden="true" weight="bold" />
               </a>

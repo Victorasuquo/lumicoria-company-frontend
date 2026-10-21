@@ -1491,13 +1491,23 @@ svg {
 
 .engagement-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* All four plans on one row so they can be compared at a glance: a 2x2
+     grid made the reader hold the first two in mind while scanning the next.
+     minmax(0, 1fr) rather than 1fr so a long feature line cannot push a
+     column wider than its share. Falls back to 2-up, then 1-up below. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
   margin-top: 70px;
 }
 
+@media (max-width: 1180px) {
+  .engagement-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .engagement-card {
-  min-height: 560px;
+  min-height: 520px;
   display: flex;
   flex-direction: column;
   padding: 34px;
