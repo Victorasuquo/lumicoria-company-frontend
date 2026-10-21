@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, ArrowUpRight, CheckCircle, Clock, Fingerprint, FloppyDisk, LockKeyOpen, Megaphone, PaperPlaneTilt, Plus, RocketLaunch, ShieldCheck, UserPlus, UsersThree, WarningCircle } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowUpRight, Bed, Briefcase, CalendarBlank, CheckCircle, Clock, Cloud, DeviceMobile, Fingerprint, FirstAid, FloppyDisk, FlowArrow, GraduationCap, ListChecks, LockKeyOpen, MagnifyingGlass, Megaphone, PaperPlaneTilt, Plus, RocketLaunch, ShieldCheck, ShoppingCart, SquaresFour, Truck, UserPlus, UsersThree, WarningCircle, type Icon } from '@phosphor-icons/react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { createIdempotencyKey, jsonBody, portalFetch } from '../../api/client'
 import { adminHospitalityPath, type GmailStatus, type HospitalityChannelCollection, type HospitalityConfiguration } from '../../api/hospitality'
 import { usePortalAuth } from '../../auth/AuthProvider'
 import { ChannelIcon } from '../../components/ChannelIcon'
-import { PortalEmpty, PortalError, PortalLoading, PortalPageHeader, StatusPill, formatPortalDate } from '../components/PortalState'
+import { humanize, PortalEmpty, PortalError, PortalLoading, PortalPageHeader, StatusPill, formatPortalDate } from '../components/PortalState'
 
 type Meta = { request_id: string; generated_at: string }
 type Overview = { organizations: number; active_organizations: number; pending_invitations: number; onboarding_drafts: number; failed_deliveries: number; open_operations: number; meta: Meta }
@@ -24,6 +24,18 @@ type AdminInvitation = { id: string; email: string; role: string; scopes: string
 type AdminAuditEvent = { id: string; actor_id: string; action: string; resource_type: string; resource_id: string; request_id: string; changes: Record<string, unknown>; occurred_at: string }
 type AdminOperation = { id: string; organization_id?: string | null; kind: string; status: string; progress: number; created_at: string; completed_at?: string | null }
 type AccessGrant = { id: string; organization_id: string; principal_id: string; reason: string; scopes: string[]; status: string; expires_at: string; revoked_at?: string | null; created_at: string }
+
+const templateIcons: Record<string, Icon> = {
+  hospitality: Bed,
+  logistics: Truck,
+  ecommerce: ShoppingCart,
+  telecom: DeviceMobile,
+  education: GraduationCap,
+  saas: Cloud,
+  healthcare_administration: FirstAid,
+  appointments: CalendarBlank,
+  professional_services: Briefcase,
+}
 
 function adminQuery<T>(key: string[], path: string, enabled = true) {
   return useQuery<T, Error>({
@@ -178,10 +190,30 @@ export function AdminOrganizationDetailPage() {
 
 export function AdminTemplatesPage() {
   const query = adminQuery<{ items: Template[]; meta: Meta }>(['templates'], '/admin/templates')
+  const [search, setSearch] = useState('')
   if (query.isLoading) return <PortalLoading label="Loading workflow templates" />
   if (query.error) return <PortalError error={query.error} onRetry={() => void query.refetch()} />
-  return <div className="admin-page"><PortalPageHeader eyebrow="Onboarding catalogue" title="Workflow templates" description="Use the same controlled vertical workflows in every new client workspace." />
-    <div className="admin-template-grid">{(query.data?.items ?? []).map((template) => <article className="portal-panel admin-template-card" key={template.key}><div className="admin-template-top"><span>{template.vertical.replaceAll('_', ' ')}</span><StatusPill value="published" /></div><h2>{template.name}</h2><p>Queue: {template.queue_key}</p><div className="admin-template-stats"><span>{template.fields.length} required fields</span><span>{template.steps.length} workflow steps</span><span>{template.escalation_rules.length} escalation rules</span></div></article>)}</div>
+  const allTemplates = query.data?.items ?? []
+  const normalizedSearch = search.trim().toLocaleLowerCase()
+  const templates = allTemplates.filter((template) => [template.name, template.vertical, template.queue_key].some((value) => value.toLocaleLowerCase().includes(normalizedSearch)))
+  return <div className="admin-page admin-templates-page">
+    <header className="admin-templates-header"><div><h1>Workflow templates</h1><p>Approved intake and escalation paths, ready to use when setting up a client workspace.</p></div><span className="admin-template-count">{allTemplates.length} {allTemplates.length === 1 ? 'template' : 'templates'}</span></header>
+    <div className="admin-template-toolbar"><label className="admin-template-search"><MagnifyingGlass aria-hidden="true" /><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Find a workflow or industry" aria-label="Search workflow templates" /></label><span>{templates.length} shown</span></div>
+    {templates.length ? <div className="admin-template-grid">{templates.map((template) => {
+      const TemplateIcon = templateIcons[template.vertical] ?? SquaresFour
+      const requiredFields = template.fields.filter((field) => field.required).length
+      return <article className="admin-template-card" key={template.key}>
+        <div className="admin-template-card-head"><span className="admin-template-icon"><TemplateIcon weight="duotone" aria-hidden="true" /></span><StatusPill value="published" /></div>
+        <div className="admin-template-category">{humanize(template.vertical)}</div>
+        <h2>{template.name}</h2>
+        <div className="admin-template-queue"><span>Assigned queue</span><code>{humanize(template.queue_key)}</code></div>
+        <div className="admin-template-stats">
+          <div><ListChecks aria-hidden="true" /><strong>{requiredFields}</strong><span>required fields</span></div>
+          <div><FlowArrow aria-hidden="true" /><strong>{template.steps.length}</strong><span>workflow steps</span></div>
+          <div><WarningCircle aria-hidden="true" /><strong>{template.escalation_rules.length}</strong><span>escalation rules</span></div>
+        </div>
+      </article>
+    })}</div> : <div className="admin-template-empty"><SquaresFour aria-hidden="true" /><p>{allTemplates.length ? 'No templates match that search.' : 'No workflow templates are available yet.'}</p>{allTemplates.length > 0 && <button className="portal-secondary-button" type="button" onClick={() => setSearch('')}>Clear search</button>}</div>}
   </div>
 }
 
