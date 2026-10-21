@@ -186,9 +186,73 @@ export function BillingCheckoutPage() {
   return <BillingAccess><div className="portal-page"><PortalPageHeader eyebrow="Billing" title="Checkout status" description="Your payment is being confirmed securely. This usually takes a few seconds." />{!reference ? <PortalEmpty title="No checkout reference" description="Return to billing and start a checkout." action={<Link className="portal-secondary-button" to="/portal/billing">Back to billing</Link>} /> : status.isLoading ? <PortalLoading label="Verifying payment" /> : status.error ? <PortalError error={status.error as Error} /> : <section className="portal-panel"><h2>{status.data?.verified ? 'Payment confirmed' : status.data?.status === 'failed' ? 'Payment failed' : 'Payment is being verified'}</h2><p>{status.data?.verified ? 'Your invoice and workspace credits are updating.' : status.data?.status === 'failed' ? 'This attempt did not go through. No money has left your account — return to billing and try again.' : 'Do not pay again while this payment is being checked. We are waiting for provider verification.'}</p><Link className="portal-secondary-button" to="/portal/billing/invoices"><Receipt aria-hidden="true" /> Open invoices</Link>{status.data?.status === 'failed' && <Link className="portal-secondary-button" to="/portal/billing">Try again</Link>}</section>}</div></BillingAccess>
 }
 
+type AdminBillingRow = {
+  organization_id: string
+  organization_name: string | null
+  account_status: string | null
+  subscription_status: string | null
+  plan_name: string | null
+  next_charge_at: string | null
+  paid_minor: number
+  payments: number
+  failed_payments: number
+  outstanding_minor: number
+  credit_balance_units: number
+  last_payment_at: string | null
+}
+
+type AdminBillingOverview = {
+  organizations: AdminBillingRow[]
+  revenue_by_purpose: Array<{ purpose: string; paid_minor: number; invoices: number }>
+  currency: string
+  totals: Record<string, number>
+}
+
 export function AdminBillingPage() {
-  const overview = useQuery({ queryKey: ['admin', 'billing', 'overview'], queryFn: async () => (await portalFetch<{ organizations: Array<{ organization_id: string; account_status: string; subscription_status: string | null }>; totals: Record<string, number> }>('/admin/billing/overview')).data })
+  const overview = useQuery({
+    queryKey: ['admin', 'billing', 'overview'],
+    queryFn: async () => (await portalFetch<AdminBillingOverview>('/admin/billing/overview')).data,
+  })
   if (overview.isLoading) return <PortalLoading label="Loading billing operations" />
   if (overview.error) return <PortalError error={overview.error as Error} onRetry={() => void overview.refetch()} />
-  return <div className="portal-page"><PortalPageHeader eyebrow="Internal billing" title="Billing operations" description="Monitor billing accounts and subscription states across organisations." /><section className="portal-panel"><header><div><span className="support-panel-kicker">Organisation billing</span><h2>{overview.data?.totals.organizations ?? 0} accounts</h2></div></header><div className="portal-table-wrap"><table className="portal-table"><thead><tr><th>Organisation</th><th>Account</th><th>Subscription</th></tr></thead><tbody>{overview.data?.organizations.map((item) => <tr key={item.organization_id}><td>{item.organization_id}</td><td><StatusPill value={item.account_status} /></td><td>{item.subscription_status ? <StatusPill value={item.subscription_status} /> : 'Not subscribed'}</td></tr>)}</tbody></table>{!overview.data?.organizations.length && <PortalEmpty title="No billing accounts" description="Billing accounts will appear after organisations start checkout." />}</div></section></div>
+  const data = overview.data
+  const totals = data?.totals ?? {}
+  return <div className="portal-page">
+    <PortalPageHeader eyebrow="Internal billing" title="Revenue and workspace billing" description="What every workspace has paid, what it was for, and what is still outstanding. Payments settle automatically once verified — nothing here needs approving." />
+
+    <div className="support-metric-grid">
+      <article className="support-metric"><div className="support-metric-icon"><CreditCard aria-hidden="true" /></div><span>Total collected</span><strong>{naira(totals.collected_minor ?? 0)}</strong><small>Across {totals.paying_organizations ?? 0} paying {(totals.paying_organizations ?? 0) === 1 ? 'workspace' : 'workspaces'}</small></article>
+      <article className="support-metric"><div className="support-metric-icon"><Receipt aria-hidden="true" /></div><span>Outstanding</span><strong>{naira(totals.outstanding_minor ?? 0)}</strong><small>Invoices raised but not settled</small></article>
+      <article className="support-metric"><div className="support-metric-icon"><Lightning aria-hidden="true" /></div><span>Active subscriptions</span><strong>{totals.active_subscriptions ?? 0}</strong><small>of {totals.organizations ?? 0} billing accounts</small></article>
+      <article className="support-metric"><div className="support-metric-icon"><WarningCircle aria-hidden="true" /></div><span>Failed payments</span><strong>{totals.failed_payments ?? 0}</strong><small>Declines and abandoned checkouts</small></article>
+    </div>
+
+    <section className="portal-panel">
+      <header><div><span className="support-panel-kicker">Revenue</span><h2>What the money was for</h2><p>Settled invoices only, grouped by what was bought.</p></div></header>
+      <div className="portal-table-wrap"><table className="portal-table">
+        <thead><tr><th>Purpose</th><th>Invoices</th><th>Collected</th></tr></thead>
+        <tbody>{data?.revenue_by_purpose.map((line) => <tr key={line.purpose}>
+          <td><strong>{line.purpose.replaceAll('_', ' ')}</strong></td>
+          <td>{line.invoices}</td>
+          <td>{naira(line.paid_minor)}</td>
+        </tr>)}</tbody>
+      </table>{!data?.revenue_by_purpose.length && <PortalEmpty title="No settled invoices yet" description="Revenue appears here once a workspace completes a payment." />}</div>
+    </section>
+
+    <section className="portal-panel">
+      <header><div><span className="support-panel-kicker">Workspaces</span><h2>{totals.organizations ?? 0} billing {(totals.organizations ?? 0) === 1 ? 'account' : 'accounts'}</h2><p>Ordered by lifetime spend.</p></div></header>
+      <div className="portal-table-wrap"><table className="portal-table">
+        <thead><tr><th>Workspace</th><th>Plan</th><th>Subscription</th><th>Spent</th><th>Outstanding</th><th>Credits</th><th>Last payment</th></tr></thead>
+        <tbody>{data?.organizations.map((row) => <tr key={row.organization_id}>
+          <td><strong>{row.organization_name || row.organization_id}</strong>{row.failed_payments > 0 && <><br /><small>{row.failed_payments} failed {row.failed_payments === 1 ? 'attempt' : 'attempts'}</small></>}</td>
+          <td>{row.plan_name ?? 'No plan'}</td>
+          <td>{row.subscription_status ? <StatusPill value={row.subscription_status} /> : 'Not subscribed'}</td>
+          <td>{naira(row.paid_minor)}{row.payments > 0 && <><br /><small>{row.payments} {row.payments === 1 ? 'invoice' : 'invoices'}</small></>}</td>
+          <td>{row.outstanding_minor > 0 ? naira(row.outstanding_minor) : '—'}</td>
+          <td>{row.credit_balance_units.toLocaleString()}</td>
+          <td>{row.last_payment_at ? formatPortalDate(row.last_payment_at) : '—'}</td>
+        </tr>)}</tbody>
+      </table>{!data?.organizations.length && <PortalEmpty title="No billing accounts" description="Billing accounts appear once an organisation starts checkout." />}</div>
+    </section>
+  </div>
 }
