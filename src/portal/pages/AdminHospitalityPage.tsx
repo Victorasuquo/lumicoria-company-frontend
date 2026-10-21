@@ -11,7 +11,7 @@ import {
   X,
 } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { portalFetch } from '../../api/client'
 import type { HospitalityTemplate, HospitalityTemplateCollection } from '../../api/hospitality'
@@ -49,19 +49,17 @@ export function AdminHospitalityPage() {
   const [search, setSearch] = useState('')
   const organizations = adminQuery<OrganizationCollection>(['organizations'], '/admin/organizations?page_size=100')
   const templates = adminQuery<HospitalityTemplateCollection>(['templates'], '/admin/hospitality/templates')
+  const hotels = organizations.data?.items ?? []
+  const template = templates.data?.items[0]
+  const activeHotels = hotels.filter((hotel) => hotel.status.toLowerCase() === 'active').length
+  const term = search.trim().toLowerCase()
+  const filteredHotels = term
+    ? hotels.filter((hotel) => `${hotel.name} ${hotel.slug} ${hotel.data_region} ${hotel.status}`.toLowerCase().includes(term))
+    : hotels
 
   if (organizations.isLoading || templates.isLoading) return <PortalLoading label="Loading hospitality operations" />
   if (organizations.error) return <PortalError error={organizations.error} onRetry={() => void organizations.refetch()} />
   if (templates.error) return <PortalError error={templates.error} onRetry={() => void templates.refetch()} />
-
-  const hotels = organizations.data?.items ?? []
-  const template = templates.data?.items[0]
-  const activeHotels = hotels.filter((hotel) => hotel.status.toLowerCase() === 'active').length
-  const filteredHotels = useMemo(() => {
-    const term = search.trim().toLowerCase()
-    if (!term) return hotels
-    return hotels.filter((hotel) => `${hotel.name} ${hotel.slug} ${hotel.data_region} ${hotel.status}`.toLowerCase().includes(term))
-  }, [hotels, search])
 
   return (
     <div className="admin-page admin-hospitality-page">
