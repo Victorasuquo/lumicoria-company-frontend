@@ -231,28 +231,28 @@ export function AdminBillingPage() {
       <header><div><span className="support-panel-kicker">Revenue</span><h2>What the money was for</h2><p>Settled invoices only, grouped by what was bought.</p></div></header>
       <div className="portal-table-wrap"><table className="portal-table">
         <thead><tr><th>Purpose</th><th>Invoices</th><th>Collected</th></tr></thead>
-        <tbody>{data?.revenue_by_purpose.map((line) => <tr key={line.purpose}>
+        <tbody>{data?.revenue_by_purpose?.map((line) => <tr key={line.purpose}>
           <td><strong>{line.purpose.replaceAll('_', ' ')}</strong></td>
           <td>{line.invoices}</td>
           <td>{naira(line.paid_minor)}</td>
         </tr>)}</tbody>
-      </table>{!data?.revenue_by_purpose.length && <PortalEmpty title="No settled invoices yet" description="Revenue appears here once a workspace completes a payment." />}</div>
+      </table>{!data?.revenue_by_purpose?.length && <PortalEmpty title="No settled invoices yet" description="Revenue appears here once a workspace completes a payment." />}</div>
     </section>
 
     <section className="portal-panel">
       <header><div><span className="support-panel-kicker">Workspaces</span><h2>{totals.organizations ?? 0} billing {(totals.organizations ?? 0) === 1 ? 'account' : 'accounts'}</h2><p>Ordered by lifetime spend.</p></div></header>
       <div className="portal-table-wrap"><table className="portal-table">
         <thead><tr><th>Workspace</th><th>Plan</th><th>Subscription</th><th>Spent</th><th>Outstanding</th><th>Credits</th><th>Last payment</th></tr></thead>
-        <tbody>{data?.organizations.map((row) => <tr key={row.organization_id}>
+        <tbody>{data?.organizations?.map((row) => <tr key={row.organization_id}>
           <td><strong>{row.organization_name || row.organization_id}</strong>{row.failed_payments > 0 && <><br /><small>{row.failed_payments} failed {row.failed_payments === 1 ? 'attempt' : 'attempts'}</small></>}</td>
           <td>{row.plan_name ?? 'No plan'}</td>
           <td>{row.subscription_status ? <StatusPill value={row.subscription_status} /> : 'Not subscribed'}</td>
           <td>{naira(row.paid_minor)}{row.payments > 0 && <><br /><small>{row.payments} {row.payments === 1 ? 'invoice' : 'invoices'}</small></>}</td>
           <td>{row.outstanding_minor > 0 ? naira(row.outstanding_minor) : '—'}</td>
-          <td>{row.credit_balance_units.toLocaleString()}</td>
+          <td>{(row.credit_balance_units ?? 0).toLocaleString()}</td>
           <td>{row.last_payment_at ? formatPortalDate(row.last_payment_at) : '—'}</td>
         </tr>)}</tbody>
-      </table>{!data?.organizations.length && <PortalEmpty title="No billing accounts" description="Billing accounts appear once an organisation starts checkout." />}</div>
+      </table>{!data?.organizations?.length && <PortalEmpty title="No billing accounts" description="Billing accounts appear once an organisation starts checkout." />}</div>
     </section>
   </div>
 }
