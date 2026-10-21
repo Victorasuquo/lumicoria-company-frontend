@@ -87,7 +87,10 @@ export type BillingOverview = {
   provider: string
   available_providers: string[]
   trial_credit_units: number
+  credit_unit_ngn: number
+  /** Retained for older responses; the trial is granted automatically now. */
   trial_available: boolean
+  trial_granted: boolean
   trial_claimed_at: string | null
   currency: string
   current_plan: BillingPlan | null
