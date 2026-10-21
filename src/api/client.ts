@@ -94,8 +94,16 @@ export async function portalFetch<T>(
     ? normalized
     : `${portalBasePath}${normalized}`
 
+  // A body with no method is always a mistake — jsonBody() sets `body` and
+  // nothing else, and fetch() throws outright on GET-with-body rather than
+  // sending anything. Three call sites shipped that way (trial claim, plan
+  // checkout, credit top-up), each presenting as a dead button, so infer the
+  // verb here instead of trusting every caller to remember it.
+  const method = requestOptions.method ?? (requestOptions.body ? 'POST' : 'GET')
+
   const response = await fetch(`${portalApiOrigin}${requestPath}`, {
     ...requestOptions,
+    method,
     credentials: 'include',
     headers,
   })
