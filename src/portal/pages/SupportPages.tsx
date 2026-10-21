@@ -458,5 +458,105 @@ export function SupportSettingsPage() {
   const saveProfile = useMutation({ mutationFn: () => portalFetch('/support/profile', { organizationId: context?.organization_id, method: 'PUT', idempotencyKey: createIdempotencyKey(), ...jsonBody({ ...form, response_time_minutes: Number(form.response_time_minutes), support_email: form.support_email || null, logo_url: form.logo_url || null, public_categories: form.public_categories.split(',').map(value => value.trim()).filter(Boolean), enabled_channels: form.enabled_channels.split(',').map(value => value.trim()).filter(Boolean) }) }), onSuccess: () => void profile.refetch() })
   const publishProfile = useMutation({ mutationFn: () => portalFetch('/support/profile/publish', { organizationId: context?.organization_id, method: 'POST', idempotencyKey: createIdempotencyKey() }), onSuccess: () => void profile.refetch() })
   const update = (key: keyof typeof form, value: string) => setForm(current => ({ ...current, [key]: value }))
-  return <SupportAccess scope={crmScopes.auditRead}><div className="portal-page support-page"><PortalPageHeader eyebrow="Support controls" title="Settings" description="Shape the branded public support experience and the rules that keep customer work with the right team." /><div className="support-settings-grid"><section className="portal-panel support-panel"><header><div><span className="support-panel-kicker">Public support profile</span><h2>{profile.data?.status === 'published' ? 'Published and ready' : 'Prepare your support page'}</h2><p>These settings control the organisation URL, public message, colour system, and available customer channels.</p></div>{profile.data && <StatusPill value={profile.data.status} />}</header>{profile.isLoading ? <PortalLoading label="Loading support profile" /> : <form className="support-profile-form" onSubmit={event => { event.preventDefault(); saveProfile.mutate() }}><label>Public URL slug<input value={form.public_slug} onChange={event => update('public_slug', event.target.value)} required /></label><label>Organisation display name<input value={form.display_name} onChange={event => update('display_name', event.target.value)} required /></label><label>Hero title<input value={form.hero_title} onChange={event => update('hero_title', event.target.value)} required /></label><label>Support description<textarea value={form.hero_description} onChange={event => update('hero_description', event.target.value)} rows={3} required /></label><label>Logo URL <small>Shown on your support page, chat widget, and every email to your customers</small><input type="url" value={form.logo_url} onChange={event => update('logo_url', event.target.value)} placeholder="https://yourcompany.com/logo.png" /></label><label>Support email <small>Where customer replies to your emails are delivered</small><input type="email" value={form.support_email} onChange={event => update('support_email', event.target.value)} placeholder="support@yourcompany.com" /></label><div className="support-form-columns"><label>Primary colour<input type="color" value={form.primary_color} onChange={event => update('primary_color', event.target.value)} /></label><label>Accent colour<input type="color" value={form.accent_color} onChange={event => update('accent_color', event.target.value)} /></label><label>Response time (minutes)<input type="number" min="1" value={form.response_time_minutes} onChange={event => update('response_time_minutes', event.target.value)} /></label></div><label>Public categories <small>Separate with commas</small><input value={form.public_categories} onChange={event => update('public_categories', event.target.value)} placeholder="General support, Bookings, Delivery" /></label><label>Enabled channels <small>Separate with commas</small><input value={form.enabled_channels} onChange={event => update('enabled_channels', event.target.value)} placeholder="web_chat, voice, email" /></label>{(saveProfile.error || publishProfile.error) && <PortalError error={saveProfile.error || publishProfile.error} />}{hasScope('portal.manage') && <div className="support-action-group"><button className="portal-secondary-button" type="submit" disabled={saveProfile.isPending}>{saveProfile.isPending ? 'Saving…' : 'Save profile'}</button><button className="portal-primary-button" type="button" onClick={() => publishProfile.mutate()} disabled={publishProfile.isPending || profile.data?.status === 'published'}>{publishProfile.isPending ? 'Publishing…' : profile.data?.status === 'published' ? 'Published' : 'Publish support page'}</button></div>}</form>}</section><section className="portal-panel support-panel"><header><div><span className="support-panel-kicker">Organisation policy</span><h2>Human control</h2></div></header><p>Routine, well-supported questions can receive an AI response. Payments, refunds, bookings, disputes, complaints, and uncertain matters remain with people.</p><Link className="portal-secondary-button" to="/portal/settings">Open organisation settings <ArrowRight aria-hidden="true" /></Link><header className="support-settings-subhead"><div><span className="support-panel-kicker">Permissions</span><h2>Current access</h2></div></header><ul className="support-scope-list">{Object.values(crmScopes).map((scope) => <li key={scope}><span>{scope}</span><CheckCircle aria-label={hasScope(scope) ? 'Granted' : 'Not granted'} weight={hasScope(scope) ? 'fill' : 'regular'} /></li>)}</ul></section></div></div></SupportAccess>
+  const permissions = Object.values(crmScopes)
+  const permissionGroups = permissions.reduce<Record<string, string[]>>((groups, scope) => {
+    const section = scope.split('.')[1] || 'general'
+    groups[section] = [...(groups[section] ?? []), scope]
+    return groups
+  }, {})
+  const grantedPermissions = permissions.filter((scope) => hasScope(scope)).length
+
+  return (
+    <SupportAccess scope={crmScopes.auditRead}>
+      <div className="portal-page support-page support-settings-page">
+        <PortalPageHeader
+          title="Support settings"
+          description="Manage the public support page and how customers reach your team."
+        />
+        <div className="support-settings-grid">
+          <section className="portal-panel support-panel support-profile-panel">
+            <header>
+              <div>
+                <span className="support-panel-kicker">Public support profile</span>
+                <h2>{profile.data?.status === 'published' ? 'Your page is live' : 'Set up your support page'}</h2>
+                <p>These details appear on the customer-facing support page and widget.</p>
+              </div>
+              {profile.data && <StatusPill value={profile.data.status} />}
+            </header>
+            {profile.isLoading ? <PortalLoading label="Loading support profile" /> : profile.error ? <PortalError error={profile.error} onRetry={() => void profile.refetch()} /> : (
+              <form className="support-profile-form" onSubmit={event => { event.preventDefault(); saveProfile.mutate() }}>
+                <fieldset className="support-settings-fields">
+                  <legend>Page content</legend>
+                  <div className="support-settings-field-grid">
+                    <label>Public URL slug<input value={form.public_slug} onChange={event => update('public_slug', event.target.value)} required /></label>
+                    <label>Organisation name<input value={form.display_name} onChange={event => update('display_name', event.target.value)} required /></label>
+                    <label className="support-field-wide">Page headline<input value={form.hero_title} onChange={event => update('hero_title', event.target.value)} required /></label>
+                    <label className="support-field-wide">Support description<textarea value={form.hero_description} onChange={event => update('hero_description', event.target.value)} rows={3} required /></label>
+                  </div>
+                </fieldset>
+                <fieldset className="support-settings-fields">
+                  <legend>Brand and contact</legend>
+                  <div className="support-settings-field-grid">
+                    <label>Logo URL <small>Used on your support page, widget, and customer emails.</small><input type="url" value={form.logo_url} onChange={event => update('logo_url', event.target.value)} placeholder="https://yourcompany.com/logo.png" /></label>
+                    <label>Support email <small>Customer replies are sent to this address.</small><input type="email" value={form.support_email} onChange={event => update('support_email', event.target.value)} placeholder="support@yourcompany.com" /></label>
+                    <div className="support-form-columns support-field-wide">
+                      <label>Primary colour<input type="color" value={form.primary_color} onChange={event => update('primary_color', event.target.value)} /></label>
+                      <label>Accent colour<input type="color" value={form.accent_color} onChange={event => update('accent_color', event.target.value)} /></label>
+                      <label>Response time (minutes)<input type="number" min="1" value={form.response_time_minutes} onChange={event => update('response_time_minutes', event.target.value)} /></label>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset className="support-settings-fields">
+                  <legend>Availability</legend>
+                  <div className="support-settings-field-grid">
+                    <label>Public categories <small>Separate categories with commas.</small><input value={form.public_categories} onChange={event => update('public_categories', event.target.value)} placeholder="General support, Bookings, Delivery" /></label>
+                    <label>Enabled channels <small>Separate channel keys with commas.</small><input value={form.enabled_channels} onChange={event => update('enabled_channels', event.target.value)} placeholder="web_chat, voice, email" /></label>
+                  </div>
+                </fieldset>
+                {(saveProfile.error || publishProfile.error) && <PortalError error={saveProfile.error || publishProfile.error} title="Could not update support page" />}
+                {hasScope('portal.manage') && <div className="support-action-group support-settings-actions"><button className="portal-secondary-button" type="submit" disabled={saveProfile.isPending}>{saveProfile.isPending ? 'Saving…' : 'Save changes'}</button><button className="portal-primary-button support-publish-button" type="button" onClick={() => publishProfile.mutate()} disabled={publishProfile.isPending || profile.data?.status === 'published'}>{publishProfile.isPending ? 'Publishing…' : profile.data?.status === 'published' ? 'Page published' : 'Publish support page'}</button></div>}
+              </form>
+            )}
+          </section>
+
+          <aside className="support-settings-aside">
+            <section className="portal-panel support-panel support-brand-preview">
+              <header><div><span className="support-panel-kicker">Preview</span><h2>Customer view</h2></div><span className="support-preview-label">Draft</span></header>
+              <div className="support-preview-surface">
+                <span className="support-preview-mark" style={{ backgroundColor: form.accent_color }}>{form.display_name.trim().charAt(0).toUpperCase() || 'S'}</span>
+                <strong>{form.display_name || 'Your organisation'}</strong>
+                <h3>{form.hero_title || 'How can we help?'}</h3>
+                <p>{form.hero_description || 'Your support message will appear here.'}</p>
+                {form.support_email && <span className="support-preview-email">{form.support_email}</span>}
+                <span className="support-preview-primary-colour"><i style={{ backgroundColor: form.primary_color }} />Primary colour</span>
+              </div>
+            </section>
+
+            <section className="portal-panel support-panel support-policy-panel">
+              <span className="support-panel-kicker">Organisation policy</span>
+              <h2>People stay in control</h2>
+              <p>Routine, well-supported questions can receive a response. Payments, refunds, bookings, disputes, complaints, and uncertain matters stay with your team.</p>
+              <Link className="portal-secondary-button" to="/portal/settings">Organisation settings <ArrowRight aria-hidden="true" /></Link>
+              <div className="support-settings-subhead">
+                <span className="support-panel-kicker">Permissions</span>
+                <h2>Current access</h2>
+                <p>{grantedPermissions} of {permissions.length} permissions granted</p>
+              </div>
+              <div className="support-permission-groups">
+                {Object.entries(permissionGroups).map(([section, scopes]) => {
+                  const granted = scopes.filter((scope) => hasScope(scope)).length
+                  return (
+                    <details key={section} className="support-permission-group">
+                      <summary><span>{humanize(section)}</span><small>{granted}/{scopes.length}</small></summary>
+                      <ul className="support-scope-list">{scopes.map((scope) => <li key={scope}><code>{scope}</code><CheckCircle aria-label={hasScope(scope) ? 'Granted' : 'Not granted'} weight={hasScope(scope) ? 'fill' : 'regular'} /></li>)}</ul>
+                    </details>
+                  )
+                })}
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </SupportAccess>
+  )
 }

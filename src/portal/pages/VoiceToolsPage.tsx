@@ -1,4 +1,4 @@
-import { Plus, Wrench } from '@phosphor-icons/react'
+import { MagnifyingGlass, Plus, Wrench, X } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -24,6 +24,7 @@ export function VoiceToolsPage() {
   const [displayName, setDisplayName] = useState('')
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState('')
+  const [search, setSearch] = useState('')
 
   const query = useVoiceQuery<VoiceCollection<VoiceToolDefinition>>(
     ['voice-tools'],
@@ -63,11 +64,10 @@ export function VoiceToolsPage() {
   const tools = query.data?.items ?? []
 
   return (
-    <div className="portal-page">
+    <div className="portal-page portal-tools-page">
       <PortalPageHeader
-        eyebrow="Voice platform"
-        title="Tool Definitions"
-        description="Platform and custom tools available to your voice agents."
+        title="Tools"
+        description="Actions your voice agents can use to complete a support workflow."
         action={
           hasScope('voice.tools.manage') ? (
             <button
@@ -87,37 +87,45 @@ export function VoiceToolsPage() {
         <PortalError error={createMutation.error} title="Could not create tool" />
       )}
 
+      {tools.length > 0 && (
+        <div className="portal-collection-toolbar">
+          <label className="portal-collection-search">
+            <MagnifyingGlass aria-hidden="true" />
+            <input
+              type="search"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search tools"
+              aria-label="Search tools"
+            />
+            {search && <button type="button" onClick={() => setSearch('')} aria-label="Clear search"><X aria-hidden="true" /></button>}
+          </label>
+          <span>{tools.filter((tool) => `${tool.display_name} ${tool.key} ${tool.description} ${tool.category}`.toLowerCase().includes(search.toLowerCase())).length} of {tools.length} tools</span>
+        </div>
+      )}
+
       {tools.length ? (
-        <section className="portal-voice-tool-grid">
-          {tools.map((tool) => (
-            <article key={tool.id}>
-              <Link to={`/portal/voice/tools/${tool.id}`}>
+        <section className="portal-tool-grid">
+          {tools.filter((tool) => `${tool.display_name} ${tool.key} ${tool.description} ${tool.category}`.toLowerCase().includes(search.toLowerCase())).map((tool) => (
+            <article className="portal-tool-card" key={tool.id}>
+              <Link to={`/portal/voice/tools/${tool.id}`} className="portal-tool-card-link">
                 <div className="portal-voice-card-icon">
                   <Wrench aria-hidden="true" weight="duotone" />
                 </div>
-                <header>
+                <header className="portal-tool-card-status">
                   <StatusPill value={tool.status} />
                   <span className={`portal-voice-ownership-pill portal-voice-ownership-${tool.ownership}`}>
                     {humanize(tool.ownership)}
                   </span>
                 </header>
                 <h2>{tool.display_name}</h2>
-                <p className="portal-voice-tool-key">{tool.key}</p>
-                <p>{tool.description}</p>
-                <dl>
-                  <div>
-                    <dt>Category</dt>
-                    <dd>{humanize(tool.category)}</dd>
-                  </div>
-                  <div>
-                    <dt>Version</dt>
-                    <dd>v{tool.latest_version}</dd>
-                  </div>
-                  <div>
-                    <dt>Updated</dt>
-                    <dd>{formatPortalDate(tool.updated_at)}</dd>
-                  </div>
-                </dl>
+                <code className="portal-tool-key">{tool.key}</code>
+                <p className="portal-tool-description">{tool.description}</p>
+                <div className="portal-tool-card-footer">
+                  <span>{humanize(tool.category)}</span>
+                  <span>v{tool.latest_version}</span>
+                  <time>{formatPortalDate(tool.updated_at)}</time>
+                </div>
               </Link>
             </article>
           ))}
@@ -127,6 +135,10 @@ export function VoiceToolsPage() {
           title="No tool definitions"
           description="Tool definitions will appear here once they are configured for your organization."
         />
+      )}
+
+      {tools.length > 0 && !tools.some((tool) => `${tool.display_name} ${tool.key} ${tool.description} ${tool.category}`.toLowerCase().includes(search.toLowerCase())) && (
+        <PortalEmpty title="No matching tools" description="Try another name, category, or tool key." action={<button className="portal-secondary-button" type="button" onClick={() => setSearch('')}>Clear search</button>} />
       )}
 
       {showCreate && (

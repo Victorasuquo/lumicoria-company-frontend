@@ -165,15 +165,14 @@ export function VoiceWidgetDetailPage() {
   const canManage = hasScope('voice.widgets.manage')
 
   return (
-    <div className="portal-page">
+    <div className="portal-page portal-widget-detail-page">
       <Link to="/portal/voice/widgets" className="portal-voice-back-link">
         <ArrowLeft aria-hidden="true" /> Widgets
       </Link>
 
       <PortalPageHeader
-        eyebrow="Voice embeds"
         title={widget.display_name}
-        description={`Widget for agent ${widget.agent_id}`}
+        description={<span>Connected agent <code className="portal-widget-header-agent">{widget.agent_id}</code></span>}
         action={
           canManage && !editing ? (
             <button className="portal-secondary-button" type="button" onClick={startEditing}>
@@ -190,7 +189,8 @@ export function VoiceWidgetDetailPage() {
         />
       )}
 
-      <section className="portal-voice-detail-panel">
+      <div className="portal-widget-detail-grid">
+      <section className="portal-voice-detail-panel portal-widget-detail-panel">
         <h3>Configuration</h3>
         {editing ? (
           <div className="portal-voice-form">
@@ -249,8 +249,9 @@ export function VoiceWidgetDetailPage() {
         )}
       </section>
 
-      <section className="portal-voice-detail-panel">
+      <section className="portal-voice-detail-panel portal-widget-detail-panel">
         <h3>Allowed Origins</h3>
+        <p className="portal-widget-section-note">Websites permitted to load this widget.</p>
         {editingOrigins ? (
           <div className="portal-voice-form">
             <p className="portal-voice-hint">Add the exact website origins that may load this widget. Use one origin per line, without a page path.</p>
@@ -293,9 +294,9 @@ export function VoiceWidgetDetailPage() {
         )}
       </section>
 
-      <section className="portal-voice-detail-panel">
+      <section className="portal-voice-detail-panel portal-widget-detail-panel portal-widget-embed-panel">
         <h3>Public support page</h3>
-        <p className="portal-voice-hint">Open this page to test the customer experience, or embed it on a customer website after copying the key from creation or key rotation.</p>
+        <p className="portal-voice-hint">Preview the customer experience or add the snippet to your website.</p>
         <code className="portal-voice-embed-url">{publicWidgetUrl()}</code>
         <pre className="portal-voice-embed-code"><code>{embedSnippet()}</code></pre>
         <div className="portal-voice-key-actions">
@@ -307,9 +308,10 @@ export function VoiceWidgetDetailPage() {
           </button>
         </div>
       </section>
+      </div>
 
       {canManage && (
-        <section className="portal-voice-detail-panel">
+        <section className="portal-voice-detail-panel portal-widget-actions-panel">
           <h3>Actions</h3>
           <div className="portal-voice-action-bar">
             {widget.status === 'active' ? (

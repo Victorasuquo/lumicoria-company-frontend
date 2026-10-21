@@ -1,4 +1,4 @@
-import { Code, Copy, Plus } from '@phosphor-icons/react'
+import { ArrowRight, Code, Copy, MagnifyingGlass, Plus, X } from '@phosphor-icons/react'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -31,6 +31,7 @@ export function VoiceWidgetsPage() {
   const [createdWidgetId, setCreatedWidgetId] = useState<string | null>(null)
   const [urlCopied, setUrlCopied] = useState(false)
   const [snippetCopied, setSnippetCopied] = useState(false)
+  const [search, setSearch] = useState('')
 
   const widgetsQuery = useVoiceQuery<VoiceCollection<VoiceWidgetConfig>>(
     ['voice-widgets'],
@@ -116,11 +117,10 @@ export function VoiceWidgetsPage() {
   const widgets = widgetsQuery.data?.items ?? []
 
   return (
-    <div className="portal-page">
+    <div className="portal-page portal-widgets-page">
       <PortalPageHeader
-        eyebrow="Voice embeds"
         title="Widgets"
-        description="Give customers a public support page or embed one on your website."
+        description="Publish a customer support page or embed it on your website."
         action={
           hasScope('voice.widgets.manage') ? (
             <button className="portal-primary-button" type="button" onClick={() => setShowCreate(true)}>
@@ -219,25 +219,44 @@ export function VoiceWidgetsPage() {
         </div>
       )}
 
+      {widgets.length > 0 && (
+        <div className="portal-collection-toolbar">
+          <label className="portal-collection-search">
+            <MagnifyingGlass aria-hidden="true" />
+            <input
+              type="search"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search widgets"
+              aria-label="Search widgets"
+            />
+            {search && <button type="button" onClick={() => setSearch('')} aria-label="Clear search"><X aria-hidden="true" /></button>}
+          </label>
+          <span>{widgets.filter((widget) => `${widget.display_name} ${widget.agent_id} ${widget.channels.join(' ')}`.toLowerCase().includes(search.toLowerCase())).length} of {widgets.length} widgets</span>
+        </div>
+      )}
+
       {widgets.length ? (
-        <div className="portal-voice-agent-grid">
-          {widgets.map((w) => (
-            <Link to={`/portal/voice/widgets/${w.id}`} key={w.id} className="portal-voice-card">
-              <div className="portal-voice-card-icon">
-                <Code aria-hidden="true" weight="duotone" />
-              </div>
-              <h3>{w.display_name}</h3>
-              <div className="portal-voice-card-meta">
+        <div className="portal-widget-grid">
+          {widgets.filter((widget) => `${widget.display_name} ${widget.agent_id} ${widget.channels.join(' ')}`.toLowerCase().includes(search.toLowerCase())).map((w) => (
+            <Link to={`/portal/voice/widgets/${w.id}`} key={w.id} className="portal-widget-card">
+              <div className="portal-widget-card-top">
+                <span className="portal-widget-icon"><Code aria-hidden="true" weight="duotone" /></span>
                 <StatusPill value={w.status} />
-                {w.kill_switch !== 'off' && <StatusPill value={`kill: ${w.kill_switch}`} />}
               </div>
-              <div className="portal-voice-card-meta">
-                {w.channels.map((ch) => (
-                  <span key={ch} className="portal-voice-card-badge">{humanize(ch)}</span>
-                ))}
-                <span className="portal-voice-card-badge">{w.origins.length} origin{w.origins.length !== 1 ? 's' : ''}</span>
+              <div className="portal-widget-card-copy">
+                <h2>{w.display_name}</h2>
+                <span className="portal-widget-agent">Agent <code>{w.agent_id}</code></span>
               </div>
-              <time className="portal-voice-muted">{formatPortalDate(w.updated_at)}</time>
+              <div className="portal-widget-card-meta">
+                <div><span>Channels</span><strong>{w.channels.map(humanize).join(' · ') || 'None'}</strong></div>
+                <div><span>Allowed websites</span><strong>{w.origins.length}</strong></div>
+              </div>
+              <div className="portal-widget-card-footer">
+                <time>{formatPortalDate(w.updated_at)}</time>
+                <span>Manage widget <ArrowRight aria-hidden="true" /></span>
+              </div>
+              {w.kill_switch !== 'off' && <span className="portal-widget-kill-switch"><StatusPill value={`kill: ${w.kill_switch}`} /></span>}
             </Link>
           ))}
         </div>
@@ -246,6 +265,9 @@ export function VoiceWidgetsPage() {
           title="No widgets configured"
           description="Create a widget to embed voice agents on your website."
         />
+      )}
+      {widgets.length > 0 && !widgets.some((widget) => `${widget.display_name} ${widget.agent_id} ${widget.channels.join(' ')}`.toLowerCase().includes(search.toLowerCase())) && (
+        <PortalEmpty title="No matching widgets" description="Try another widget name, agent ID, or channel." action={<button className="portal-secondary-button" type="button" onClick={() => setSearch('')}>Clear search</button>} />
       )}
     </div>
   )
