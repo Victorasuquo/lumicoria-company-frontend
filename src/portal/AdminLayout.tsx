@@ -56,6 +56,12 @@ export function AdminLayout() {
               <span>{item.label}</span>
             </NavLink>
           })}
+          {context?.organization_id && (
+            <NavLink className="admin-workspace-link" to="/portal" end>
+              <Buildings aria-hidden="true" weight="duotone" />
+              <span>My workspace</span>
+            </NavLink>
+          )}
         </nav>
         <div className="portal-sidebar-user">
           <div>

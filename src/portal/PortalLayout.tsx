@@ -59,6 +59,7 @@ type UnreadCount = { unread_count: number }
 
 export function PortalLayout() {
   const {
+    adminContext,
     context,
     destinations,
     firebaseUser,
@@ -171,6 +172,12 @@ export function PortalLayout() {
               </NavLink>
             )
           })}
+          {adminContext && (
+            <NavLink to="/portal/admin" onClick={() => setMobileOpen(false)} end>
+              <SquaresFour aria-hidden="true" weight="duotone" />
+              <span>Internal admin</span>
+            </NavLink>
+          )}
           {voiceNavigation.some(({ scope }) => hasScope(scope)) && (
             <>
               <span className="portal-navigation-section">Voice Platform</span>

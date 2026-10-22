@@ -204,10 +204,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // An administrator may not have a client portal session yet.
       }
       setSession(null)
-      setContext(null)
       setPermissions(null)
-      setDestinations([])
       setAdminContext(nextAdminContext)
+
+      // An administrator can also be a member of a workspace, and usually is:
+      // the platform's own demo workspace belongs to the people running it.
+      // This used to null the context and return, so signing in as an admin
+      // discarded a membership the database was perfectly happy to grant, and
+      // the workspace became unreachable from the UI.
+      //
+      // Best-effort: an administrator with no membership at all is normal, so
+      // a failure here leaves them on the admin side rather than blocking the
+      // sign-in that already succeeded.
+      try {
+        const { data: adminWorkspace } = await withIdentityRetry((token) =>
+          getPortalContext({ identityToken: token }),
+        )
+        setContext(adminWorkspace)
+        setDestinations(adminWorkspace.destinations ?? [])
+      } catch {
+        setContext(null)
+        setDestinations([])
+      }
+
       setStatus('authenticated')
       return { needsOrganization: false, isAdmin: true }
     } catch {
