@@ -34,13 +34,16 @@ export function Nav() {
               {item.label}
             </a>
           ))}
-          <a href="/portal/login">Client portal</a>
+          <a href="/portal/login">Log in</a>
         </div>
 
-        <a className="nav-cta" href={salesFormHref}>
-          Talk to Rebecca
-          <ArrowUpRight aria-hidden="true" weight="bold" />
-        </a>
+        <div className="nav-actions">
+          <a className="nav-cta nav-cta-secondary" href="/portal/request-access">Get started</a>
+          <a className="nav-cta" href={salesFormHref}>
+            Talk to Rebecca
+            <ArrowUpRight aria-hidden="true" weight="bold" />
+          </a>
+        </div>
 
         <button
           className="nav-menu-button"
@@ -82,10 +85,14 @@ export function Nav() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navItems.length * 0.05, duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
               >
-                Client portal
+                Log in
               </motion.a>
             </div>
-            <a className="button button-primary button-block" href={salesFormHref}>
+            <a className="button button-primary button-block" href="/portal/request-access" onClick={() => setIsOpen(false)}>
+              Get started
+              <ArrowUpRight aria-hidden="true" weight="bold" />
+            </a>
+            <a className="mobile-menu-demo" href={salesFormHref} onClick={() => setIsOpen(false)}>
               Talk to Rebecca
               <ArrowUpRight aria-hidden="true" weight="bold" />
             </a>

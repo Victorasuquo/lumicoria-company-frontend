@@ -414,6 +414,27 @@ svg {
   transition: background 180ms ease, transform 180ms var(--ease-out);
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 9px;
+}
+
+.nav-cta-secondary {
+  min-height: 46px;
+  padding-inline: 15px;
+  color: var(--ink);
+  background: rgba(255,255,255,.62);
+  border: 1px solid rgba(21,23,29,.12);
+}
+
+.nav-cta-secondary:hover {
+  background: #fff;
+  border-color: rgba(75,50,218,.25);
+  transform: translateY(-1px);
+}
+
 .nav-cta:hover {
   background: var(--violet-dark);
   transform: translateY(-1px);
@@ -3364,7 +3385,7 @@ svg {
     border-radius: 16px;
   }
 
-  .nav-cta {
+  .nav-actions {
     display: none;
   }
 
@@ -3408,6 +3429,18 @@ svg {
     border-bottom: 1px solid var(--line);
     font-size: 1.08rem;
     font-weight: 570;
+  }
+
+  .mobile-menu-demo {
+    display: flex;
+    min-height: 48px;
+    margin-top: 8px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--ink-soft);
+    font-size: .88rem;
+    font-weight: 630;
   }
 
   .hero {
