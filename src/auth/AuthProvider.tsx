@@ -198,12 +198,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data: nextAdminContext } = await withIdentityRetry((token) =>
         getAdminContext({ identityToken: token }),
       )
-      try {
-        await deletePortalSession()
-      } catch {
-        // An administrator may not have a client portal session yet.
-      }
-      setSession(null)
       setPermissions(null)
       setAdminContext(nextAdminContext)
 
@@ -220,8 +214,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const { data: adminWorkspace } = await withIdentityRetry((token) =>
           getPortalContext({ identityToken: token }),
         )
-        setContext(adminWorkspace)
-        setDestinations(adminWorkspace.destinations ?? [])
+        const adminOrganizationId =
+          adminWorkspace.destinations?.[0]?.organization_id
+          ?? adminWorkspace.organization_id
+        if (!adminOrganizationId) throw new Error('No workspace for this administrator')
+        // Context alone is not enough: every workspace call is authorised by a
+        // portal session scoped to one organisation, so setting the context
+        // without creating one produced a workspace that rendered and then
+        // failed to load anything.
+        const { data: adminSession } = await withIdentityRetry((token) =>
+          createPortalSession(token, adminOrganizationId, rememberMe),
+        )
+        await applyContext(adminSession, adminOrganizationId)
       } catch {
         setContext(null)
         setDestinations([])
