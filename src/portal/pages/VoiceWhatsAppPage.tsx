@@ -159,101 +159,140 @@ export function VoiceWhatsAppPage() {
       )}
 
       {senders.length ? (
-        <section className="portal-panel">
-          <div className="portal-voice-phone-table">
-            <div className="portal-voice-phone-table-header">
-              <span>Phone</span>
-              <span>Display Name</span>
-              <span>Country</span>
-              <span>Status</span>
-              <span>Verified</span>
-              <span>Updated</span>
+        <section className="wa-senders-section" aria-labelledby="wa-senders-title">
+          <header className="wa-senders-heading">
+            <div>
+              <h2 id="wa-senders-title">Registered senders</h2>
+              <p>Select a sender to review country eligibility or request calling permission.</p>
             </div>
-            {senders.map((sender) => (
-              <div key={sender.id}>
-                <div
-                  className={`portal-voice-phone-table-row ${expandedSenderId === sender.id ? 'is-expanded' : ''}`}
-                  onClick={() => setExpandedSenderId(expandedSenderId === sender.id ? null : sender.id)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <span className="portal-voice-phone-number">
-                    <ChannelIcon channel="whatsapp" size={24} />
-                    {sender.phone_number}
-                  </span>
-                  <span>{sender.display_name}</span>
-                  <span>{sender.country_code}</span>
-                  <span><StatusPill value={sender.status} /></span>
-                  <span>
-                    {sender.verified ? (
-                      <span className="portal-voice-verified"><CheckCircle aria-hidden="true" weight="fill" /> Verified</span>
-                    ) : (
-                      'Pending'
-                    )}
-                  </span>
-                  <span>{formatPortalDate(sender.updated_at)}</span>
-                </div>
+            <span className="wa-sender-count">{senders.length} {senders.length === 1 ? 'sender' : 'senders'}</span>
+          </header>
 
-                {expandedSenderId === sender.id && (
-                  <div className="portal-voice-whatsapp-expanded">
-                    <div className="portal-voice-detail-panel">
-                      <h3>Eligibility</h3>
-                      {eligibilityQuery.isLoading && <PortalLoading label="Checking eligibility" />}
-                      {eligibilityQuery.error && <PortalError error={eligibilityQuery.error} title="Eligibility check failed" />}
-                      {eligibilityQuery.data && (
-                        <div className="portal-voice-eligibility-table">
-                          <div className="portal-voice-phone-table-header">
-                            <span>Country</span>
-                            <span>Capability</span>
-                            <span>Allowed</span>
-                            <span>Reason</span>
-                          </div>
-                          {eligibilityQuery.data.entries.map((entry, i) => (
-                            <div key={i} className="portal-voice-phone-table-row">
-                              <span>{entry.country_code}</span>
-                              <span>{humanize(entry.capability)}</span>
-                              <span><StatusPill value={entry.allowed ? 'allowed' : 'blocked'} /></span>
-                              <span>{entry.reason ?? '—'}</span>
-                            </div>
-                          ))}
-                        </div>
+          <div className="wa-sender-list">
+            {senders.map((sender) => {
+              const isExpanded = expandedSenderId === sender.id
+              const detailsId = `whatsapp-sender-details-${sender.id}`
+
+              return (
+                <article className={`wa-sender-card${isExpanded ? ' is-expanded' : ''}`} key={sender.id}>
+                  <div className="wa-sender-summary">
+                    <div className="wa-sender-identity">
+                      <span className="wa-sender-icon"><ChannelIcon channel="whatsapp" size={25} /></span>
+                      <div>
+                        <strong>{sender.phone_number}</strong>
+                        <span>{sender.display_name} <span className="wa-sender-country">· {sender.country_code}</span></span>
+                      </div>
+                    </div>
+
+                    <div className="wa-sender-status">
+                      <StatusPill value={sender.status} />
+                      {sender.verified ? (
+                        <span className="portal-voice-verified"><CheckCircle aria-hidden="true" weight="fill" /> Verified</span>
+                      ) : (
+                        <span className="wa-sender-pending">Verification pending</span>
                       )}
                     </div>
 
-                    {canManage && (
-                      <div className="portal-voice-detail-panel">
-                        <h3>Request Permission</h3>
-                        {permissionMutation.error && <p className="portal-voice-form-error">{String(permissionMutation.error.message)}</p>}
-                        {permissionMutation.isSuccess && <p className="portal-voice-hint">Permission request submitted.</p>}
-                        <div className="portal-voice-form">
-                          <label>
-                            <small>Customer phone</small>
-                            <input type="text" value={permPhone} onChange={(e) => setPermPhone(e.target.value)} placeholder="+1234567890" />
-                          </label>
-                          <label>
-                            <small>Template ID (optional)</small>
-                            <input type="text" value={permTemplate} onChange={(e) => setPermTemplate(e.target.value)} />
-                          </label>
-                          <label>
-                            <small>Reason (optional)</small>
-                            <input type="text" value={permReason} onChange={(e) => setPermReason(e.target.value)} />
-                          </label>
-                          <div className="portal-voice-form-actions">
-                            <button
-                              className="portal-primary-button"
-                              type="button"
-                              onClick={() => permissionMutation.mutate()}
-                              disabled={!permPhone || permissionMutation.isPending}
-                            >
-                              {permissionMutation.isPending ? 'Requesting…' : 'Request permission'}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                    <div className="wa-sender-updated">
+                      <span>Last updated</span>
+                      <strong>{formatPortalDate(sender.updated_at)}</strong>
+                    </div>
+
+                    <div className="wa-sender-actions">
+                      <a
+                        className="portal-secondary-button wa-chat-now"
+                        href="http://wa.me/+14155238886?text=join%20rocky-body"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Chat now
+                      </a>
+                      <button
+                        className="portal-secondary-button wa-sender-toggle"
+                        type="button"
+                        aria-expanded={isExpanded}
+                        aria-controls={detailsId}
+                        onClick={() => setExpandedSenderId(isExpanded ? null : sender.id)}
+                      >
+                        {isExpanded ? 'Hide details' : 'View details'}
+                      </button>
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
+
+                  {isExpanded && (
+                    <div className="wa-sender-details" id={detailsId}>
+                      <section className="wa-eligibility" aria-labelledby={`${detailsId}-eligibility`}>
+                        <div className="wa-detail-heading">
+                          <div>
+                            <h3 id={`${detailsId}-eligibility`}>Calling eligibility</h3>
+                            <p>Availability depends on the sender’s country and capability.</p>
+                          </div>
+                          <span className="wa-country-tag">{sender.country_code}</span>
+                        </div>
+                        {eligibilityQuery.isLoading && <PortalLoading label="Checking eligibility" />}
+                        {eligibilityQuery.error && <PortalError error={eligibilityQuery.error} title="Eligibility check failed" onRetry={() => void eligibilityQuery.refetch()} />}
+                        {eligibilityQuery.data && (
+                          <div className="wa-eligibility-table-wrap">
+                            <table className="wa-eligibility-table">
+                              <thead>
+                                <tr><th scope="col">Capability</th><th scope="col">Access</th><th scope="col">Reason</th></tr>
+                              </thead>
+                              <tbody>
+                                {eligibilityQuery.data.entries.map((entry, index) => (
+                                  <tr key={`${entry.country_code}-${entry.capability}-${index}`}>
+                                    <td>{humanize(entry.capability)}</td>
+                                    <td><StatusPill value={entry.allowed ? 'allowed' : 'blocked'} /></td>
+                                    <td>{entry.reason || 'No restriction reported'}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                            {!eligibilityQuery.data.entries.length && <p className="wa-empty-note">No eligibility results are available for this sender yet.</p>}
+                          </div>
+                        )}
+                      </section>
+
+                      {canManage && (
+                        <section className="wa-permission" aria-labelledby={`${detailsId}-permission`}>
+                          <div className="wa-detail-heading">
+                            <div>
+                              <h3 id={`${detailsId}-permission`}>Request calling permission</h3>
+                              <p>Submit a customer number and optional provider details.</p>
+                            </div>
+                          </div>
+                          {permissionMutation.error && <p className="portal-voice-form-error" role="alert">{String(permissionMutation.error.message)}</p>}
+                          {permissionMutation.isSuccess && <p className="portal-voice-hint" role="status">Permission request submitted.</p>}
+                          <div className="wa-permission-form">
+                            <label>
+                              <span>Customer phone</span>
+                              <input type="tel" value={permPhone} onChange={(event) => setPermPhone(event.target.value)} placeholder="+234 800 000 0000" autoComplete="tel" />
+                            </label>
+                            <label>
+                              <span>Template ID <small>Optional</small></span>
+                              <input type="text" value={permTemplate} onChange={(event) => setPermTemplate(event.target.value)} />
+                            </label>
+                            <label className="wa-permission-reason">
+                              <span>Reason <small>Optional</small></span>
+                              <input type="text" value={permReason} onChange={(event) => setPermReason(event.target.value)} />
+                            </label>
+                            <div className="wa-permission-actions">
+                              <button
+                                className="portal-primary-button"
+                                type="button"
+                                onClick={() => permissionMutation.mutate()}
+                                disabled={!permPhone.trim() || permissionMutation.isPending}
+                              >
+                                {permissionMutation.isPending ? 'Requesting…' : 'Submit request'}
+                              </button>
+                            </div>
+                          </div>
+                        </section>
+                      )}
+                    </div>
+                  )}
+                </article>
+              )
+            })}
           </div>
         </section>
       ) : (
