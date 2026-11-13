@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react'
 import { Company } from './components/Company'
 import { ContentPage } from './components/ContentPage'
 import { DeliverySystem } from './components/DeliverySystem'
+import { UseCaseDemos } from './components/UseCaseDemos'
 import { Ecosystem } from './components/Ecosystem'
 import { Engagements } from './components/Engagements'
 import { EngagementStories } from './components/EngagementStories'
@@ -24,6 +25,14 @@ const PublicSupportPage = lazy(() => import('./public/PublicSupportPage').then((
   default: Page,
 })))
 const RebeccaPage = lazy(() => import('./public/RebeccaPage').then(({ RebeccaPage: Page }) => ({ default: Page })))
+const DemoAgentPage = lazy(() => import('./public/DemoAgentPage').then(({ DemoAgentPage: Page }) => ({ default: Page })))
+const DemoAgentIndexPage = lazy(() => import('./public/DemoAgentIndexPage').then(({ DemoAgentIndexPage: Page }) => ({ default: Page })))
+
+// The demo agents added after Rebecca. Listed explicitly rather than matched
+// by pattern: /support/<slug>/voice already resolves to the LiveKit voice UI
+// in PublicSupportPage, which has neither a transcript nor barge-in, so these
+// four have to be claimed before that fall-through is reached.
+const DEMO_AGENT_SLUGS = new Set(['harmattan-court', 'ridgeway-auto', 'zuma-interiors', 'okaka-stores'])
 
 function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
@@ -33,6 +42,7 @@ function App() {
   const widgetKey = isPublicWidget ? decodeURIComponent(path.split('/').filter(Boolean).at(-1) ?? '') : ''
   const supportSegments = path.split('/').filter(Boolean)
   const isPublicSupport = supportSegments[0] === 'support' && Boolean(supportSegments[1])
+  const isDemoAgentIndex = supportSegments[0] === 'support' && supportSegments.length === 1
   const supportSlug = isPublicSupport ? decodeURIComponent(supportSegments[1]) : ''
   const supportView = isPublicSupport ? supportSegments[2] : undefined
   const supportArticleSlug = supportView === 'help' && supportSegments[3] ? decodeURIComponent(supportSegments[3]) : undefined
@@ -63,9 +73,16 @@ function App() {
     )
   }
 
+  if (isDemoAgentIndex) {
+    return <Suspense fallback={<div className="public-widget-loader">Loading demo agents…</div>}><DemoAgentIndexPage /></Suspense>
+  }
+
   if (isPublicSupport) {
     if (supportSlug === (import.meta.env.VITE_REBECCA_SUPPORT_SLUG || 'lumicoria') && supportView === 'voice') {
       return <Suspense fallback={<div className="public-widget-loader">Loading Rebecca…</div>}><RebeccaPage /></Suspense>
+    }
+    if (DEMO_AGENT_SLUGS.has(supportSlug) && supportView === 'voice') {
+      return <Suspense fallback={<div className="public-widget-loader">Loading the agent…</div>}><DemoAgentPage slug={supportSlug} /></Suspense>
     }
     return (
       <Suspense fallback={<div className="public-widget-loader">Loading support…</div>}>
@@ -84,6 +101,7 @@ function App() {
             <Hero />
             <Ecosystem />
             <DeliverySystem />
+            <UseCaseDemos />
             <OutcomeExplorer />
             <Verticals />
             <Company />
